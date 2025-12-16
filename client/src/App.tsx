@@ -1,7 +1,8 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
-import { Route, Switch } from "wouter";
+import { useEffect } from "react";
+import { Route, Switch, useLocation } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Header from "./components/Header";
@@ -18,7 +19,30 @@ import Blog from "./pages/Blog";
 import KitSolar from "./pages/KitSolar";
 import KitSolarDetail from "./pages/KitSolarDetail";
 
+declare global {
+  interface Window {
+    dataLayer?: any[];
+  }
+}
+
+function pushDataLayer(event: Record<string, any>) {
+  if (typeof window === "undefined") return;
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push(event);
+}
+
 function Router() {
+  const [location] = useLocation();
+
+  // SPA pageview: dispara em toda mudança de rota (inclui carregamento inicial).
+  useEffect(() => {
+    pushDataLayer({
+      event: "page_view",
+      page_path: location,
+      page_title: document.title,
+    });
+  }, [location]);
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
@@ -40,23 +64,18 @@ function Router() {
         </Switch>
       </main>
       <Footer />
-      <WhatsAppButton phoneNumber="5521966084093" message="Olá! Gostaria de saber mais sobre energia solar e receber um orçamento." />
+      <WhatsAppButton
+        phoneNumber="5521966084093"
+        message="Olá! Gostaria de saber mais sobre energia solar e receber um orçamento."
+      />
     </div>
   );
 }
 
-// NOTE: About Theme
-// - First choose a default theme according to your design style (dark or light bg), than change color palette in index.css
-//   to keep consistent foreground/background color across components
-// - If you want to make theme switchable, pass `switchable` ThemeProvider and use `useTheme` hook
-
 function App() {
   return (
     <ErrorBoundary>
-      <ThemeProvider
-        defaultTheme="light"
-        // switchable
-      >
+      <ThemeProvider defaultTheme="light">
         <TooltipProvider>
           <Toaster />
           <Router />
