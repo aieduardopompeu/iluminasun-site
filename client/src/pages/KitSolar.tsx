@@ -275,58 +275,49 @@ export default function KitSolar() {
             </p>
           </div>
 
-          {/* Wrapper responsivo: evita corte e cria scroll horizontal no mobile */}
-          <div className="w-full -mx-4 px-4 md:mx-0 md:px-0">
-            <div className="w-full overflow-x-auto rounded-lg border bg-background shadow-lg">
-              <table className="min-w-[920px] w-full border-collapse">
-                <thead>
-                  <tr className="bg-primary text-primary-foreground">
-                    <th className="p-3 md:p-4 text-left whitespace-nowrap">Kit</th>
-                    <th className="p-3 md:p-4 text-center whitespace-nowrap">Consumo</th>
-                    <th className="p-3 md:p-4 text-center whitespace-nowrap">Potência</th>
-                    <th className="p-3 md:p-4 text-center whitespace-nowrap">Painéis</th>
-                    <th className="p-3 md:p-4 text-center whitespace-nowrap">Economia/mês</th>
-                    <th className="p-3 md:p-4 text-center whitespace-nowrap">Investimento</th>
-                    <th className="p-3 md:p-4 text-center whitespace-nowrap"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {kits.map((kit, index) => (
-                    <tr
-                      key={kit.id}
-                      className={`border-b ${
-                        index % 2 === 0 ? "bg-muted/20" : ""
-                      } hover:bg-muted/40 transition-colors`}
-                    >
-                      <td className="p-3 md:p-4 font-semibold whitespace-nowrap">
-                        {kit.name}
-                      </td>
-                      <td className="p-3 md:p-4 text-center text-sm whitespace-nowrap">
-                        {kit.consumption}
-                      </td>
-                      <td className="p-3 md:p-4 text-center whitespace-nowrap">
-                        {kit.power}
-                      </td>
-                      <td className="p-3 md:p-4 text-center whitespace-nowrap">
-                        {kit.panels}
-                      </td>
-                      <td className="p-3 md:p-4 text-center text-secondary font-semibold whitespace-nowrap">
-                        {kit.monthlyEconomy}
-                      </td>
-                      <td className="p-3 md:p-4 text-center font-semibold whitespace-nowrap">
-                        {kit.price}
-                      </td>
-                      <td className="p-3 md:p-4 text-center whitespace-nowrap">
-                        <Link href={`/kit-solar/${kit.slug}`}>
-                          <Button size="sm">Ver</Button>
-                        </Link>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+          {/* Wrapper responsivo: scroll horizontal garantido no mobile */}
+            <div className="w-full max-w-full">
+              <div className="w-full max-w-full overflow-x-scroll md:overflow-x-auto overscroll-x-contain touch-pan-x rounded-lg border bg-background shadow-lg pb-2 [ -webkit-overflow-scrolling:touch ]">
+                <div className="min-w-[920px]">
+                  <table className="w-full border-collapse">
+                    <thead>
+                      <tr className="bg-primary text-primary-foreground">
+                        <th className="p-3 md:p-4 text-left whitespace-nowrap">Kit</th>
+                        <th className="p-3 md:p-4 text-center whitespace-nowrap">Consumo</th>
+                        <th className="p-3 md:p-4 text-center whitespace-nowrap">Potência</th>
+                        <th className="p-3 md:p-4 text-center whitespace-nowrap">Painéis</th>
+                        <th className="p-3 md:p-4 text-center whitespace-nowrap">Economia/mês</th>
+                        <th className="p-3 md:p-4 text-center whitespace-nowrap">Investimento</th>
+                        <th className="p-3 md:p-4 text-center whitespace-nowrap"></th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      {kits.map((kit, index) => (
+                        <tr
+                          key={kit.id}
+                          className={`border-b ${index % 2 === 0 ? "bg-muted/20" : ""} hover:bg-muted/40 transition-colors`}
+                        >
+                          <td className="p-3 md:p-4 font-semibold whitespace-nowrap">{kit.name}</td>
+                          <td className="p-3 md:p-4 text-center text-sm whitespace-nowrap">{kit.consumption}</td>
+                          <td className="p-3 md:p-4 text-center whitespace-nowrap">{kit.power}</td>
+                          <td className="p-3 md:p-4 text-center whitespace-nowrap">{kit.panels}</td>
+                          <td className="p-3 md:p-4 text-center text-secondary font-semibold whitespace-nowrap">
+                            {kit.monthlyEconomy}
+                          </td>
+                          <td className="p-3 md:p-4 text-center font-semibold whitespace-nowrap">{kit.price}</td>
+                          <td className="p-3 md:p-4 text-center whitespace-nowrap">
+                            <Link href={`/kit-solar/${kit.slug}`}>
+                              <Button size="sm">Ver</Button>
+                            </Link>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
-          </div>
 
           {/* (Opcional) dica visual no mobile — se não quiser, pode remover */}
           <p className="mt-3 text-center text-xs text-muted-foreground md:hidden">
