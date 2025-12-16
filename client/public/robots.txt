@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://iluminasun.com.br/sitemap.xml
