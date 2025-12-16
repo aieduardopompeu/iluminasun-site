@@ -7,7 +7,7 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [location] = useLocation();
 
-  // Tenta SVG primeiro; se falhar, cai para PNG.
+  // Preferir SVG; cai para PNG se houver erro.
   const [logoSrc, setLogoSrc] = useState("/logo.svg");
 
   const navItems = [
@@ -23,25 +23,20 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <nav className="container flex h-16 items-center justify-between">
-        {/* Logo */}
+      {/* Aumentei a altura para acomodar a logo maior */}
+      <nav className="container flex h-24 items-center justify-between">
+        {/* Logo (somente imagem, sem texto, sem caixa) */}
         <Link href="/">
-          <div className="flex items-center space-x-2 cursor-pointer">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary overflow-hidden">
-              <img
-                src={logoSrc}
-                alt="Iluminasun"
-                width={40}
-                height={40}
-                className="h-10 w-10 object-contain"
-                loading="eager"
-                onError={() => {
-                  // evita loop caso logo.png também falhe
-                  if (logoSrc !== "/logo.png") setLogoSrc("/logo.png");
-                }}
-              />
-            </div>
-            <span className="text-xl font-bold text-foreground">Iluminasun</span>
+          <div className="cursor-pointer">
+            <img
+              src={logoSrc}
+              alt="Iluminasun"
+              className="h-16 w-auto md:h-20 lg:h-24 object-contain"
+              loading="eager"
+              onError={() => {
+                if (logoSrc !== "/logo.png") setLogoSrc("/logo.png");
+              }}
+            />
           </div>
         </Link>
 
