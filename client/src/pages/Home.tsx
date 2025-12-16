@@ -12,6 +12,7 @@ export default function Home() {
         description="Reduza até 95% da sua conta de luz com energia solar. Soluções residenciais, comerciais e industriais. Orçamento gratuito e simulação online. Mais de 500 projetos instalados."
         keywords="energia solar, painéis solares, energia fotovoltaica, economia de energia, energia renovável, instalação solar, kit solar residencial, energia limpa"
       />
+
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-primary/10 via-background to-secondary/10 py-20 md:py-32">
         <div className="container">
@@ -22,10 +23,12 @@ export default function Home() {
                 <span className="text-primary">Ilumina</span> e{" "}
                 <span className="text-secondary">Economiza</span>
               </h1>
+
               <p className="text-lg md:text-xl text-muted-foreground">
-                Reduza até 95% da sua conta de luz com energia limpa, renovável e sustentável. 
+                Reduza até 95% da sua conta de luz com energia limpa, renovável e sustentável.
                 Invista no futuro do planeta e da sua economia.
               </p>
+
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link href="/simulador">
                   <Button size="lg" className="text-base font-semibold w-full sm:w-auto">
@@ -34,11 +37,16 @@ export default function Home() {
                   </Button>
                 </Link>
                 <Link href="/contato">
-                  <Button size="lg" variant="outline" className="text-base font-semibold w-full sm:w-auto">
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="text-base font-semibold w-full sm:w-auto"
+                  >
                     Falar com Especialista
                   </Button>
                 </Link>
               </div>
+
               {/* Prova Social */}
               <div className="flex items-center gap-6 pt-4">
                 <div className="text-center">
@@ -57,12 +65,16 @@ export default function Home() {
                 </div>
               </div>
             </div>
+
+            {/* Hero Image */}
             <div className="relative">
-              <div className="aspect-square rounded-2xl bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
-                <div className="text-center space-y-4">
-                  <div className="text-8xl">☀️</div>
-                  <p className="text-xl font-semibold">Energia Limpa e Renovável</p>
-                </div>
+              <div className="aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-primary/20 to-secondary/20">
+                <img
+                  src="/iluminasun-hero.webp"
+                  alt="Ilumina Sun - Energia Solar Fotovoltaica"
+                  className="w-full h-full object-cover"
+                  loading="eager"
+                />
               </div>
             </div>
           </div>
