@@ -7,6 +7,9 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [location] = useLocation();
 
+  // Tenta SVG primeiro; se falhar, cai para PNG.
+  const [logoSrc, setLogoSrc] = useState("/logo.svg");
+
   const navItems = [
     { href: "/", label: "Início" },
     { href: "/quem-somos", label: "Quem Somos" },
@@ -24,8 +27,19 @@ export default function Header() {
         {/* Logo */}
         <Link href="/">
           <div className="flex items-center space-x-2 cursor-pointer">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
-              <span className="text-2xl font-bold text-primary-foreground">☀</span>
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary overflow-hidden">
+              <img
+                src={logoSrc}
+                alt="Iluminasun"
+                width={40}
+                height={40}
+                className="h-10 w-10 object-contain"
+                loading="eager"
+                onError={() => {
+                  // evita loop caso logo.png também falhe
+                  if (logoSrc !== "/logo.png") setLogoSrc("/logo.png");
+                }}
+              />
             </div>
             <span className="text-xl font-bold text-foreground">Iluminasun</span>
           </div>
@@ -82,7 +96,11 @@ export default function Header() {
               </Link>
             ))}
             <Link href="/simulador">
-              <Button size="default" className="w-full font-semibold" onClick={() => setMobileMenuOpen(false)}>
+              <Button
+                size="default"
+                className="w-full font-semibold"
+                onClick={() => setMobileMenuOpen(false)}
+              >
                 Simular Economia
               </Button>
             </Link>
