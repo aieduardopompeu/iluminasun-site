@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import SEO from "@/components/SEO";
-import { ArrowRight, Check, Sun, Zap, Home, Building2, Factory } from "lucide-react";
+import { ArrowRight, Check, Sun, Home, Building2, Factory } from "lucide-react";
 import { Link } from "wouter";
+import type { ReactNode } from "react";
 
 interface Kit {
   id: string;
@@ -16,7 +17,7 @@ interface Kit {
   monthlyEconomy: string;
   price: string;
   priceFrom: string;
-  icon: React.ReactNode;
+  icon: ReactNode;
   popular?: boolean;
   features: string[];
 }
@@ -151,12 +152,10 @@ export default function KitSolar() {
             <span className="inline-block px-4 py-2 rounded-full bg-primary/10 text-primary font-medium text-sm">
               Kits Completos com Instalação
             </span>
-            <h1 className="text-4xl md:text-5xl font-bold">
-              Kits de Energia Solar
-            </h1>
+            <h1 className="text-4xl md:text-5xl font-bold">Kits de Energia Solar</h1>
             <p className="text-lg md:text-xl text-muted-foreground">
-              Soluções completas para residências, comércios e indústrias. 
-              Economize até 95% na sua conta de luz com nossos kits fotovoltaicos.
+              Soluções completas para residências, comércios e indústrias. Economize
+              até 95% na sua conta de luz com nossos kits fotovoltaicos.
             </p>
             <div className="flex flex-wrap justify-center gap-4 pt-4">
               <div className="flex items-center gap-2 text-sm">
@@ -181,8 +180,8 @@ export default function KitSolar() {
         <div className="container">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {kits.map((kit) => (
-              <Card 
-                key={kit.id} 
+              <Card
+                key={kit.id}
                 className={`relative border-2 hover:border-primary transition-all duration-300 hover:shadow-lg ${
                   kit.popular ? "border-primary shadow-lg" : ""
                 }`}
@@ -276,41 +275,63 @@ export default function KitSolar() {
             </p>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full border-collapse bg-background rounded-lg overflow-hidden shadow-lg">
-              <thead>
-                <tr className="bg-primary text-primary-foreground">
-                  <th className="p-4 text-left">Kit</th>
-                  <th className="p-4 text-center">Consumo</th>
-                  <th className="p-4 text-center">Potência</th>
-                  <th className="p-4 text-center">Painéis</th>
-                  <th className="p-4 text-center">Economia/mês</th>
-                  <th className="p-4 text-center">Investimento</th>
-                  <th className="p-4 text-center"></th>
-                </tr>
-              </thead>
-              <tbody>
-                {kits.map((kit, index) => (
-                  <tr 
-                    key={kit.id} 
-                    className={`border-b ${index % 2 === 0 ? "bg-muted/20" : ""} hover:bg-muted/40 transition-colors`}
-                  >
-                    <td className="p-4 font-semibold">{kit.name}</td>
-                    <td className="p-4 text-center text-sm">{kit.consumption}</td>
-                    <td className="p-4 text-center">{kit.power}</td>
-                    <td className="p-4 text-center">{kit.panels}</td>
-                    <td className="p-4 text-center text-secondary font-semibold">{kit.monthlyEconomy}</td>
-                    <td className="p-4 text-center font-semibold">{kit.price}</td>
-                    <td className="p-4 text-center">
-                      <Link href={`/kit-solar/${kit.slug}`}>
-                        <Button size="sm">Ver</Button>
-                      </Link>
-                    </td>
+          {/* Wrapper responsivo: evita corte e cria scroll horizontal no mobile */}
+          <div className="w-full -mx-4 px-4 md:mx-0 md:px-0">
+            <div className="w-full overflow-x-auto rounded-lg border bg-background shadow-lg">
+              <table className="min-w-[920px] w-full border-collapse">
+                <thead>
+                  <tr className="bg-primary text-primary-foreground">
+                    <th className="p-3 md:p-4 text-left whitespace-nowrap">Kit</th>
+                    <th className="p-3 md:p-4 text-center whitespace-nowrap">Consumo</th>
+                    <th className="p-3 md:p-4 text-center whitespace-nowrap">Potência</th>
+                    <th className="p-3 md:p-4 text-center whitespace-nowrap">Painéis</th>
+                    <th className="p-3 md:p-4 text-center whitespace-nowrap">Economia/mês</th>
+                    <th className="p-3 md:p-4 text-center whitespace-nowrap">Investimento</th>
+                    <th className="p-3 md:p-4 text-center whitespace-nowrap"></th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {kits.map((kit, index) => (
+                    <tr
+                      key={kit.id}
+                      className={`border-b ${
+                        index % 2 === 0 ? "bg-muted/20" : ""
+                      } hover:bg-muted/40 transition-colors`}
+                    >
+                      <td className="p-3 md:p-4 font-semibold whitespace-nowrap">
+                        {kit.name}
+                      </td>
+                      <td className="p-3 md:p-4 text-center text-sm whitespace-nowrap">
+                        {kit.consumption}
+                      </td>
+                      <td className="p-3 md:p-4 text-center whitespace-nowrap">
+                        {kit.power}
+                      </td>
+                      <td className="p-3 md:p-4 text-center whitespace-nowrap">
+                        {kit.panels}
+                      </td>
+                      <td className="p-3 md:p-4 text-center text-secondary font-semibold whitespace-nowrap">
+                        {kit.monthlyEconomy}
+                      </td>
+                      <td className="p-3 md:p-4 text-center font-semibold whitespace-nowrap">
+                        {kit.price}
+                      </td>
+                      <td className="p-3 md:p-4 text-center whitespace-nowrap">
+                        <Link href={`/kit-solar/${kit.slug}`}>
+                          <Button size="sm">Ver</Button>
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
+
+          {/* (Opcional) dica visual no mobile — se não quiser, pode remover */}
+          <p className="mt-3 text-center text-xs text-muted-foreground md:hidden">
+            Arraste a tabela para o lado para ver todas as colunas.
+          </p>
         </div>
       </section>
 
@@ -318,11 +339,10 @@ export default function KitSolar() {
       <section className="py-16 md:py-24 bg-gradient-to-br from-primary/10 to-secondary/10">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center space-y-6">
-            <h2 className="text-3xl md:text-4xl font-bold">
-              Não Encontrou o Kit Ideal?
-            </h2>
+            <h2 className="text-3xl md:text-4xl font-bold">Não Encontrou o Kit Ideal?</h2>
             <p className="text-lg text-muted-foreground">
-              Nossa equipe pode criar um projeto personalizado para atender exatamente às suas necessidades de consumo
+              Nossa equipe pode criar um projeto personalizado para atender exatamente
+              às suas necessidades de consumo
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/contato">
@@ -332,7 +352,11 @@ export default function KitSolar() {
                 </Button>
               </Link>
               <Link href="/simulador">
-                <Button size="lg" variant="outline" className="text-base font-semibold w-full sm:w-auto">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="text-base font-semibold w-full sm:w-auto"
+                >
                   Simular Minha Economia
                 </Button>
               </Link>
@@ -343,4 +367,3 @@ export default function KitSolar() {
     </div>
   );
 }
-// Sync checkpoint 1765899023
