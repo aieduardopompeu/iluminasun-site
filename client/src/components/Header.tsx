@@ -22,7 +22,7 @@ export default function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b bg-gradient-to-r from-primary/5 via-background/90 to-secondary/5 backdrop-blur supports-[backdrop-filter]:bg-background/70">
       {/* Aumentei a altura para acomodar a logo maior */}
       <nav className="container flex h-24 items-center justify-between">
         {/* Logo (somente imagem, sem texto, sem caixa) */}
