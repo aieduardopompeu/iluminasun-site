@@ -22,7 +22,7 @@ import CookieBanner from "./components/CookieBanner";
 import TermosDeUso from "./pages/TermosDeUso";
 import PoliticaDePrivacidade from "./pages/PoliticaDePrivacidade";
 import PoliticaDeCookies from "./pages/PoliticaDeCookies";
-
+import LGPDPage from "./pages/LGPD";
 
 declare global {
   interface Window {
@@ -68,6 +68,8 @@ function Router() {
           <Route path={"/politica-de-cookies"} component={PoliticaDeCookies} />
           <Route path={"/kit-solar/:slug"} component={KitSolarDetail} />
           <Route path={"/404"} component={NotFound} />
+          <Route path={"/lgpd"} component={LGPDPage} />
+
           {/* Final fallback route */}
           <Route component={NotFound} />
         </Switch>

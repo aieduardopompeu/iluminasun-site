@@ -37,6 +37,18 @@ export default function Footer() {
 
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
+                <Link href="/blog">
+                  <a className="hover:text-primary">Blog</a>
+                </Link>
+              </li>
+              
+              <li>
+                <Link href="/portfolio">
+                  <a className="hover:text-primary">Portfólio</a>
+                </Link>
+              </li>
+              
+              <li>
                 <Link href="/quem-somos">
                   <a className="hover:text-primary">Quem Somos</a>
                 </Link>
@@ -48,23 +60,17 @@ export default function Footer() {
                 </Link>
               </li>
 
-              <li>
-                <Link href="/portfolio">
-                  <a className="hover:text-primary">Portfólio</a>
-                </Link>
-              </li>
-
-              <li>
-                <Link href="/blog">
-                  <a className="hover:text-primary">Blog</a>
-                </Link>
-              </li>
-
               <li className="pt-2 text-sm font-semibold text-foreground">Termos e Políticas</li>
+              
+              <li>
+                <Link href="/lgpd">
+                <a className="hover:text-primary">LGPD</a>
+                </Link>
+              </li> 
 
               <li>
-                <Link href="/termos-de-uso">
-                  <a className="hover:text-primary">Termos de Uso</a>
+                <Link href="/politica-de-cookies">
+                  <a className="hover:text-primary">Política de Cookies</a>
                 </Link>
               </li>
 
@@ -75,20 +81,20 @@ export default function Footer() {
               </li>
 
               <li>
-                <Link href="/politica-de-cookies">
-                  <a className="hover:text-primary">Política de Cookies</a>
-                </Link>
-              </li>
-
-              <li>
                 <button
                   type="button"
                   onClick={openCookiePreferences}
-                  className="hover:text-primary"
-                >
+                  className="hover:text-primary">
                   Preferências de cookies
                 </button>
               </li>
+
+              <li>
+                <Link href="/termos-de-uso">
+                  <a className="hover:text-primary">Termos de Uso</a>
+                </Link>
+              </li>
+              
             </ul>
           </div>
 
@@ -233,7 +239,7 @@ export default function Footer() {
               />
             </a>
 
-            <Link href="/politica-de-privacidade">
+            <Link href="/lgpd">
               <a
                 aria-label="LGPD"
                 title="LGPD"
