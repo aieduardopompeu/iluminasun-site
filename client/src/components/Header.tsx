@@ -8,7 +8,14 @@ export default function Header() {
   const [location] = useLocation();
 
   // Preferir SVG; cai para PNG se houver erro.
-  const [logoSrc, setLogoSrc] = useState("/logo.svg");
+    <img
+    src="/logo.svg"
+    alt="Ilumina Sun"
+    width={180}
+    height={52}
+    className="h-[44px] md:h-[52px] w-auto block"
+    draggable={false}
+    />
 
   const navItems = [
     { href: "/", label: "Início" },
@@ -29,13 +36,13 @@ export default function Header() {
         <Link href="/">
           <div className="cursor-pointer">
             <img
-              src={logoSrc}
+              src="/logo.svg"
               alt="Iluminasun"
-              className="h-16 w-auto md:h-20 lg:h-24 object-contain"
+              width={180}
+              height={52}
+              className="h-[44px] md:h-[52px] w-auto block"
+              draggable={false}
               loading="eager"
-              onError={() => {
-                if (logoSrc !== "/logo.png") setLogoSrc("/logo.png");
-              }}
             />
           </div>
         </Link>

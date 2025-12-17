@@ -18,10 +18,16 @@ import Contato from "./pages/Contato";
 import Blog from "./pages/Blog";
 import KitSolar from "./pages/KitSolar";
 import KitSolarDetail from "./pages/KitSolarDetail";
+import CookieBanner from "./components/CookieBanner";
+import TermosDeUso from "./pages/TermosDeUso";
+import PoliticaDePrivacidade from "./pages/PoliticaDePrivacidade";
+import PoliticaDeCookies from "./pages/PoliticaDeCookies";
+
 
 declare global {
   interface Window {
     dataLayer?: any[];
+    gtag?: (...args: any[]) => void;
   }
 }
 
@@ -57,6 +63,9 @@ function Router() {
           <Route path={"/contato"} component={Contato} />
           <Route path={"/blog"} component={Blog} />
           <Route path={"/kit-solar"} component={KitSolar} />
+          <Route path={"/termos-de-uso"} component={TermosDeUso} />
+          <Route path={"/politica-de-privacidade"} component={PoliticaDePrivacidade} />
+          <Route path={"/politica-de-cookies"} component={PoliticaDeCookies} />
           <Route path={"/kit-solar/:slug"} component={KitSolarDetail} />
           <Route path={"/404"} component={NotFound} />
           {/* Final fallback route */}
@@ -79,6 +88,7 @@ function App() {
         <TooltipProvider>
           <Toaster />
           <Router />
+          <CookieBanner />
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>

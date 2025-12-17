@@ -12,7 +12,14 @@ export default function Footer() {
           <div className="space-y-4">
             <Link href="/">
               <a className="inline-flex items-center">
-                <img src="/logo.svg" alt="Ilumina Sun" className="h-12 w-auto" />
+                <img
+                  src="/logo.svg"
+                  alt="Ilumina Sun"
+                  width={180}
+                  height={52}
+                  className="h-[52px] w-auto block"
+                  draggable={false}
+                />
               </a>
             </Link>
 
@@ -44,6 +51,26 @@ export default function Footer() {
               <li>
                 <Link href="/blog">
                   <a className="hover:text-primary">Blog</a>
+                </Link>
+              </li>
+              <li className="pt-2 text-sm font-semibold text-foreground">
+                Legal
+              </li>
+              <li>
+                <Link href="/termos-de-uso">
+                  <a className="hover:text-primary">Termos de Uso</a>
+                </Link>
+              </li>
+
+              <li>
+                <Link href="/politica-de-privacidade">
+                  <a className="hover:text-primary">Política de Privacidade</a>
+                </Link>
+              </li>
+
+              <li>
+                <Link href="/politica-de-cookies">
+                  <a className="hover:text-primary">Política de Cookies</a>
                 </Link>
               </li>
             </ul>
