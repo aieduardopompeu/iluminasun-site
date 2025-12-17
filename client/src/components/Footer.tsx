@@ -1,12 +1,14 @@
+// src/components/Footer.tsx
 import { Link } from "wouter";
 import { Facebook, Instagram, Mail, MapPin, Phone, Twitter, Youtube } from "lucide-react";
+import { openCookiePreferences } from "./CookieBanner";
 
 export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
     <footer className="border-t bg-gradient-to-r from-primary/5 via-background to-secondary/5">
-      <div className="container py-14">
+      <div className="mx-auto w-full max-w-6xl px-4 py-14">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           {/* Marca */}
           <div className="space-y-4">
@@ -24,38 +26,42 @@ export default function Footer() {
             </Link>
 
             <p className="text-sm text-muted-foreground max-w-sm">
-              Soluções completas em energia solar fotovoltaica para residências, comércios e
-              indústrias.
+              Soluções completas em energia solar fotovoltaica para residências,
+              comércios e indústrias.
             </p>
           </div>
 
           {/* Links rápidos */}
           <div className="space-y-3">
             <p className="text-sm font-semibold">Links Rápidos</p>
+
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
                 <Link href="/quem-somos">
                   <a className="hover:text-primary">Quem Somos</a>
                 </Link>
               </li>
+
               <li>
                 <Link href="/servicos">
                   <a className="hover:text-primary">Serviços</a>
                 </Link>
               </li>
+
               <li>
                 <Link href="/portfolio">
                   <a className="hover:text-primary">Portfólio</a>
                 </Link>
               </li>
+
               <li>
                 <Link href="/blog">
                   <a className="hover:text-primary">Blog</a>
                 </Link>
               </li>
-              <li className="pt-2 text-sm font-semibold text-foreground">
-                Legal
-              </li>
+
+              <li className="pt-2 text-sm font-semibold text-foreground">Termos e Políticas</li>
+
               <li>
                 <Link href="/termos-de-uso">
                   <a className="hover:text-primary">Termos de Uso</a>
@@ -73,12 +79,23 @@ export default function Footer() {
                   <a className="hover:text-primary">Política de Cookies</a>
                 </Link>
               </li>
+
+              <li>
+                <button
+                  type="button"
+                  onClick={openCookiePreferences}
+                  className="hover:text-primary"
+                >
+                  Preferências de cookies
+                </button>
+              </li>
             </ul>
           </div>
 
           {/* Serviços */}
           <div className="space-y-3">
             <p className="text-sm font-semibold">Serviços</p>
+
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
                 <Link href="/servicos">
@@ -103,27 +120,25 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Contato */}
-          <div className="space-y-3">
+          {/* Contato + Redes + Selos */}
+          <div className="space-y-4">
             <p className="text-sm font-semibold">Contato</p>
 
             <ul className="space-y-3 text-sm text-muted-foreground">
-              <li className="flex items-start gap-3">
-                <Phone className="h-4 w-4 text-primary mt-0.5" />
-                <a className="hover:text-primary" href="tel:+5521966084093">
-                  (21) 96608-4093
-                </a>
+              <li className="flex items-start gap-2">
+                <Phone className="mt-0.5 h-4 w-4" />
+                <span>(21) 96608-4093</span>
               </li>
 
-              <li className="flex items-start gap-3">
-                <Mail className="h-4 w-4 text-primary mt-0.5" />
-                <a className="hover:text-primary" href="mailto:contato@iluminasun.com.br">
+              <li className="flex items-start gap-2">
+                <Mail className="mt-0.5 h-4 w-4" />
+                <a href="mailto:contato@iluminasun.com.br" className="hover:text-primary">
                   contato@iluminasun.com.br
                 </a>
               </li>
 
-              <li className="flex items-start gap-3">
-                <MapPin className="h-4 w-4 text-primary mt-0.5" />
+              <li className="flex items-start gap-2">
+                <MapPin className="mt-0.5 h-4 w-4" />
                 <span>
                   R. Visconde de Pirajá, 414
                   <br />
@@ -134,13 +149,14 @@ export default function Footer() {
               </li>
             </ul>
 
-            <div className="pt-2 flex items-center gap-4">
+            {/* Redes sociais */}
+            <div className="flex items-center gap-3 pt-1">
               <a
                 href="https://www.instagram.com/iluminasun/"
                 target="_blank"
                 rel="noreferrer"
+                className="text-muted-foreground hover:text-primary"
                 aria-label="Instagram"
-                className="text-muted-foreground hover:text-primary transition-colors"
               >
                 <Instagram className="h-5 w-5" />
               </a>
@@ -149,8 +165,8 @@ export default function Footer() {
                 href="https://www.facebook.com/profile.php?id=61559064962123"
                 target="_blank"
                 rel="noreferrer"
+                className="text-muted-foreground hover:text-primary"
                 aria-label="Facebook"
-                className="text-muted-foreground hover:text-primary transition-colors"
               >
                 <Facebook className="h-5 w-5" />
               </a>
@@ -159,8 +175,8 @@ export default function Footer() {
                 href="https://x.com/iluminasun/"
                 target="_blank"
                 rel="noreferrer"
+                className="text-muted-foreground hover:text-primary"
                 aria-label="X"
-                className="text-muted-foreground hover:text-primary transition-colors"
               >
                 <Twitter className="h-5 w-5" />
               </a>
@@ -169,18 +185,96 @@ export default function Footer() {
                 href="https://www.youtube.com/@IluminaSunEnergiaSolar"
                 target="_blank"
                 rel="noreferrer"
+                className="text-muted-foreground hover:text-primary"
                 aria-label="YouTube"
-                className="text-muted-foreground hover:text-primary transition-colors"
               >
                 <Youtube className="h-5 w-5" />
               </a>
             </div>
+
+            {/* Selos (somente ícones) */}
+            <div className="pt-2">
+              <p className="text-sm font-semibold">Selos</p>
+
+                        <div className="mt-2 flex items-center gap-3">
+            <a
+              href="https://www.ssllabs.com/ssltest/analyze.html?d=iluminasun.com.br"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="SSL (SSL Labs)"
+              title="SSL (SSL Labs)"
+              className="inline-flex items-center opacity-80 transition hover:opacity-100"
+            >
+              <img
+                src="/ssl-secure.svg"
+                alt="SSL (SSL Labs)"
+                width={40}
+                height={40}
+                className="h-10 w-10 object-contain"
+                loading="lazy"
+              />
+            </a>
+
+            <a
+              href="https://transparencyreport.google.com/safe-browsing/search?url=iluminasun.com.br"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Google Safe Browsing"
+              title="Google Safe Browsing"
+              className="inline-flex items-center opacity-80 transition hover:opacity-100"
+            >
+              <img
+                src="/google-safe.svg"
+                alt="Google Safe Browsing"
+                width={40}
+                height={40}
+                className="h-10 w-10 object-contain"
+                loading="lazy"
+              />
+            </a>
+
+            <Link href="/politica-de-privacidade">
+              <a
+                aria-label="LGPD"
+                title="LGPD"
+                className="inline-flex items-center opacity-80 transition hover:opacity-100"
+              >
+                <img
+                  src="/lgpd.png"
+                  alt="LGPD"
+                  width={40}
+                  height={40}
+                  className="h-14 w-14 object-contain"
+                  loading="lazy"
+                />
+              </a>
+            </Link>
+
+            <a
+              href="https://www.altacloud.com.br"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Developer"
+              title="Developer"
+              className="inline-flex items-center opacity-80 transition hover:opacity-100"
+            >
+              <img
+                src="/altacloud.png"
+                alt="Developer"
+                width={40}
+                height={40}
+                className="h-14 w-14 object-contain"
+                loading="lazy"
+              />
+            </a>
+          </div>
+            </div>
           </div>
         </div>
 
-        <div className="mt-12 border-t pt-6 text-xs text-muted-foreground flex flex-col items-center justify-between gap-3 md:flex-row">
+        <div className="mt-12 flex flex-col gap-2 border-t pt-6 text-sm text-muted-foreground md:flex-row md:items-center md:justify-between">
           <p>© {year} Ilumina Sun Energia Solar. Todos os direitos reservados.</p>
-          <p className="md:text-right">Energia limpa e renovável.</p>
+          <p>Energia limpa e renovável.</p>
         </div>
       </div>
     </footer>
