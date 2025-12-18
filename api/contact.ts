@@ -1,5 +1,6 @@
 // api/contact.ts
 // Vercel Serverless Function (sem dependências externas)
+// Resend via HTTP API (fetch)
 
 type PropertyType = "residencial" | "comercial" | "industrial" | "rural";
 
@@ -26,6 +27,10 @@ type ContactPayload = {
   utm_content?: string;
 };
 
+/** ===== Anti-abuso (rate limit simples em memória) ===== */
+const RATE_WINDOW_MS = 15_000; // 15s por IP
+const lastHitByIp = new Map<string, number>();
+
 function asString(v: unknown): string {
   return typeof v === "string" ? v.trim() : "";
 }
@@ -37,6 +42,15 @@ function escapeHtml(input: string): string {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
+}
+
+function isEmail(v: string): boolean {
+  // simples e suficiente para validação de formulário
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+}
+
+function onlyDigits(v: string): string {
+  return v.replace(/\D/g, "");
 }
 
 function normalizePayload(body: any): ContactPayload {
@@ -61,7 +75,20 @@ function normalizePayload(body: any): ContactPayload {
   };
 }
 
-function buildInternalEmailHtml(input: ContactPayload, meta: { ip: string; ua: string; site: string }) {
+function getClientIp(req: any): string {
+  const xff = req.headers?.["x-forwarded-for"];
+  if (typeof xff === "string" && xff.trim()) return xff.split(",")[0].trim();
+
+  const xri = req.headers?.["x-real-ip"];
+  if (typeof xri === "string" && xri.trim()) return xri.trim();
+
+  return "";
+}
+
+function buildInternalEmailHtml(
+  input: ContactPayload,
+  meta: { ip: string; ua: string; site: string }
+) {
   const safeMessage = input.message ? escapeHtml(input.message) : "—";
   const cityUf = [input.city, input.state].filter(Boolean).join(" / ") || "—";
 
@@ -71,14 +98,18 @@ function buildInternalEmailHtml(input: ContactPayload, meta: { ip: string; ua: s
       <div style="border:1px solid #e5e7eb; border-radius: 12px; overflow:hidden;">
         <div style="padding:16px 18px; background:#0b1220; color:#fff;">
           <div style="font-size:13px; opacity:0.9;">Ilumina Sun • Novo contato</div>
-          <div style="font-size:18px; font-weight:700; margin-top:4px;">${escapeHtml(input.name)}</div>
+          <div style="font-size:18px; font-weight:700; margin-top:4px;">${escapeHtml(
+            input.name
+          )}</div>
         </div>
 
         <div style="padding:18px;">
           <table style="width:100%; border-collapse: collapse; font-size:14px;">
             <tr>
               <td style="padding:8px 0; color:#64748b; width:140px;">E-mail</td>
-              <td style="padding:8px 0;"><a href="mailto:${escapeHtml(input.email)}">${escapeHtml(input.email)}</a></td>
+              <td style="padding:8px 0;"><a href="mailto:${escapeHtml(
+                input.email
+              )}">${escapeHtml(input.email)}</a></td>
             </tr>
             <tr>
               <td style="padding:8px 0; color:#64748b;">Telefone</td>
@@ -163,7 +194,7 @@ async function resendSendEmail(params: {
     html: params.html,
   };
 
-  // Resend HTTP API usa reply_to (snake_case)
+  // Resend HTTP API: reply_to
   if (params.replyTo) payload.reply_to = params.replyTo;
 
   const r = await fetch("https://api.resend.com/emails", {
@@ -210,25 +241,76 @@ export default async function handler(req: any, res: any) {
       return;
     }
 
+    const ip = getClientIp(req) || "unknown";
+    const now = Date.now();
+    const last = lastHitByIp.get(ip) || 0;
+
+    if (now - last < RATE_WINDOW_MS) {
+      res.statusCode = 429;
+      res.end(
+        JSON.stringify({
+          ok: false,
+          error: "Muitas tentativas. Aguarde alguns segundos e tente novamente.",
+        })
+      );
+      return;
+    }
+    lastHitByIp.set(ip, now);
+
     const body = normalizePayload(req.body);
 
-    // Honeypot: bot preencheu, não envia e retorna ok
+    // Honeypot: bot preencheu -> retorna OK sem enviar (silencioso)
     if (body.website) {
       res.statusCode = 200;
       res.end(JSON.stringify({ ok: true }));
       return;
     }
 
+    // ===== Validações “produção” =====
+    // Requeridos
     if (!body.name || !body.email) {
       res.statusCode = 400;
       res.end(JSON.stringify({ ok: false, error: "Nome e e-mail são obrigatórios." }));
       return;
     }
 
-    const ip =
-      (req.headers?.["x-forwarded-for"] as string)?.split(",")[0]?.trim() ||
-      (req.headers?.["x-real-ip"] as string) ||
-      "";
+    // Email válido
+    if (!isEmail(body.email)) {
+      res.statusCode = 400;
+      res.end(JSON.stringify({ ok: false, error: "E-mail inválido." }));
+      return;
+    }
+
+    // Limites de tamanho (anti-abuso)
+    if (body.name.length > 120) {
+      res.statusCode = 400;
+      res.end(JSON.stringify({ ok: false, error: "Nome muito longo." }));
+      return;
+    }
+    if ((body.message || "").length > 2000) {
+      res.statusCode = 400;
+      res.end(
+        JSON.stringify({
+          ok: false,
+          error: "Mensagem muito longa (máx. 2000 caracteres).",
+        })
+      );
+      return;
+    }
+    if ((body.page_path || "").length > 500) body.page_path = body.page_path?.slice(0, 500);
+    if ((body.referrer || "").length > 500) body.referrer = body.referrer?.slice(0, 500);
+
+    // Telefone básico (se informado)
+    if (body.phone) {
+      const digits = onlyDigits(body.phone);
+      if (digits.length < 10 || digits.length > 13) {
+        res.statusCode = 400;
+        res.end(JSON.stringify({ ok: false, error: "Telefone inválido." }));
+        return;
+      }
+    }
+
+    // ===== Envio =====
     const ua = (req.headers?.["user-agent"] as string) || "";
 
     // 1) e-mail interno
