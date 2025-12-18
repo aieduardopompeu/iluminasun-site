@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import SEO from "@/components/SEO";
-import { ArrowRight, Calendar, Clock, User } from "lucide-react";
+import FeaturedCarousel, { FeaturedPost } from "../../components/blog/FeaturedCarousel";
+import { ArrowRight, Calendar, Clock } from "lucide-react";
 import { Link } from "wouter";
 
 interface BlogPost {
@@ -13,6 +14,8 @@ interface BlogPost {
   date: string;
   readTime: string;
   slug: string;
+  image?: string;
+  imageAlt?: string;
 }
 
 const blogPosts: BlogPost[] = [
@@ -26,10 +29,13 @@ const blogPosts: BlogPost[] = [
     date: "17 de Dezembro, 2025",
     readTime: "10–14 min",
     slug: "regulamentacao-aneel-energia-solar",
+    image: "/blog/regulamentacao-aneel.webp",
+    imageAlt: "Regulamentação da ANEEL e energia solar",
   },
   {
     id: "2",
-    title: "Lei 14.300 (Marco Legal da Geração Distribuída): o que muda na prática no RJ e como evitar erros na homologação",
+    title:
+      "Lei 14.300 (Marco Legal da Geração Distribuída): o que muda na prática no RJ e como evitar erros na homologação",
     excerpt:
       "Guia direto sobre a Lei 14.300, SCEE/créditos, regras de transição e impacto por perfil (residencial, comercial, industrial e rural) — com foco no RJ e Região.",
     category: "Legislação",
@@ -37,6 +43,8 @@ const blogPosts: BlogPost[] = [
     date: "18 de Dezembro, 2025",
     readTime: "10–13 min",
     slug: "marco-legal-lei-14300-energia-solar-rj",
+    image: "/blog/marco-legal-14300.webp",
+    imageAlt: "Lei 14.300 (Marco Legal) e energia solar no RJ",
   },
   {
     id: "3",
@@ -48,6 +56,8 @@ const blogPosts: BlogPost[] = [
     date: "05 de Dezembro, 2024",
     readTime: "12 min",
     slug: "marco-legal-geracao-distribuida",
+    image: "/blog/regulamentacao-aneel.webp",
+    imageAlt: "Marco legal e energia solar",
   },
   {
     id: "4",
@@ -59,6 +69,8 @@ const blogPosts: BlogPost[] = [
     date: "28 de Novembro, 2024",
     readTime: "6 min",
     slug: "manutencao-paineis-solares",
+    image: "/blog/regulamentacao-aneel.webp",
+    imageAlt: "Manutenção de painéis solares",
   },
   {
     id: "5",
@@ -70,6 +82,8 @@ const blogPosts: BlogPost[] = [
     date: "20 de Novembro, 2024",
     readTime: "7 min",
     slug: "energia-solar-empresas",
+    image: "/blog/regulamentacao-aneel.webp",
+    imageAlt: "Energia solar para empresas",
   },
   {
     id: "6",
@@ -81,11 +95,28 @@ const blogPosts: BlogPost[] = [
     date: "15 de Novembro, 2024",
     readTime: "9 min",
     slug: "tendencias-mercado-solar-2025",
+    image: "/blog/regulamentacao-aneel.webp",
+    imageAlt: "Tendências do mercado de energia solar",
   },
 ];
 
 export default function Blog() {
-  const featured = blogPosts[0];
+  const FEATURED_COUNT = 4;
+
+  const featuredPosts: FeaturedPost[] = blogPosts.slice(0, FEATURED_COUNT).map((p) => ({
+    id: p.id,
+    title: p.title,
+    excerpt: p.excerpt,
+    category: p.category,
+    author: p.author,
+    date: p.date,
+    readTime: p.readTime,
+    slug: p.slug,
+    image: p.image,
+    imageAlt: p.imageAlt,
+  }));
+
+  const recentPosts = blogPosts.slice(FEATURED_COUNT);
 
   return (
     <div className="flex flex-col">
@@ -106,75 +137,10 @@ export default function Blog() {
         </div>
       </section>
 
+      {/* Destaque: Carrossel (1 slide por vez) */}
       <section className="py-10 md:py-14">
         <div className="container">
-          <div className="rounded-2xl border border-border bg-background p-6">
-            <div className="grid gap-6 lg:grid-cols-[1fr_1.2fr]">
-              <div className="relative min-h-[220px] rounded-xl overflow-hidden border border-border bg-muted">
-                <img
-                  src="/blog/regulamentacao-aneel.webp"
-                  alt="Regulamentação da ANEEL e energia solar"
-                  className="absolute inset-0 h-full w-full object-cover"
-                  loading="eager"
-                  decoding="async"
-                />
-                <div className="absolute inset-0 bg-gradient-to-br from-black/0 via-black/0 to-black/10" />
-                <div className="absolute left-4 top-4 inline-flex items-center rounded-full bg-background/80 px-3 py-1 text-xs font-semibold text-foreground backdrop-blur border border-border">
-                  Destaque
-                </div>
-              </div>
-
-              <div className="space-y-3">
-                <div className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-                  {featured.category}
-                </div>
-
-                <h2 className="text-2xl font-bold leading-tight">{featured.title}</h2>
-                <p className="text-sm text-muted-foreground">{featured.excerpt}</p>
-
-                <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
-                  <span className="inline-flex items-center gap-1">
-                    <User className="h-3 w-3" />
-                    {featured.author}
-                  </span>
-                  <span className="inline-flex items-center gap-1">
-                    <Calendar className="h-3 w-3" />
-                    {featured.date}
-                  </span>
-                  <span className="inline-flex items-center gap-1">
-                    <Clock className="h-3 w-3" />
-                    {featured.readTime} de leitura
-                  </span>
-                </div>
-
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                  <Link href={`/blog/${featured.slug}`}>
-                    <a className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:opacity-95">
-                      Ler Artigo Completo <span aria-hidden>→</span>
-                    </a>
-                  </Link>
-
-                  <div className="text-xs text-muted-foreground">
-                    <div className="font-semibold text-foreground/80">Relacionados</div>
-                    <div className="mt-1 flex flex-wrap gap-x-3 gap-y-1">
-                      <Link href="/simulador"><a className="hover:text-primary">Simulador</a></Link>
-                      <Link href="/kit-solar"><a className="hover:text-primary">Kits</a></Link>
-                      <Link href="/servicos"><a className="hover:text-primary">Serviços</a></Link>
-                      <Link href="/contato"><a className="hover:text-primary">Contato</a></Link>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="pt-2">
-                  <Link href="/contato">
-                    <a className="text-xs text-muted-foreground hover:text-primary">
-                      Quer ajuda para entender seu enquadramento (residencial/comercial/industrial/rural)? Falar com especialista →
-                    </a>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
+          <FeaturedCarousel posts={featuredPosts} />
         </div>
       </section>
 
@@ -183,7 +149,7 @@ export default function Blog() {
           <h2 className="text-3xl font-bold mb-8">Artigos Recentes</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {blogPosts.slice(1).map((post) => (
+            {recentPosts.map((post) => (
               <Card key={post.id} className="border-2 hover:border-primary transition-colors">
                 <CardContent className="p-6 space-y-4">
                   <div className="flex items-center justify-between">
