@@ -19,7 +19,8 @@ const blogPosts: BlogPost[] = [
   {
     id: "1",
     title: "Regulamentação da ANEEL: Tudo o que Você Precisa Saber sobre Energia Solar",
-    excerpt: "Entenda as principais normas da ANEEL para geração distribuída de energia solar, incluindo a Resolução Normativa 482 e as mudanças recentes na legislação que afetam consumidores e empresas.",
+    excerpt:
+      "Entenda as principais normas da ANEEL para geração distribuída de energia solar, incluindo a Resolução Normativa 482 e as mudanças recentes na legislação que afetam consumidores e empresas.",
     category: "Regulamentação",
     author: "Equipe Iluminasun",
     date: "15 de Dezembro, 2024",
@@ -29,7 +30,8 @@ const blogPosts: BlogPost[] = [
   {
     id: "2",
     title: "Financiamento Solar: As Melhores Linhas de Crédito para Energia Fotovoltaica",
-    excerpt: "Conheça as principais opções de financiamento para sistemas de energia solar, incluindo linhas do BNDES, bancos privados e cooperativas. Descubra qual é a melhor opção para o seu perfil.",
+    excerpt:
+      "Conheça as principais opções de financiamento para sistemas de energia solar, incluindo linhas do BNDES, bancos privados e cooperativas. Descubra qual é a melhor opção para o seu perfil.",
     category: "Financiamento",
     author: "Equipe Iluminasun",
     date: "10 de Dezembro, 2024",
@@ -39,7 +41,8 @@ const blogPosts: BlogPost[] = [
   {
     id: "3",
     title: "Marco Legal da Geração Distribuída: O Que Mudou em 2024",
-    excerpt: "Análise completa das mudanças trazidas pelo Marco Legal da Geração Distribuída (Lei 14.300/2022) e como elas impactam quem já tem ou pretende instalar energia solar.",
+    excerpt:
+      "Análise completa das mudanças trazidas pelo Marco Legal da Geração Distribuída (Lei 14.300/2022) e como elas impactam quem já tem ou pretende instalar energia solar.",
     category: "Legislação",
     author: "Equipe Iluminasun",
     date: "05 de Dezembro, 2024",
@@ -49,7 +52,8 @@ const blogPosts: BlogPost[] = [
   {
     id: "4",
     title: "Manutenção de Painéis Solares: Guia Completo para Máxima Eficiência",
-    excerpt: "Aprenda como realizar a manutenção correta do seu sistema fotovoltaico para garantir máxima geração de energia e prolongar a vida útil dos equipamentos.",
+    excerpt:
+      "Aprenda como realizar a manutenção correta do seu sistema fotovoltaico para garantir máxima geração de energia e prolongar a vida útil dos equipamentos.",
     category: "Manutenção",
     author: "Equipe Iluminasun",
     date: "28 de Novembro, 2024",
@@ -59,7 +63,8 @@ const blogPosts: BlogPost[] = [
   {
     id: "5",
     title: "Energia Solar para Empresas: Como Reduzir Custos Operacionais",
-    excerpt: "Descubra como empresas de todos os portes estão economizando milhares de reais por mês com energia solar e melhorando sua competitividade no mercado.",
+    excerpt:
+      "Descubra como empresas de todos os portes estão economizando milhares de reais por mês com energia solar e melhorando sua competitividade no mercado.",
     category: "Comercial",
     author: "Equipe Iluminasun",
     date: "20 de Novembro, 2024",
@@ -69,7 +74,8 @@ const blogPosts: BlogPost[] = [
   {
     id: "6",
     title: "Tendências do Mercado Solar em 2025: O Que Esperar",
-    excerpt: "Análise das principais tendências do setor de energia solar para 2025, incluindo novas tecnologias, preços de equipamentos e projeções de crescimento do mercado brasileiro.",
+    excerpt:
+      "Análise das principais tendências do setor de energia solar para 2025, incluindo novas tecnologias, preços de equipamentos e projeções de crescimento do mercado brasileiro.",
     category: "Mercado",
     author: "Equipe Iluminasun",
     date: "15 de Novembro, 2024",
@@ -79,6 +85,8 @@ const blogPosts: BlogPost[] = [
 ];
 
 export default function Blog() {
+  const featured = blogPosts[0];
+
   return (
     <div className="flex flex-col">
       <SEO
@@ -99,48 +107,84 @@ export default function Blog() {
         </div>
       </section>
 
-      {/* Artigo em Destaque */}
-      <section className="py-16 md:py-24">
+      {/* Artigo em Destaque (ÚNICO) */}
+      <section className="py-10 md:py-14">
         <div className="container">
-          <Card className="border-2 border-primary/20 overflow-hidden">
-            <CardContent className="p-0">
-              <div className="grid grid-cols-1 lg:grid-cols-2">
-                <div className="bg-gradient-to-br from-primary/20 to-secondary/20 p-8 md:p-12 flex items-center justify-center min-h-[300px]">
-                  <div className="text-center">
-                    <div className="text-6xl mb-4">📋</div>
-                    <span className="text-sm font-medium px-3 py-1 rounded-full bg-primary/20 text-primary">
-                      Destaque
-                    </span>
+          <div className="rounded-2xl border border-border bg-background p-6">
+            <div className="grid gap-6 lg:grid-cols-[1fr_1.2fr]">
+              <div className="min-h-[220px] rounded-xl bg-primary/10 p-6 flex items-center justify-center">
+                <div className="text-center">
+                  <div className="mx-auto mb-3 h-12 w-12 rounded-xl bg-background flex items-center justify-center border border-border">
+                    <span className="text-lg">📋</span>
                   </div>
-                </div>
-                <div className="p-8 md:p-12 space-y-4">
-                  <span className="text-sm font-medium px-3 py-1 rounded-full bg-secondary/10 text-secondary">
-                    {blogPosts[0].category}
-                  </span>
-                  <h2 className="text-2xl md:text-3xl font-bold">{blogPosts[0].title}</h2>
-                  <p className="text-muted-foreground">{blogPosts[0].excerpt}</p>
-                  <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-                    <div className="flex items-center gap-1">
-                      <User className="h-4 w-4" />
-                      <span>{blogPosts[0].author}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Calendar className="h-4 w-4" />
-                      <span>{blogPosts[0].date}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Clock className="h-4 w-4" />
-                      <span>{blogPosts[0].readTime} de leitura</span>
-                    </div>
+                  <div className="inline-flex items-center rounded-full bg-primary/15 px-3 py-1 text-xs font-semibold text-primary">
+                    Destaque
                   </div>
-                  <Button className="mt-4">
-                    Ler Artigo Completo
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+
+              <div className="space-y-3">
+                <div className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+                  {featured.category}
+                </div>
+
+                <h2 className="text-2xl font-bold leading-tight">{featured.title}</h2>
+
+                <p className="text-sm text-muted-foreground">{featured.excerpt}</p>
+
+                <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
+                  <span className="inline-flex items-center gap-1">
+                    <User className="h-3 w-3" />
+                    {featured.author}
+                  </span>
+                  <span className="inline-flex items-center gap-1">
+                    <Calendar className="h-3 w-3" />
+                    {featured.date}
+                  </span>
+                  <span className="inline-flex items-center gap-1">
+                    <Clock className="h-3 w-3" />
+                    {featured.readTime} de leitura
+                  </span>
+                </div>
+
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <Link href={`/blog/${featured.slug}`}>
+                    <a className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:opacity-95">
+                      Ler Artigo Completo <span aria-hidden>→</span>
+                    </a>
+                  </Link>
+
+                  {/* Relacionados (links internos = SEO + tempo de sessão) */}
+                  <div className="text-xs text-muted-foreground">
+                    <div className="font-semibold text-foreground/80">Relacionados</div>
+                    <div className="mt-1 flex flex-wrap gap-x-3 gap-y-1">
+                      <Link href="/simulador">
+                        <a className="hover:text-primary">Simulador</a>
+                      </Link>
+                      <Link href="/kit-solar">
+                        <a className="hover:text-primary">Kits</a>
+                      </Link>
+                      <Link href="/servicos">
+                        <a className="hover:text-primary">Serviços</a>
+                      </Link>
+                      <Link href="/contato">
+                        <a className="hover:text-primary">Contato</a>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+
+                {/* CTA secundário opcional */}
+                <div className="pt-2">
+                  <Link href="/contato">
+                    <a className="text-xs text-muted-foreground hover:text-primary">
+                      Quer ajuda para entender seu enquadramento (residencial/comercial/condomínio)? Falar com especialista →
+                    </a>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -148,6 +192,7 @@ export default function Blog() {
       <section className="py-16 md:py-24 bg-muted/30">
         <div className="container">
           <h2 className="text-3xl font-bold mb-8">Artigos Recentes</h2>
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {blogPosts.slice(1).map((post) => (
               <Card key={post.id} className="border-2 hover:border-primary transition-colors">
@@ -161,16 +206,21 @@ export default function Blog() {
                       <span>{post.readTime}</span>
                     </div>
                   </div>
+
                   <h3 className="text-lg font-semibold line-clamp-2">{post.title}</h3>
                   <p className="text-sm text-muted-foreground line-clamp-3">{post.excerpt}</p>
+
                   <div className="flex items-center gap-2 text-xs text-muted-foreground pt-2 border-t">
                     <Calendar className="h-3 w-3" />
                     <span>{post.date}</span>
                   </div>
-                  <Button variant="outline" size="sm" className="w-full">
-                    Ler Mais
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
+
+                  <Link href={`/blog/${post.slug}`}>
+                    <Button variant="outline" size="sm" className="w-full">
+                      Ler Mais
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
                 </CardContent>
               </Card>
             ))}
@@ -183,7 +233,16 @@ export default function Blog() {
         <div className="container">
           <h2 className="text-3xl font-bold mb-8 text-center">Categorias</h2>
           <div className="flex flex-wrap justify-center gap-4">
-            {["Regulamentação", "Financiamento", "Legislação", "Manutenção", "Comercial", "Mercado", "Residencial", "Tecnologia"].map((category) => (
+            {[
+              "Regulamentação",
+              "Financiamento",
+              "Legislação",
+              "Manutenção",
+              "Comercial",
+              "Mercado",
+              "Residencial",
+              "Tecnologia",
+            ].map((category) => (
               <Button key={category} variant="outline" size="lg">
                 {category}
               </Button>
@@ -196,9 +255,7 @@ export default function Blog() {
       <section className="py-16 md:py-24 bg-gradient-to-br from-primary/10 to-secondary/10">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center space-y-6">
-            <h2 className="text-3xl md:text-4xl font-bold">
-              Receba Novidades do Setor Solar
-            </h2>
+            <h2 className="text-3xl md:text-4xl font-bold">Receba Novidades do Setor Solar</h2>
             <p className="text-lg text-muted-foreground">
               Assine nossa newsletter e fique por dentro das últimas notícias, regulamentações e oportunidades do mercado de energia solar
             </p>
@@ -220,9 +277,7 @@ export default function Blog() {
       <section className="py-16 md:py-24">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center space-y-6">
-            <h2 className="text-3xl md:text-4xl font-bold">
-              Pronto para Economizar com Energia Solar?
-            </h2>
+            <h2 className="text-3xl md:text-4xl font-bold">Pronto para Economizar com Energia Solar?</h2>
             <p className="text-lg text-muted-foreground">
               Faça uma simulação gratuita e descubra quanto você pode economizar
             </p>

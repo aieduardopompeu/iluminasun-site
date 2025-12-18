@@ -23,6 +23,7 @@ import TermosDeUso from "./pages/TermosDeUso";
 import PoliticaDePrivacidade from "./pages/PoliticaDePrivacidade";
 import PoliticaDeCookies from "./pages/PoliticaDeCookies";
 import LGPDPage from "./pages/LGPD";
+import RegulamentacaoAneel from "./pages/RegulamentacaoAneel";
 
 declare global {
   interface Window {
@@ -61,6 +62,7 @@ function Router() {
           <Route path={"/vantagens"} component={Vantagens} />
           <Route path={"/simulador"} component={Simulador} />
           <Route path={"/contato"} component={Contato} />
+          <Route path={"/blog/regulamentacao-aneel-energia-solar"} component={RegulamentacaoAneel} />
           <Route path={"/blog"} component={Blog} />
           <Route path={"/kit-solar"} component={KitSolar} />
           <Route path={"/termos-de-uso"} component={TermosDeUso} />
