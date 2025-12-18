@@ -116,7 +116,8 @@ export default function Blog() {
     imageAlt: p.imageAlt,
   }));
 
-  const recentPosts = blogPosts.slice(FEATURED_COUNT);
+  // ✅ Mantém “Artigos Recentes” cheio como antes: mostra todos exceto o 1º (principal)
+  const recentPosts = blogPosts.filter((p) => p.id !== blogPosts[0]?.id);
 
   return (
     <div className="flex flex-col">
