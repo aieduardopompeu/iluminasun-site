@@ -112,14 +112,20 @@ export default function Blog() {
         <div className="container">
           <div className="rounded-2xl border border-border bg-background p-6">
             <div className="grid gap-6 lg:grid-cols-[1fr_1.2fr]">
-              <div className="min-h-[220px] rounded-xl bg-primary/10 p-6 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="mx-auto mb-3 h-12 w-12 rounded-xl bg-background flex items-center justify-center border border-border">
-                    <span className="text-lg">📋</span>
-                  </div>
-                  <div className="inline-flex items-center rounded-full bg-primary/15 px-3 py-1 text-xs font-semibold text-primary">
-                    Destaque
-                  </div>
+              {/* IMAGEM DO DESTAQUE */}
+              <div className="relative min-h-[220px] rounded-xl overflow-hidden border border-border bg-muted">
+                <img
+                  src="/blog/regulamentacao-aneel.webp"
+                  alt="Regulamentação da ANEEL e energia solar"
+                  className="absolute inset-0 h-full w-full object-cover"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div className="absolute inset-0 bg-gradient-to-br from-black/0 via-black/0 to-black/10" />
+
+                {/* selo overlay */}
+                <div className="absolute left-4 top-4 inline-flex items-center rounded-full bg-background/80 px-3 py-1 text-xs font-semibold text-foreground backdrop-blur border border-border">
+                  Destaque
                 </div>
               </div>
 
