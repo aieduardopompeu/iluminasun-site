@@ -24,6 +24,7 @@ import KitSolarDetail from "./pages/KitSolarDetail";
 
 import Blog from "./pages/blog/Blog";
 import RegulamentacaoAneel from "./pages/blog/posts/RegulamentacaoAneel";
+import MarcoLegal14300 from "./pages/blog/posts/MarcoLegal14300";
 
 import TermosDeUso from "./pages/TermosDeUso";
 import PoliticaDePrivacidade from "./pages/PoliticaDePrivacidade";
@@ -70,6 +71,7 @@ function Router() {
 
           {/* Post antes do /blog */}
           <Route path={"/blog/regulamentacao-aneel-energia-solar"} component={RegulamentacaoAneel} />
+          <Route path={"/blog/marco-legal-lei-14300-energia-solar-rj"} component={MarcoLegal14300} />
           <Route path={"/blog"} component={Blog} />
 
           <Route path={"/kit-solar"} component={KitSolar} />

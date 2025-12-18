@@ -29,14 +29,14 @@ const blogPosts: BlogPost[] = [
   },
   {
     id: "2",
-    title: "Financiamento Solar: As Melhores Linhas de Crédito para Energia Fotovoltaica",
+    title: "Lei 14.300 (Marco Legal da Geração Distribuída): o que muda na prática no RJ e como evitar erros na homologação",
     excerpt:
-      "Conheça as principais opções de financiamento para sistemas de energia solar, incluindo linhas do BNDES, bancos privados e cooperativas.",
-    category: "Financiamento",
+      "Guia direto sobre a Lei 14.300, SCEE/créditos, regras de transição e impacto por perfil (residencial, comercial, industrial e rural) — com foco no RJ e Região.",
+    category: "Legislação",
     author: "Equipe Ilumina Sun",
-    date: "10 de Dezembro, 2024",
-    readTime: "10 min",
-    slug: "financiamento-energia-solar",
+    date: "18 de Dezembro, 2025",
+    readTime: "10–13 min",
+    slug: "marco-legal-lei-14300-energia-solar-rj",
   },
   {
     id: "3",
