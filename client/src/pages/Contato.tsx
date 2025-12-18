@@ -2,14 +2,44 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { trpc } from "@/lib/trpc";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
+type PropertyType = "residencial" | "comercial" | "industrial" | "rural" | "";
+
+function getUtmParams() {
+  if (typeof window === "undefined") {
+    return {
+      utm_source: "",
+      utm_medium: "",
+      utm_campaign: "",
+      utm_term: "",
+      utm_content: "",
+    };
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  return {
+    utm_source: params.get("utm_source") || "",
+    utm_medium: params.get("utm_medium") || "",
+    utm_campaign: params.get("utm_campaign") || "",
+    utm_term: params.get("utm_term") || "",
+    utm_content: params.get("utm_content") || "",
+  };
+}
+
 export default function Contato() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -17,13 +47,67 @@ export default function Contato() {
     city: "",
     state: "",
     averageBill: "",
-    propertyType: "" as "residencial" | "comercial" | "industrial" | "rural" | "",
+    propertyType: "" as PropertyType,
     message: "",
+    // honeypot anti-spam (não renderizar visível)
+    website: "",
   });
 
-  const createLead = trpc.leads.create.useMutation({
-    onSuccess: () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!formData.name || !formData.email) {
+      toast.error("Por favor, preencha os campos obrigatórios.");
+      return;
+    }
+
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
+
+    try {
+      const utm = getUtmParams();
+
+      const payload = {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone || undefined,
+        city: formData.city || undefined,
+        state: formData.state || undefined,
+        averageBill: formData.averageBill || undefined,
+        propertyType: formData.propertyType || undefined,
+        message: formData.message || undefined,
+        website: formData.website || undefined,
+
+        // tracking (padrão Alta Cloud)
+        page_path:
+          typeof window !== "undefined"
+            ? window.location.pathname + window.location.search
+            : undefined,
+        referrer: typeof document !== "undefined" ? document.referrer || "" : undefined,
+        ...utm,
+      };
+
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json().catch(() => ({} as any));
+
+      if (!res.ok || !data?.ok) {
+        // Mensagens mais amigáveis
+        if (res.status === 429) {
+          throw new Error("Muitas tentativas. Aguarde alguns segundos e tente novamente.");
+        }
+
+        const msg = data?.error ? String(data.error) : "Erro ao enviar mensagem.";
+        throw new Error(msg);
+      }
+
       toast.success("Mensagem enviada com sucesso! Entraremos em contato em breve.");
+
       setFormData({
         name: "",
         email: "",
@@ -33,31 +117,13 @@ export default function Contato() {
         averageBill: "",
         propertyType: "",
         message: "",
+        website: "",
       });
-    },
-    onError: (error) => {
-      toast.error(`Erro ao enviar mensagem: ${error.message}`);
-    },
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!formData.name || !formData.email) {
-      toast.error("Por favor, preencha os campos obrigatórios.");
-      return;
+    } catch (err: any) {
+      toast.error(`Erro ao enviar mensagem: ${err?.message || "Tente novamente."}`);
+    } finally {
+      setIsSubmitting(false);
     }
-
-    createLead.mutate({
-      name: formData.name,
-      email: formData.email,
-      phone: formData.phone || undefined,
-      city: formData.city || undefined,
-      state: formData.state || undefined,
-      averageBill: formData.averageBill || undefined,
-      propertyType: formData.propertyType || undefined,
-      message: formData.message || undefined,
-    });
   };
 
   return (
@@ -83,7 +149,7 @@ export default function Contato() {
               <div>
                 <h2 className="text-3xl font-bold mb-6">Fale Conosco</h2>
                 <p className="text-muted-foreground mb-8">
-                  Nossa equipe de especialistas está pronta para ajudar você a encontrar a melhor 
+                  Nossa equipe de especialistas está pronta para ajudar você a encontrar a melhor
                   solução em energia solar para suas necessidades.
                 </p>
               </div>
@@ -97,7 +163,12 @@ export default function Contato() {
                       </div>
                       <div>
                         <h3 className="font-semibold mb-1">Telefone / WhatsApp</h3>
-                        <a href="tel:+5521966084093" className="text-muted-foreground hover:text-primary transition-colors">(21) 96608-4093</a>
+                        <a
+                          href="tel:+5521966084093"
+                          className="text-muted-foreground hover:text-primary transition-colors"
+                        >
+                          (21) 96608-4093
+                        </a>
                         <p className="text-sm text-muted-foreground mt-1">
                           Segunda a Sexta, 9h às 18h
                         </p>
@@ -114,7 +185,12 @@ export default function Contato() {
                       </div>
                       <div>
                         <h3 className="font-semibold mb-1">E-mail</h3>
-                        <a href="mailto:contato@iluminasun.com.br" className="text-muted-foreground hover:text-primary transition-colors">contato@iluminasun.com.br</a>
+                        <a
+                          href="mailto:contato@iluminasun.com.br"
+                          className="text-muted-foreground hover:text-primary transition-colors"
+                        >
+                          contato@iluminasun.com.br
+                        </a>
                         <p className="text-sm text-muted-foreground mt-1">
                           Respondemos em até 24 horas
                         </p>
@@ -157,7 +233,22 @@ export default function Contato() {
               <Card>
                 <CardContent className="p-8">
                   <h2 className="text-2xl font-bold mb-6">Solicite um Orçamento</h2>
+
                   <form onSubmit={handleSubmit} className="space-y-4">
+                    {/* Honeypot anti-spam (não mexer no CSS) */}
+                    <div className="hidden">
+                      <Label htmlFor="website">Website</Label>
+                      <Input
+                        id="website"
+                        value={formData.website}
+                        onChange={(e) =>
+                          setFormData({ ...formData, website: e.target.value })
+                        }
+                        autoComplete="off"
+                        tabIndex={-1}
+                      />
+                    </div>
+
                     <div className="space-y-2">
                       <Label htmlFor="name">Nome Completo *</Label>
                       <Input
@@ -175,7 +266,9 @@ export default function Contato() {
                         id="email"
                         type="email"
                         value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, email: e.target.value })
+                        }
                         placeholder="seu@email.com"
                         required
                       />
@@ -186,7 +279,9 @@ export default function Contato() {
                       <Input
                         id="phone"
                         value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, phone: e.target.value })
+                        }
                         placeholder="(XX) XXXXX-XXXX"
                       />
                     </div>
@@ -197,7 +292,9 @@ export default function Contato() {
                         <Input
                           id="city"
                           value={formData.city}
-                          onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                          onChange={(e) =>
+                            setFormData({ ...formData, city: e.target.value })
+                          }
                           placeholder="Sua cidade"
                         />
                       </div>
@@ -206,7 +303,9 @@ export default function Contato() {
                         <Input
                           id="state"
                           value={formData.state}
-                          onChange={(e) => setFormData({ ...formData, state: e.target.value.toUpperCase() })}
+                          onChange={(e) =>
+                            setFormData({ ...formData, state: e.target.value.toUpperCase() })
+                          }
                           placeholder="SP"
                           maxLength={2}
                         />
@@ -218,7 +317,9 @@ export default function Contato() {
                       <Input
                         id="averageBill"
                         value={formData.averageBill}
-                        onChange={(e) => setFormData({ ...formData, averageBill: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, averageBill: e.target.value })
+                        }
                         placeholder="R$ 500,00"
                       />
                     </div>
@@ -248,7 +349,9 @@ export default function Contato() {
                       <Textarea
                         id="message"
                         value={formData.message}
-                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, message: e.target.value })
+                        }
                         placeholder="Conte-nos mais sobre seu projeto..."
                         rows={4}
                       />
@@ -258,9 +361,9 @@ export default function Contato() {
                       type="submit"
                       size="lg"
                       className="w-full font-semibold"
-                      disabled={createLead.isPending}
+                      disabled={isSubmitting}
                     >
-                      {createLead.isPending ? "Enviando..." : "Enviar Mensagem"}
+                      {isSubmitting ? "Enviando..." : "Enviar Mensagem"}
                     </Button>
 
                     <p className="text-xs text-muted-foreground text-center">
