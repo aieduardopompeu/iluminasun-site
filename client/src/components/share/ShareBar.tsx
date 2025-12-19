@@ -7,20 +7,20 @@ export type ShareBarVariant = "inline" | "block";
 
 export type ShareBarProps = {
   title: string;
-
   /** Pode ser absoluto ou relativo. Se não passar, usa window.location.href */
   url?: string;
 
   /** Opcional (para tracking) */
   slug?: string;
-
   /** Opcional (para tracking) */
   contentType?: "blog" | "page" | "kit";
 
   className?: string;
+
+  /** ✅ Quando true, mostra só ícones */
   compact?: boolean;
 
-  // ✅ Props extras (para compatibilidade com o que você tentou usar)
+  /** (Compatibilidade) */
   heading?: string;
   description?: string;
   variant?: ShareBarVariant;
@@ -163,11 +163,11 @@ export default function ShareBar({
 
   const nativeShare = async () => {
     try {
-      if (!navigator.share) return;
+      if (typeof navigator === "undefined" || !("share" in navigator)) return;
       track("native");
-      await navigator.share({ title, text: title, url: absUrl });
+      await (navigator as any).share({ title, text: title, url: absUrl });
     } catch {
-      // ok
+      // ok (cancelado)
     }
   };
 
@@ -184,63 +184,121 @@ export default function ShareBar({
     }
   };
 
-  const btnBase =
-    "inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-background px-3 py-2 text-sm font-semibold hover:bg-muted/60 transition";
-  const iconClass = "h-4 w-4";
+  const btnBase = compact
+    ? "inline-flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-background hover:bg-muted/60 transition"
+    : "inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-background px-3 py-2 text-sm font-semibold hover:bg-muted/60 transition";
+
+  const iconClass = compact ? "h-5 w-5" : "h-4 w-4";
 
   return (
     <div className={className}>
       {(heading || description) && (
         <div className={variant === "block" ? "mb-3" : "mb-2"}>
           {heading && <div className="text-sm font-semibold">{heading}</div>}
-          {description && <div className="text-xs text-muted-foreground">{description}</div>}
+          {description && (
+            <div className="text-xs text-muted-foreground">{description}</div>
+          )}
         </div>
       )}
 
       <div className="flex flex-wrap items-center gap-2">
         {!compact && !heading && (
-          <div className="mr-1 text-sm font-semibold text-foreground">Compartilhar:</div>
+          <div className="mr-1 text-sm font-semibold text-foreground">
+            Compartilhar:
+          </div>
         )}
 
-        <button type="button" className={btnBase} onClick={() => openShare("whatsapp")} aria-label="Compartilhar no WhatsApp">
+        <button
+          type="button"
+          className={btnBase}
+          onClick={() => openShare("whatsapp")}
+          aria-label="Compartilhar no WhatsApp"
+          title="WhatsApp"
+        >
           <IconWhatsApp className={iconClass} />
           {!compact && "WhatsApp"}
         </button>
 
-        <button type="button" className={btnBase} onClick={() => openShare("facebook")} aria-label="Compartilhar no Facebook">
+        <button
+          type="button"
+          className={btnBase}
+          onClick={() => openShare("facebook")}
+          aria-label="Compartilhar no Facebook"
+          title="Facebook"
+        >
           <IconFacebook className={iconClass} />
           {!compact && "Facebook"}
         </button>
 
-        <button type="button" className={btnBase} onClick={() => openShare("x")} aria-label="Compartilhar no X">
+        <button
+          type="button"
+          className={btnBase}
+          onClick={() => openShare("x")}
+          aria-label="Compartilhar no X"
+          title="X"
+        >
           <IconX className={iconClass} />
           {!compact && "X"}
         </button>
 
-        <button type="button" className={btnBase} onClick={() => openShare("linkedin")} aria-label="Compartilhar no LinkedIn">
+        <button
+          type="button"
+          className={btnBase}
+          onClick={() => openShare("linkedin")}
+          aria-label="Compartilhar no LinkedIn"
+          title="LinkedIn"
+        >
           <IconLinkedIn className={iconClass} />
           {!compact && "LinkedIn"}
         </button>
 
-        {!compact && (
-          <button type="button" className={btnBase} onClick={() => openShare("telegram")} aria-label="Compartilhar no Telegram">
-            <IconTelegram className={iconClass} />
-            Telegram
-          </button>
-        )}
-
-        <button type="button" className={btnBase} onClick={() => openShare("email")} aria-label="Compartilhar por e-mail" title="Compartilhar por e-mail">
-          ✉️ {!compact && "E-mail"}
+        <button
+          type="button"
+          className={btnBase}
+          onClick={() => openShare("telegram")}
+          aria-label="Compartilhar no Telegram"
+          title="Telegram"
+        >
+          <IconTelegram className={iconClass} />
+          {!compact && "Telegram"}
         </button>
 
-        <button type="button" className={btnBase} onClick={copyLink} aria-label="Copiar link" title="Copiar link" disabled={copying}>
+        <button
+          type="button"
+          className={btnBase}
+          onClick={() => openShare("email")}
+          aria-label="Compartilhar por e-mail"
+          title="E-mail"
+        >
+          <span className={compact ? "text-[18px] leading-none" : ""}>✉️</span>
+          {!compact && "E-mail"}
+        </button>
+
+        <button
+          type="button"
+          className={btnBase}
+          onClick={copyLink}
+          aria-label="Copiar link"
+          title="Copiar link"
+          disabled={copying}
+        >
           <IconLink className={iconClass} />
           {!compact && (copying ? "Copiando..." : "Copiar")}
         </button>
 
         {typeof navigator !== "undefined" && "share" in navigator && (
-          <button type="button" className={btnBase} onClick={nativeShare} aria-label="Compartilhar (nativo)">
-            <span className="text-base leading-none">⤴︎</span>
+          <button
+            type="button"
+            className={btnBase}
+            onClick={nativeShare}
+            aria-label="Compartilhar (nativo)"
+            title="Compartilhar (nativo)"
+          >
+            <span
+              className={compact ? "text-[18px] leading-none" : "text-base leading-none"}
+            >
+              ⤴︎
+            </span>
             {!compact && "Nativo"}
           </button>
         )}
