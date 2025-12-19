@@ -3,7 +3,6 @@
 
 import { useEffect, useMemo } from "react";
 import { Link } from "wouter";
-import ShareBar from "@/components/share/ShareBar";
 
 const SITE_URL = import.meta.env.VITE_SITE_URL || "https://www.iluminasun.com.br";
 
@@ -112,18 +111,6 @@ export default function PostTemplate() {
               <span>{DATE_MODIFIED}</span>
               <span>•</span>
               <span>{READING_TIME}</span>
-            </div>
-
-            {/* ✅ Compartilhamento padrão (SÓ ÍCONES) */}
-            <div className="pt-2">
-            <ShareBar
-              title="..."
-              url={CANONICAL}
-              slug="..."
-              contentType="blog"
-              compact
-              heading=""
-            />
             </div>
           </header>
 

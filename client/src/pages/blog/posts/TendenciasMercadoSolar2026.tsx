@@ -1,6 +1,5 @@
 import { useEffect, useMemo } from "react";
 import { Link } from "wouter";
-import ShareBar from "@/components/share/ShareBar";
 
 const SITE_URL = import.meta.env.VITE_SITE_URL || "https://iluminasun.com.br";
 const POST_PATH = "/blog/tendencias-mercado-solar-2026";
@@ -119,12 +118,6 @@ export default function TendenciasMercadoSolar2026() {
 
               {/* Compartilhamento (padrão do site) */}
               <div className="pt-2">
-                <ShareBar
-                  title="Lei 14.300 (Marco Legal da Geração Distribuída): o que muda na prática no RJ e como evitar erros na homologação"
-                  url={CANONICAL}
-                  slug="marco-legal-lei-14300-energia-solar-rj"
-                  contentType="blog"
-                />
               </div>
             </header>
 

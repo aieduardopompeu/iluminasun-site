@@ -7,30 +7,32 @@ export type ShareBarProps = {
   title: string;
   url: string;
 
-  /** Opcional para compatibilidade com posts antigos */
   slug?: string;
-
-  /** Ex.: "blog" (default), "page"... */
   contentType?: "blog" | "page" | string;
 
-  /** Se true: mostra SOMENTE ícones (sem texto) */
+  /**
+   * Mantido por compatibilidade, mas agora o componente é "ícones-only" por padrão.
+   * Se um dia você quiser texto de volta, me chama que eu reativo com uma flag.
+   */
   compact?: boolean;
 
-  /** Compatibilidade com props antigas (não quebra chamadas antigas) */
-  variant?: string; // ex.: "compact"
-  analyticsTag?: string; // ex.: "blog_post_aneel"
+  variant?: string;
+  analyticsTag?: string;
 
-  /** Texto antes dos botões (se vazio, não renderiza) */
+  /** Use "" para não mostrar nada */
   heading?: string;
 
-  /** Classe extra */
   className?: string;
-
-  /** Mantido opcional para não quebrar chamadas antigas */
   description?: string;
 };
 
-type ShareTarget = "whatsapp" | "facebook" | "x" | "linkedin" | "telegram" | "email";
+type ShareTarget =
+  | "whatsapp"
+  | "facebook"
+  | "x"
+  | "linkedin"
+  | "telegram"
+  | "email";
 
 function safeWindowOpen(url: string) {
   if (typeof window === "undefined") return;
@@ -46,18 +48,15 @@ export default function ShareBar({
   url,
   slug,
   contentType = "blog",
-  compact: compactProp,
-  variant,
+  // compact fica irrelevante visualmente (sempre ícones), mas mantemos para não quebrar chamadas
+  compact: _compactProp,
+  variant: _variant,
   analyticsTag,
-  heading = "Compartilhar:",
+  // ✅ por padrão NÃO mostra "Compartilhar:"
+  heading = "",
   className = "",
 }: ShareBarProps) {
-  // Regra:
-  // - se vier compact explícito, respeita
-  // - senão, variant="compact" liga o modo compact
-  const compact = compactProp ?? (variant === "compact");
-
-  // ID para analytics: prefere analyticsTag, depois slug, senão url
+  // ✅ ID p/ analytics: prefere analyticsTag, depois slug, senão url
   const itemId = analyticsTag ?? slug ?? url;
 
   const [copying, setCopying] = useState(false);
@@ -74,7 +73,7 @@ export default function ShareBar({
         window.gtag("event", eventName, {
           content_type: contentType,
           item_id: itemId,
-          ...(extra ?? {}),
+          ...(extra ?? {}), // ✅ FIX: era ".extra"
         });
       }
     } catch {
@@ -90,19 +89,29 @@ export default function ShareBar({
         safeWindowOpen(`https://wa.me/?text=${encodedTitle}%0A${encodedUrl}`);
         return;
       case "facebook":
-        safeWindowOpen(`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`);
+        safeWindowOpen(
+          `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`
+        );
         return;
       case "x":
-        safeWindowOpen(`https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`);
+        safeWindowOpen(
+          `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`
+        );
         return;
       case "linkedin":
-        safeWindowOpen(`https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`);
+        safeWindowOpen(
+          `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`
+        );
         return;
       case "telegram":
-        safeWindowOpen(`https://t.me/share/url?url=${encodedUrl}&text=${encodedTitle}`);
+        safeWindowOpen(
+          `https://t.me/share/url?url=${encodedUrl}&text=${encodedTitle}`
+        );
         return;
       case "email":
-        safeWindowOpen(`mailto:?subject=${encodedTitle}&body=${encodedTitle}%0A%0A${encodedUrl}`);
+        safeWindowOpen(
+          `mailto:?subject=${encodedTitle}&body=${encodedTitle}%0A%0A${encodedUrl}`
+        );
         return;
     }
   }
@@ -136,120 +145,120 @@ export default function ShareBar({
         track("share_native");
         return;
       } catch {
-        return; // usuário cancelou
+        return;
       }
     }
 
-    // fallback: copia link
     await copyLink();
   }
 
-  const btnBase =
-    "inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 shadow-sm hover:bg-slate-50 active:scale-[0.99] transition";
-  const btnBaseCompact =
-    "inline-flex items-center justify-center rounded-full border border-slate-200 bg-white p-2 text-sm font-semibold text-slate-800 shadow-sm hover:bg-slate-50 active:scale-[0.99] transition";
+  // ✅ Estilo “ícone-only” sempre
+  const btnIcon =
+    "inline-flex items-center justify-center rounded-full border border-slate-200 bg-white p-2 text-slate-800 shadow-sm hover:bg-slate-50 active:scale-[0.99] transition";
+  const iconClass = "h-5 w-5";
 
-  const iconClass = compact ? "h-5 w-5" : "h-4 w-4";
+  // ✅ Acessibilidade sem texto visível
+  const SrOnly = ({ children }: { children: React.ReactNode }) => (
+    <span className="sr-only">{children}</span>
+  );
 
   return (
     <div className={`w-full ${className}`}>
       <div className="flex flex-wrap items-center gap-2">
-        {!!heading && (
+        {heading ? (
           <div className="mr-1 text-sm font-semibold text-slate-700">
             {heading}
           </div>
-        )}
+        ) : null}
 
         <button
           type="button"
-          className={compact ? btnBaseCompact : btnBase}
+          className={btnIcon}
           onClick={() => openShare("whatsapp")}
           aria-label="Compartilhar no WhatsApp"
           title="WhatsApp"
         >
           <IconWhatsApp className={iconClass} />
-          {!compact && <span>WhatsApp</span>}
+          <SrOnly>WhatsApp</SrOnly>
         </button>
 
         <button
           type="button"
-          className={compact ? btnBaseCompact : btnBase}
+          className={btnIcon}
           onClick={() => openShare("facebook")}
           aria-label="Compartilhar no Facebook"
           title="Facebook"
         >
           <IconFacebook className={iconClass} />
-          {!compact && <span>Facebook</span>}
+          <SrOnly>Facebook</SrOnly>
         </button>
 
         <button
           type="button"
-          className={compact ? btnBaseCompact : btnBase}
+          className={btnIcon}
           onClick={() => openShare("x")}
           aria-label="Compartilhar no X"
           title="X"
         >
           <IconX className={iconClass} />
-          {!compact && <span>X</span>}
+          <SrOnly>X</SrOnly>
         </button>
 
         <button
           type="button"
-          className={compact ? btnBaseCompact : btnBase}
+          className={btnIcon}
           onClick={() => openShare("linkedin")}
           aria-label="Compartilhar no LinkedIn"
           title="LinkedIn"
         >
           <IconLinkedIn className={iconClass} />
-          {!compact && <span>LinkedIn</span>}
+          <SrOnly>LinkedIn</SrOnly>
         </button>
 
         <button
           type="button"
-          className={compact ? btnBaseCompact : btnBase}
+          className={btnIcon}
           onClick={() => openShare("telegram")}
           aria-label="Compartilhar no Telegram"
           title="Telegram"
         >
           <IconTelegram className={iconClass} />
-          {!compact && <span>Telegram</span>}
+          <SrOnly>Telegram</SrOnly>
         </button>
 
         <button
           type="button"
-          className={compact ? btnBaseCompact : btnBase}
+          className={btnIcon}
           onClick={() => openShare("email")}
           aria-label="Compartilhar por e-mail"
           title="E-mail"
         >
           <IconMail className={iconClass} />
-          {!compact && <span>E-mail</span>}
+          <SrOnly>E-mail</SrOnly>
         </button>
 
         <button
           type="button"
-          className={compact ? btnBaseCompact : btnBase}
+          className={btnIcon}
           onClick={copyLink}
           aria-label="Copiar link"
           title={copied ? "Copiado!" : "Copiar"}
           disabled={copying}
         >
           <IconLink className={iconClass} />
-          {!compact && (
-            <span>{copied ? "Copiado!" : copying ? "Copiando..." : "Copiar"}</span>
-          )}
+          <SrOnly>Copiar</SrOnly>
         </button>
 
         {typeof navigator !== "undefined" && "share" in navigator && (
           <button
             type="button"
-            className={compact ? btnBaseCompact : btnBase}
+            className={btnIcon}
             onClick={nativeShare}
             aria-label="Compartilhar (nativo)"
             title="Nativo"
           >
             <IconShare className={iconClass} />
-            {!compact && <span>Nativo</span>}
+            <SrOnly>Nativo</SrOnly>
           </button>
         )}
       </div>

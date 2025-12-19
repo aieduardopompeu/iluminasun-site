@@ -1,6 +1,5 @@
 import { useEffect, useMemo } from "react";
 import { Link } from "wouter";
-import ShareBar from "@/components/share/ShareBar";
 
 const SITE_URL = import.meta.env.VITE_SITE_URL || "https://iluminasun.com.br";
 const POST_PATH = "/blog/conta-de-luz-nao-zerou-energia-solar";
@@ -158,13 +157,6 @@ export default function ContaDeLuzNaoZerou() {
               {/* Compartilhamento (padrão do site) */}
 
               <div className="pt-2">
-              <ShareBar
-                title="..."
-                url={CANONICAL}
-                slug="..."
-                contentType="blog"
-                compact
-              />
               </div>
             </header>
 

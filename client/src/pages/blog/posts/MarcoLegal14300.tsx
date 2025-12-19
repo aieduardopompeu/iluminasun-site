@@ -1,6 +1,5 @@
 import { useEffect, useMemo } from "react";
 import { Link } from "wouter";
-import ShareBar from "@/components/share/ShareBar";
 
 const SITE_URL = import.meta.env.VITE_SITE_URL || "https://iluminasun.com.br";
 
@@ -240,12 +239,6 @@ export default function MarcoLegal14300() {
 
               {/* Compartilhamento (padrão do site) */}
               <div className="pt-2">
-                <ShareBar
-                  title="TÍTULO EXATO DO POST"
-                  url={CANONICAL}
-                  slug="slug-do-post"
-                  contentType="blog"
-                />
               </div>
             </header>
 
@@ -409,14 +402,6 @@ export default function MarcoLegal14300() {
                 </div>
 
                 <div className="mt-5">
-                  <ShareBar
-                    title={title}
-                    description="Lei 14.300 no RJ: o que muda e como evitar erro na homologação."
-                    url={CANONICAL}
-                    variant="inline"
-                    analyticsTag="blog_marco_14300_bottom"
-                    heading="Compartilhe este guia"
-                  />
                 </div>
               </div>
 
