@@ -1,3 +1,4 @@
+// client/src/pages/blog/Blog.tsx
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import SEO from "@/components/SEO";
@@ -46,19 +47,10 @@ const blogPosts: BlogPost[] = [
     image: "/blog/marco-legal-14300.webp",
     imageAlt: "Lei 14.300 (Marco Legal) e energia solar no RJ",
   },
-  {
-    id: "3",
-    title: "Marco Legal da Geração Distribuída: O Que Mudou em 2024",
-    excerpt:
-      "Análise completa do Marco Legal da Geração Distribuída (Lei 14.300/2022) e impactos para quem já tem ou pretende instalar energia solar.",
-    category: "Legislação",
-    author: "Equipe Ilumina Sun",
-    date: "05 de Dezembro, 2024",
-    readTime: "12 min",
-    slug: "marco-legal-geracao-distribuida",
-    image: "/blog/regulamentacao-aneel.webp",
-    imageAlt: "Marco legal e energia solar",
-  },
+
+  // ✅ Removido: card duplicado "Marco Legal da Geração Distribuída: O Que Mudou em 2024"
+  // (slug: "marco-legal-geracao-distribuida")
+
   {
     id: "4",
     title: "Manutenção de Painéis Solares: Guia Completo para Máxima Eficiência",
@@ -101,7 +93,7 @@ const blogPosts: BlogPost[] = [
 ];
 
 export default function Blog() {
-  const FEATURED_COUNT = 4;
+  const FEATURED_COUNT = Math.min(4, blogPosts.length);
 
   const featuredPosts: FeaturedPost[] = blogPosts.slice(0, FEATURED_COUNT).map((p) => ({
     id: p.id,
@@ -116,7 +108,7 @@ export default function Blog() {
     imageAlt: p.imageAlt,
   }));
 
-  // ✅ Mantém “Artigos Recentes” cheio como antes: mostra todos exceto o 1º (principal)
+  // Mostra todos exceto o primeiro (que já está em destaque)
   const recentPosts = blogPosts.filter((p) => p.id !== blogPosts[0]?.id);
 
   return (
@@ -124,9 +116,10 @@ export default function Blog() {
       <SEO
         title="Blog | Ilumina Sun - Notícias e Artigos sobre Energia Solar"
         description="Conteúdo educativo sobre energia solar, regulamentação (ANEEL), financiamento e novidades do setor — com foco em RJ, Niterói, São Gonçalo, Itaboraí, Tanguá, Rio Bonito e Maricá."
-        keywords="blog energia solar, ANEEL, regulamentação energia solar, financiamento solar, geração distribuída, RJ, Niterói, São Gonçalo, Itaboraí, Maricá"
+        keywords="blog energia solar, ANEEL, regulamentação energia solar, financiamento solar, geração distribuída, RJ, Niterói, São Gonçalo, Itaboraí, Tanguá, Rio Bonito, Maricá"
       />
 
+      {/* Hero */}
       <section className="bg-gradient-to-br from-primary/10 to-secondary/10 py-16 md:py-24">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center space-y-6">
@@ -138,13 +131,14 @@ export default function Blog() {
         </div>
       </section>
 
-      {/* Destaque: Carrossel (1 slide por vez) */}
+      {/* Destaque: Carrossel */}
       <section className="py-10 md:py-14">
         <div className="container">
           <FeaturedCarousel posts={featuredPosts} />
         </div>
       </section>
 
+      {/* Recentes */}
       <section className="py-16 md:py-24 bg-muted/30">
         <div className="container">
           <h2 className="text-3xl font-bold mb-8">Artigos Recentes</h2>
@@ -184,20 +178,12 @@ export default function Blog() {
         </div>
       </section>
 
+      {/* Categorias */}
       <section className="py-16 md:py-24">
         <div className="container">
           <h2 className="text-3xl font-bold mb-8 text-center">Categorias</h2>
           <div className="flex flex-wrap justify-center gap-4">
-            {[
-              "Regulamentação",
-              "Financiamento",
-              "Legislação",
-              "Manutenção",
-              "Comercial",
-              "Mercado",
-              "Residencial",
-              "Tecnologia",
-            ].map((category) => (
+            {["Regulamentação", "Financiamento", "Legislação", "Manutenção", "Comercial", "Mercado"].map((category) => (
               <Button key={category} variant="outline" size="lg">
                 {category}
               </Button>
@@ -206,6 +192,7 @@ export default function Blog() {
         </div>
       </section>
 
+      {/* Newsletter */}
       <section className="py-16 md:py-24 bg-gradient-to-br from-primary/10 to-secondary/10">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center space-y-6">
@@ -227,13 +214,12 @@ export default function Blog() {
         </div>
       </section>
 
+      {/* CTA Final */}
       <section className="py-16 md:py-24">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center space-y-6">
             <h2 className="text-3xl md:text-4xl font-bold">Pronto para Economizar com Energia Solar?</h2>
-            <p className="text-lg text-muted-foreground">
-              Faça uma simulação gratuita e descubra quanto você pode economizar
-            </p>
+            <p className="text-lg text-muted-foreground">Faça uma simulação gratuita e descubra quanto você pode economizar</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/simulador">
                 <Button size="lg" className="text-base font-semibold w-full sm:w-auto">
