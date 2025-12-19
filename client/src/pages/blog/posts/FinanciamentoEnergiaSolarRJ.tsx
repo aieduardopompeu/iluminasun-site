@@ -5,6 +5,9 @@ import ShareBar from "@/components/share/ShareBar";
 const SITE_URL = import.meta.env.VITE_SITE_URL || "https://iluminasun.com.br";
 const POST_PATH = "/blog/financiamento-energia-solar-rj";
 const CANONICAL = `${SITE_URL}${POST_PATH}`;
+const HERO_IMAGE = "/blog/financiamento-energia-solar-rj.webp";
+const HERO_ALT = "Financiamento de energia solar no RJ: parcelas, juros e aprovação.";
+const HERO_CAPTION = "Financiamento no RJ: documentos, prazos e como acelerar a aprovação.";
 const OG_IMAGE = `${SITE_URL}/blog/regulamentacao-aneel.webp`;
 
 const DATE_PUBLISHED = "2025-01-10";
@@ -167,6 +170,21 @@ export default function FinanciamentoEnergiaSolarRJ() {
                 heading=""
               />
             </header>
+            {/* Hero image */}
+            <figure className="overflow-hidden rounded-2xl border border-border bg-muted/30">
+              <img
+                src={HERO_IMAGE}
+                alt={HERO_ALT}
+                className="h-auto w-full object-cover"
+                loading="lazy"
+              />
+              {HERO_CAPTION ? (
+                <figcaption className="px-4 py-3 text-xs text-muted-foreground">
+                  {HERO_CAPTION}
+                </figcaption>
+              ) : null}
+            </figure>
+
 
             <section className="prose prose-slate max-w-none dark:prose-invert">
               <h2>O que normalmente entra no financiamento</h2>

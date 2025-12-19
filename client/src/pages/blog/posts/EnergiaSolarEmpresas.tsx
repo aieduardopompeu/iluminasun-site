@@ -5,6 +5,9 @@ import ShareBar from "@/components/share/ShareBar";
 const SITE_URL = import.meta.env.VITE_SITE_URL || "https://iluminasun.com.br";
 const POST_PATH = "/blog/energia-solar-empresas";
 const CANONICAL = `${SITE_URL}${POST_PATH}`;
+const HERO_IMAGE = "/blog/energia-solar-empresas.webp";
+const HERO_ALT = "Energia solar para empresas: como reduzir custos e aumentar competitividade.";
+const HERO_CAPTION = "Empresas: dimensionamento, demanda, perfil de consumo e payback ó RJ e regi„o.";
 const OG_IMAGE = `${SITE_URL}/blog/regulamentacao-aneel.webp`;
 
 const DATE_PUBLISHED = "2024-11-20";
@@ -132,6 +135,21 @@ export default function EnergiaSolarEmpresas() {
               heading=""
             />
             </header>
+            {/* Hero image */}
+            <figure className="overflow-hidden rounded-2xl border border-border bg-muted/30">
+              <img
+                src={HERO_IMAGE}
+                alt={HERO_ALT}
+                className="h-auto w-full object-cover"
+                loading="lazy"
+              />
+              {HERO_CAPTION ? (
+                <figcaption className="px-4 py-3 text-xs text-muted-foreground">
+                  {HERO_CAPTION}
+                </figcaption>
+              ) : null}
+            </figure>
+
 
             <section className="prose prose-slate max-w-none dark:prose-invert">
               <h2>Por que empresas est√£o migrando para solar</h2>

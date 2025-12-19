@@ -5,6 +5,9 @@ import ShareBar from "@/components/share/ShareBar";
 const SITE_URL = import.meta.env.VITE_SITE_URL || "https://iluminasun.com.br";
 const POST_PATH = "/blog/manutencao-paineis-solares";
 const CANONICAL = `${SITE_URL}${POST_PATH}`;
+const HERO_IMAGE = "/blog/manutencao-paineis-solares.webp";
+const HERO_ALT = "ManutenÁ„o de painÈis solares: checklist e boas pr·ticas.";
+const HERO_CAPTION = "ManutenÁ„o: limpeza, inspeÁ„o, sombreamento e performance  RJ e regi„o.";
 const OG_IMAGE = `${SITE_URL}/blog/regulamentacao-aneel.webp`;
 
 const DATE_PUBLISHED = "2024-11-28";
@@ -157,6 +160,21 @@ export default function ManutencaoPaineisSolares() {
               heading=""
             />
             </header>
+            {/* Hero image */}
+            <figure className="overflow-hidden rounded-2xl border border-border bg-muted/30">
+              <img
+                src={HERO_IMAGE}
+                alt={HERO_ALT}
+                className="h-auto w-full object-cover"
+                loading="lazy"
+              />
+              {HERO_CAPTION ? (
+                <figcaption className="px-4 py-3 text-xs text-muted-foreground">
+                  {HERO_CAPTION}
+                </figcaption>
+              ) : null}
+            </figure>
+
 
             <section className="prose prose-slate max-w-none dark:prose-invert">
               <h2>Por que manuten√ß√£o importa</h2>

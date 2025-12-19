@@ -10,6 +10,9 @@ const POST_PATH = `/blog/${POST_SLUG}`;
 
 const CANONICAL = `${SITE_URL}${POST_PATH}`;
 
+const HERO_IMAGE = "/blog/tendencias-mercado-solar-2026.webp";
+const HERO_ALT = "Tendências do mercado solar em 2026: preços, eficiência, baterias e regulação.";
+const HERO_CAPTION = "Tendências 2026: eficiência, baterias, inversores, regulação e oportunidades no RJ e região.";
 // âœ… Ideal: use uma imagem prÃ³pria do post (crie depois se quiser)
 // Se nÃ£o tiver ainda, pode reaproveitar provisoriamente.
 // Troque para: `${SITE_URL}/blog/tendencias-mercado-solar-2026.webp`
@@ -148,6 +151,21 @@ export default function TendenciasMercadoSolar2026() {
                 />
               </div>
             </header>
+            {/* Hero image */}
+            <figure className="overflow-hidden rounded-2xl border border-border bg-muted/30">
+              <img
+                src={HERO_IMAGE}
+                alt={HERO_ALT}
+                className="h-auto w-full object-cover"
+                loading="lazy"
+              />
+              {HERO_CAPTION ? (
+                <figcaption className="px-4 py-3 text-xs text-muted-foreground">
+                  {HERO_CAPTION}
+                </figcaption>
+              ) : null}
+            </figure>
+
 
             <section className="prose prose-slate max-w-none dark:prose-invert">
               <h2>1) Equipamentos mais eficientes e compactos</h2>
