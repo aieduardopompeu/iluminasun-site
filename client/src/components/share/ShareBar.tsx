@@ -3,16 +3,28 @@
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
-type ShareBarProps = {
+export type ShareBarVariant = "inline" | "block";
+
+export type ShareBarProps = {
   title: string;
+
   /** Pode ser absoluto ou relativo. Se não passar, usa window.location.href */
   url?: string;
+
   /** Opcional (para tracking) */
   slug?: string;
+
   /** Opcional (para tracking) */
   contentType?: "blog" | "page" | "kit";
+
   className?: string;
   compact?: boolean;
+
+  // ✅ Props extras (para compatibilidade com o que você tentou usar)
+  heading?: string;
+  description?: string;
+  variant?: ShareBarVariant;
+  analyticsTag?: string;
 };
 
 type SharePlatform =
@@ -123,6 +135,10 @@ export default function ShareBar({
   contentType = "blog",
   className,
   compact = false,
+  heading,
+  description,
+  variant = "inline",
+  analyticsTag,
 }: ShareBarProps) {
   const absUrl = useMemo(() => toAbsoluteUrl(url), [url]);
   const [copying, setCopying] = useState(false);
@@ -135,6 +151,7 @@ export default function ShareBar({
       content_type: contentType,
       content_slug: slug,
       content_title: title,
+      analytics_tag: analyticsTag,
     });
   };
 
@@ -150,7 +167,7 @@ export default function ShareBar({
       track("native");
       await navigator.share({ title, text: title, url: absUrl });
     } catch {
-      // cancelado/bloqueado — ok
+      // ok
     }
   };
 
@@ -173,11 +190,16 @@ export default function ShareBar({
 
   return (
     <div className={className}>
+      {(heading || description) && (
+        <div className={variant === "block" ? "mb-3" : "mb-2"}>
+          {heading && <div className="text-sm font-semibold">{heading}</div>}
+          {description && <div className="text-xs text-muted-foreground">{description}</div>}
+        </div>
+      )}
+
       <div className="flex flex-wrap items-center gap-2">
-        {!compact && (
-          <div className="mr-1 text-sm font-semibold text-foreground">
-            Compartilhar:
-          </div>
+        {!compact && !heading && (
+          <div className="mr-1 text-sm font-semibold text-foreground">Compartilhar:</div>
         )}
 
         <button type="button" className={btnBase} onClick={() => openShare("whatsapp")} aria-label="Compartilhar no WhatsApp">

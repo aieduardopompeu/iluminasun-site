@@ -286,6 +286,16 @@ export default function RegulamentacaoAneel() {
                   </a>
                 </Link>
               </div>
+
+              {/* Compartilhamento (padrão do site) */}
+              <div className="pt-2">
+                <ShareBar
+                  title="TÍTULO EXATO DO POST"
+                  url={CANONICAL}
+                  slug="slug-do-post"
+                  contentType="blog"
+                />
+              </div>
             </header>
 
             {/* Corpo */}

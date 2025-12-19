@@ -238,13 +238,15 @@ export default function MarcoLegal14300() {
                 </Link>
               </div>
 
-              <ShareBar
-                title={title}
-                description="Guia prático sobre a Lei 14.300, SCEE/créditos e homologação no RJ e Região."
-                url={CANONICAL}
-                variant="card"
-                analyticsTag="blog_marco_14300"
-              />
+              {/* Compartilhamento (padrão do site) */}
+              <div className="pt-2">
+                <ShareBar
+                  title="TÍTULO EXATO DO POST"
+                  url={CANONICAL}
+                  slug="slug-do-post"
+                  contentType="blog"
+                />
+              </div>
             </header>
 
             <div className="prose prose-slate mt-10 max-w-none dark:prose-invert">

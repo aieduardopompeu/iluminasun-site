@@ -1,5 +1,6 @@
 import { useEffect, useMemo } from "react";
 import { Link } from "wouter";
+import ShareBar from "@/components/share/ShareBar";
 
 const SITE_URL = import.meta.env.VITE_SITE_URL || "https://iluminasun.com.br";
 const POST_PATH = "/blog/tendencias-mercado-solar-2026";
@@ -114,6 +115,16 @@ export default function TendenciasMercadoSolar2026() {
                 <span>15 de Novembro, 2025</span>
                 <span>•</span>
                 <span>9–11 min</span>
+              </div>
+
+              {/* Compartilhamento (padrão do site) */}
+              <div className="pt-2">
+                <ShareBar
+                  title="TÍTULO EXATO DO POST"
+                  url={CANONICAL}
+                  slug="slug-do-post"
+                  contentType="blog"
+                />
               </div>
             </header>
 
