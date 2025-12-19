@@ -52,53 +52,41 @@ export const blogPosts: BlogPost[] = [
     published: true,
     featuredRank: 2,
   },
+
+  // ✅ Manutenção (único)
   {
-  id: "4",
-  title: "Manutenção de Painéis Solares: Guia Completo para Máxima Eficiência",
-  excerpt:
-    "Aprenda como realizar a manutenção correta do seu sistema fotovoltaico para garantir máxima geração e prolongar a vida útil.",
-  category: "Manutenção",
-  author: "Equipe Ilumina Sun",
-  dateISO: "2024-11-28",
-  dateLabel: "28 de Novembro, 2024",
-  readTime: "6 min",
-  slug: "manutencao-paineis-solares",
-  image: "/blog/regulamentacao-aneel.webp",
-  imageAlt: "Manutenção de painéis solares",
-  published: true,
-  },
-  {
-  id: "4",
-  title: "Manutenção de Painéis Solares: Guia Completo para Máxima Eficiência",
-  excerpt:
-    "Aprenda como realizar a manutenção correta do seu sistema fotovoltaico para garantir máxima geração e prolongar a vida útil.",
-  category: "Manutenção",
-  author: "Equipe Ilumina Sun",
-  dateISO: "2024-11-28",
-  dateLabel: "28 de Novembro, 2024",
-  readTime: "6 min",
-  slug: "manutencao-paineis-solares",
-  image: "/blog/regulamentacao-aneel.webp",
-  imageAlt: "Manutenção de painéis solares",
-  published: true,
-  },
-  {
-  id: "5",
-  title: "Energia Solar para Empresas: Como Reduzir Custos Operacionais",
-  excerpt:
-    "Descubra como empresas de todos os portes estão economizando com energia solar e melhorando competitividade.",
-  category: "Comercial",
-  author: "Equipe Ilumina Sun",
-  dateISO: "2024-11-20",
-  dateLabel: "20 de Novembro, 2024",
-  readTime: "7 min",
-  slug: "energia-solar-empresas",
-  image: "/blog/regulamentacao-aneel.webp",
-  imageAlt: "Energia solar para empresas",
-  published: true,
+    id: "4",
+    title: "Manutenção de Painéis Solares: Guia Completo para Máxima Eficiência",
+    excerpt:
+      "Aprenda como realizar a manutenção correta do seu sistema fotovoltaico para garantir máxima geração e prolongar a vida útil.",
+    category: "Manutenção",
+    author: "Equipe Ilumina Sun",
+    dateISO: "2024-11-28",
+    dateLabel: "28 de Novembro, 2024",
+    readTime: "6 min",
+    slug: "manutencao-paineis-solares",
+    image: "/blog/regulamentacao-aneel.webp",
+    imageAlt: "Manutenção de painéis solares",
+    published: true,
   },
 
-  // ✅ NOVO (1): Financiamento
+  {
+    id: "5",
+    title: "Energia Solar para Empresas: Como Reduzir Custos Operacionais",
+    excerpt:
+      "Descubra como empresas de todos os portes estão economizando com energia solar e melhorando competitividade.",
+    category: "Comercial",
+    author: "Equipe Ilumina Sun",
+    dateISO: "2024-11-20",
+    dateLabel: "20 de Novembro, 2024",
+    readTime: "7 min",
+    slug: "energia-solar-empresas",
+    image: "/blog/regulamentacao-aneel.webp",
+    imageAlt: "Energia solar para empresas",
+    published: true,
+  },
+
+  // ✅ Financiamento
   {
     id: "7",
     title: "Financiamento de Energia Solar no RJ: Parcelas, Juros e Como Aprovar Mais Rápido",
@@ -115,7 +103,7 @@ export const blogPosts: BlogPost[] = [
     published: true,
   },
 
-  // ✅ NOVO (2): Conta não zerou
+  // ✅ Conta não zerou
   {
     id: "8",
     title: "Conta de Luz Não Zerou com Energia Solar? Entenda Mínimos, Taxas e Compensação no RJ",
@@ -129,6 +117,23 @@ export const blogPosts: BlogPost[] = [
     slug: "conta-de-luz-nao-zerou-energia-solar",
     image: "/blog/regulamentacao-aneel.webp",
     imageAlt: "Conta de luz e compensação com energia solar no RJ",
+    published: true,
+  },
+
+  // ✅ Tendências 2026 (NOVO) — para aparecer no Blog
+  {
+    id: "9",
+    title: "Tendências do Mercado Solar em 2026: O Que Esperar",
+    excerpt:
+      "Principais tendências para 2026 no setor solar: eficiência, baterias, inversores, precificação, regulação e oportunidades no RJ e Região.",
+    category: "Mercado",
+    author: "Equipe Ilumina Sun",
+    dateISO: "2025-11-15",
+    dateLabel: "15 de Novembro, 2025",
+    readTime: "9–11 min",
+    slug: "tendencias-mercado-solar-2026",
+    image: "/blog/tendencias-mercado-solar-2026.webp",
+    imageAlt: "Tendências do mercado solar 2026",
     published: true,
   },
 ];

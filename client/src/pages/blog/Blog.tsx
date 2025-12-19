@@ -11,8 +11,33 @@ function byDateDesc(a: BlogPost, b: BlogPost) {
   return new Date(b.dateISO).getTime() - new Date(a.dateISO).getTime();
 }
 
+/**
+ * Remove duplicados de forma determinística.
+ * - Prioriza o item mais recente (por isso chamamos após sort byDateDesc)
+ * - Chave principal: slug
+ * - Fallback: id
+ */
+function dedupeBySlugOrId(posts: BlogPost[]) {
+  const seen = new Set<string>();
+  const out: BlogPost[] = [];
+
+  for (const p of posts) {
+    const key = (p.slug && String(p.slug).trim()) || String(p.id);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(p);
+  }
+
+  return out;
+}
+
 export default function Blog() {
-  const published = blogPosts.filter((p) => p.published);
+  // mantém o filtro de publicados como está hoje :contentReference[oaicite:1]{index=1}
+  const publishedRaw = blogPosts.filter((p) => p.published);
+
+  // 1) ordena por data (mais recente primeiro)
+  // 2) remove duplicados por slug (fallback id)
+  const published = dedupeBySlugOrId([...publishedRaw].sort(byDateDesc));
 
   // -----------------------------
   // CARROSSEL "BLINDADO"
@@ -21,11 +46,11 @@ export default function Blog() {
   // -----------------------------
   const rankedFeatured = published
     .filter((p) => typeof p.featuredRank === "number")
-    .sort((a, b) => (a.featuredRank! - b.featuredRank!));
+    .sort((a, b) => a.featuredRank! - b.featuredRank!);
 
   const rankedIds = new Set(rankedFeatured.map((p) => p.id));
 
-  const recentPool = [...published].sort(byDateDesc).filter((p) => !rankedIds.has(p.id));
+  const recentPool = published.filter((p) => !rankedIds.has(p.id));
 
   const featured = [...rankedFeatured, ...recentPool].slice(0, 4);
 
@@ -48,9 +73,9 @@ export default function Blog() {
   // -----------------------------
   const primaryFeaturedId = featured[0]?.id;
 
-  const recentPosts = [...published]
-    .sort(byDateDesc)
-    .filter((p) => p.id !== primaryFeaturedId);
+  const recentPosts = published
+    .filter((p) => p.id !== primaryFeaturedId)
+    .sort(byDateDesc);
 
   return (
     <div className="flex flex-col">
@@ -133,7 +158,9 @@ export default function Blog() {
         <div className="container">
           <div className="max-w-3xl mx-auto text-center space-y-6">
             <h2 className="text-3xl md:text-4xl font-bold">Pronto para Economizar com Energia Solar?</h2>
-            <p className="text-lg text-muted-foreground">Faça uma simulação gratuita e descubra quanto você pode economizar</p>
+            <p className="text-lg text-muted-foreground">
+              Faça uma simulação gratuita e descubra quanto você pode economizar
+            </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/simulador">
                 <Button size="lg" className="text-base font-semibold w-full sm:w-auto">

@@ -3,9 +3,17 @@ import { Link } from "wouter";
 import ShareBar from "@/components/share/ShareBar";
 
 const SITE_URL = import.meta.env.VITE_SITE_URL || "https://iluminasun.com.br";
-const POST_PATH = "/blog/tendencias-mercado-solar-2026";
+
+// ✅ SLUG oficial do post (use este mesmo no blogPosts e na rota)
+const POST_SLUG = "tendencias-mercado-solar-2026";
+const POST_PATH = `/blog/${POST_SLUG}`;
+
 const CANONICAL = `${SITE_URL}${POST_PATH}`;
-const OG_IMAGE = `${SITE_URL}/blog/regulamentacao-aneel.webp`;
+
+// ✅ Ideal: use uma imagem própria do post (crie depois se quiser)
+// Se não tiver ainda, pode reaproveitar provisoriamente.
+// Troque para: `${SITE_URL}/blog/tendencias-mercado-solar-2026.webp`
+const OG_IMAGE = `${SITE_URL}/blog/tendencias-mercado-solar-2026.webp`;
 
 const DATE_PUBLISHED = "2025-11-15";
 const DATE_MODIFIED = "2025-11-15";
@@ -33,6 +41,7 @@ function upsertLink(rel: string, href: string) {
 export default function TendenciasMercadoSolar2026() {
   const pageTitle =
     "Tendências do Mercado Solar em 2026: O Que Esperar | Ilumina Sun";
+
   const description =
     "Principais tendências para 2026 no setor solar: preço de equipamentos, eficiência, armazenamento (baterias), inversores, regulação e oportunidades para residencial, comercial e industrial no RJ e região.";
 
@@ -88,12 +97,20 @@ export default function TendenciasMercadoSolar2026() {
 
   return (
     <main className="min-h-screen bg-background text-foreground">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
 
       <div className="mx-auto w-full max-w-6xl px-4 pt-24 pb-16 md:px-6 lg:px-0">
         <div className="mb-6 flex items-center gap-2 text-sm text-muted-foreground">
-          <Link href="/blog"><a className="hover:text-primary">Blog</a></Link>
+          <Link href="/blog">
+            <a className="hover:text-primary">Blog</a>
+          </Link>
           <span>•</span>
           <span className="truncate">Mercado</span>
         </div>
@@ -104,9 +121,11 @@ export default function TendenciasMercadoSolar2026() {
               <div className="inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
                 Mercado
               </div>
+
               <h1 className="text-3xl font-bold leading-tight md:text-4xl">
                 Tendências do Mercado Solar em 2026: O Que Esperar
               </h1>
+
               <p className="text-base text-muted-foreground md:text-lg">{description}</p>
 
               <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
@@ -117,18 +136,17 @@ export default function TendenciasMercadoSolar2026() {
                 <span>9–11 min</span>
               </div>
 
-              {/* Compartilhamento (padrão do site) */}
+              {/* ✅ Compartilhamento (padrão do site) */}
               <div className="pt-2">
+                <ShareBar
+                  title="Tendências do Mercado Solar em 2026: O Que Esperar"
+                  url={CANONICAL}
+                  slug={POST_SLUG}
+                  contentType="blog"
+                  heading=""
+                  compact
+                />
               </div>
-              <div className="pt-2">
-              <ShareBar
-                title="(cole aqui o título do post)"
-                url={CANONICAL}
-                slug="(cole aqui o slug do post)"
-                contentType="blog"
-                heading=""
-              />
-            </div>
             </header>
 
             <section className="prose prose-slate max-w-none dark:prose-invert">
@@ -154,8 +172,8 @@ export default function TendenciasMercadoSolar2026() {
               <h2>RJ e Região</h2>
               <p>
                 Para projetos no <strong>Rio de Janeiro</strong>, <strong>Niterói</strong>, <strong>São Gonçalo</strong>,{" "}
-                <strong>Itaboraí</strong> e <strong>Maricá</strong>, a melhor estratégia é combinar dimensionamento técnico + hábitos de consumo,
-                considerando as regras atuais de compensação.
+                <strong>Itaboraí</strong> e <strong>Maricá</strong>, a melhor estratégia é combinar dimensionamento técnico + hábitos
+                de consumo, considerando as regras atuais de compensação.
               </p>
             </section>
 
@@ -183,10 +201,18 @@ export default function TendenciasMercadoSolar2026() {
             <div className="rounded-2xl border border-border bg-background p-5">
               <div className="text-sm font-semibold">Relacionados</div>
               <div className="mt-3 flex flex-col gap-2 text-sm">
-                <Link href="/blog/financiamento-energia-solar-rj"><a className="hover:text-primary">Financiamento no RJ</a></Link>
-                <Link href="/blog/energia-solar-empresas"><a className="hover:text-primary">Energia Solar para Empresas</a></Link>
-                <Link href="/blog/marco-legal-lei-14300-energia-solar-rj"><a className="hover:text-primary">Lei 14.300 (Marco Legal)</a></Link>
-                <Link href="/servicos"><a className="hover:text-primary">Serviços</a></Link>
+                <Link href="/blog/financiamento-energia-solar-rj">
+                  <a className="hover:text-primary">Financiamento no RJ</a>
+                </Link>
+                <Link href="/blog/energia-solar-empresas">
+                  <a className="hover:text-primary">Energia Solar para Empresas</a>
+                </Link>
+                <Link href="/blog/marco-legal-lei-14300-energia-solar-rj">
+                  <a className="hover:text-primary">Lei 14.300 (Marco Legal)</a>
+                </Link>
+                <Link href="/servicos">
+                  <a className="hover:text-primary">Serviços</a>
+                </Link>
               </div>
             </div>
           </aside>
