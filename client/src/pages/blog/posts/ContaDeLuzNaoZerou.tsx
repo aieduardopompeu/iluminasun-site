@@ -2,29 +2,20 @@ import { useEffect, useMemo } from "react";
 import { Link } from "wouter";
 import ShareBar from "@/components/share/ShareBar";
 
-const HERO_IMAGE = "/blog/ARQUIVO.webp";
-const HERO_ALT = "Descrição curta da imagem";
-const HERO_CAPTION = "Legenda curta (opcional)";
-
-{/* Hero image */}
-<figure className="overflow-hidden rounded-2xl border border-border bg-muted/30">
-  <img
-    src={HERO_IMAGE}
-    alt={HERO_ALT}
-    className="h-auto w-full object-cover"
-    loading="lazy"
-  />
-  {HERO_CAPTION ? (
-    <figcaption className="px-4 py-3 text-xs text-muted-foreground">
-      {HERO_CAPTION}
-    </figcaption>
-  ) : null}
-</figure>
-
 const SITE_URL = import.meta.env.VITE_SITE_URL || "https://iluminasun.com.br";
-const POST_PATH = "/blog/conta-de-luz-nao-zerou-energia-solar";
+
+const POST_SLUG = "conta-de-luz-nao-zerou-energia-solar";
+const POST_PATH = `/blog/${POST_SLUG}`;
 const CANONICAL = `${SITE_URL}${POST_PATH}`;
-const OG_IMAGE = `${SITE_URL}/blog/regulamentacao-aneel.webp`;
+
+// ✅ Imagem do HERO (você já tem no public/blog)
+const HERO_IMAGE = "/blog/conta-de-luz-nao-zerou.webp";
+const HERO_ALT = "Conta de luz e compensação: o que pode impedir a fatura de zerar com energia solar no RJ.";
+const HERO_CAPTION =
+  "Conta de luz com energia solar: custo mínimo, itens tarifários e regras de compensação — visão prática para o RJ e região.";
+
+// ✅ OG/Twitter: pode usar o mesmo arquivo do HERO para ficar consistente
+const OG_IMAGE = `${SITE_URL}${HERO_IMAGE}`;
 
 const DATE_PUBLISHED = "2025-01-07";
 const DATE_MODIFIED = "2025-01-07";
@@ -163,7 +154,11 @@ export default function ContaDeLuzNaoZerou() {
               <div className="inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
                 Regulamentação
               </div>
-              <h1 className="text-3xl font-bold leading-tight md:text-4xl">{title.replace(" | Ilumina Sun", "")}</h1>
+
+              <h1 className="text-3xl font-bold leading-tight md:text-4xl">
+                Conta de Luz Não Zerou com Energia Solar? Entenda Mínimos, Taxas e Compensação no RJ
+              </h1>
+
               <p className="text-base text-muted-foreground md:text-lg">{description}</p>
 
               <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
@@ -173,28 +168,46 @@ export default function ContaDeLuzNaoZerou() {
                 <span>•</span>
                 <span>7–10 min</span>
               </div>
-              
-              {/* Compartilhamento (padrão do site) */}
 
+              {/* Compartilhamento */}
               <div className="pt-2">
+                <ShareBar title={title.replace(" | Ilumina Sun", "")} url={CANONICAL} slug={POST_SLUG} contentType="blog" heading="" compact />
               </div>
-              <ShareBar
-              title="Conta de Luz Não Zerou com Energia Solar? Entenda Mínimos, Taxas e Compensação no RJ"
-              url={CANONICAL}
-              slug="(cole aqui o slug do post)"
-              contentType="blog"
-              heading=""
-            />
             </header>
+
+            {/* ✅ Hero image (agora no lugar certo) */}
+            <figure className="overflow-hidden rounded-2xl border border-border bg-muted/30">
+              <img
+                src={HERO_IMAGE}
+                alt={HERO_ALT}
+                className="h-auto w-full object-cover"
+                loading="lazy"
+              />
+              {HERO_CAPTION ? (
+                <figcaption className="px-4 py-3 text-xs text-muted-foreground">
+                  {HERO_CAPTION}
+                </figcaption>
+              ) : null}
+            </figure>
 
             <section className="prose prose-slate max-w-none dark:prose-invert">
               <h2>Os 5 motivos mais comuns</h2>
               <ol>
-                <li><strong>Custo mínimo</strong> (ainda existe mesmo com créditos)</li>
-                <li><strong>Itens tarifários</strong> que podem não ser abatidos integralmente</li>
-                <li><strong>Consumo noturno alto</strong> e pouco consumo diurno</li>
-                <li><strong>Dimensionamento</strong> abaixo do necessário (kWh x geração)</li>
-                <li><strong>Sombreamento, sujeira e manutenção</strong> reduzindo geração</li>
+                <li>
+                  <strong>Custo mínimo</strong> (ainda existe mesmo com créditos)
+                </li>
+                <li>
+                  <strong>Itens tarifários</strong> que podem não ser abatidos integralmente
+                </li>
+                <li>
+                  <strong>Consumo noturno alto</strong> e pouco consumo diurno
+                </li>
+                <li>
+                  <strong>Dimensionamento</strong> abaixo do necessário (kWh x geração)
+                </li>
+                <li>
+                  <strong>Sombreamento, sujeira e manutenção</strong> reduzindo geração
+                </li>
               </ol>
 
               <h2>Como identificar no seu caso</h2>
