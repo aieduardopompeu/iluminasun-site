@@ -3,14 +3,11 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
 import { useEffect } from "react";
 import { Route, Switch, useLocation } from "wouter";
-
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import WhatsAppButton from "./components/WhatsAppButton";
-import CookieBanner from "./components/CookieBanner";
-
 import Home from "./pages/Home";
 import QuemSomos from "./pages/QuemSomos";
 import Servicos from "./pages/Servicos";
@@ -18,20 +15,23 @@ import Simulador from "./pages/Simulador";
 import Portfolio from "./pages/Portfolio";
 import Vantagens from "./pages/Vantagens";
 import Contato from "./pages/Contato";
-
+import Blog from "./pages/blog/Blog";
 import KitSolar from "./pages/KitSolar";
 import KitSolarDetail from "./pages/KitSolarDetail";
-
-import Blog from "./pages/blog/Blog";
-import RegulamentacaoAneel from "./pages/blog/posts/RegulamentacaoAneel";
-import MarcoLegal14300 from "./pages/blog/posts/MarcoLegal14300";
-import FinanciamentoEnergiaSolarRJ from "./pages/blog/posts/FinanciamentoEnergiaSolarRJ";
-import ContaDeLuzNaoZerou from "./pages/blog/posts/ContaDeLuzNaoZerou";
-
+import CookieBanner from "./components/CookieBanner";
 import TermosDeUso from "./pages/TermosDeUso";
 import PoliticaDePrivacidade from "./pages/PoliticaDePrivacidade";
 import PoliticaDeCookies from "./pages/PoliticaDeCookies";
 import LGPDPage from "./pages/LGPD";
+
+// Posts
+import RegulamentacaoAneel from "./pages/blog/posts/RegulamentacaoAneel";
+import MarcoLegal14300 from "./pages/blog/posts/MarcoLegal14300";
+import FinanciamentoEnergiaSolarRJ from "./pages/blog/posts/FinanciamentoEnergiaSolarRJ";
+import ContaDeLuzNaoZerou from "./pages/blog/posts/ContaDeLuzNaoZerou";
+import ManutencaoPaineisSolares from "./pages/blog/posts/ManutencaoPaineisSolares";
+import EnergiaSolarEmpresas from "./pages/blog/posts/EnergiaSolarEmpresas";
+import TendenciasMercadoSolar2026 from "./pages/blog/posts/TendenciasMercadoSolar2026";
 
 declare global {
   interface Window {
@@ -49,6 +49,7 @@ function pushDataLayer(event: Record<string, any>) {
 function Router() {
   const [location] = useLocation();
 
+  // SPA pageview: dispara em toda mudança de rota (inclui carregamento inicial).
   useEffect(() => {
     pushDataLayer({
       event: "page_view",
@@ -63,7 +64,6 @@ function Router() {
       <main className="flex-1">
         <Switch>
           <Route path={"/"} component={Home} />
-
           <Route path={"/quem-somos"} component={QuemSomos} />
           <Route path={"/servicos"} component={Servicos} />
           <Route path={"/portfolio"} component={Portfolio} />
@@ -71,28 +71,34 @@ function Router() {
           <Route path={"/simulador"} component={Simulador} />
           <Route path={"/contato"} component={Contato} />
 
-          {/* Post antes do /blog */}
+          {/* Blog posts */}
           <Route path={"/blog/regulamentacao-aneel-energia-solar"} component={RegulamentacaoAneel} />
           <Route path={"/blog/marco-legal-lei-14300-energia-solar-rj"} component={MarcoLegal14300} />
-          <Route path={"/blog"} component={Blog} />
           <Route path={"/blog/financiamento-energia-solar-rj"} component={FinanciamentoEnergiaSolarRJ} />
           <Route path={"/blog/conta-de-luz-nao-zerou-energia-solar"} component={ContaDeLuzNaoZerou} />
+          <Route path={"/blog/manutencao-paineis-solares"} component={ManutencaoPaineisSolares} />
+          <Route path={"/blog/energia-solar-empresas"} component={EnergiaSolarEmpresas} />
+          <Route path={"/blog/tendencias-mercado-solar-2026"} component={TendenciasMercadoSolar2026} />
 
+          {/* (Opcional) compatibilidade se alguém tiver acessado o slug antigo */}
+          <Route path={"/blog/tendencias-mercado-solar-2025"} component={TendenciasMercadoSolar2026} />
+
+          <Route path={"/blog"} component={Blog} />
+
+          {/* Site */}
           <Route path={"/kit-solar"} component={KitSolar} />
-          <Route path={"/kit-solar/:slug"} component={KitSolarDetail} />
-
           <Route path={"/termos-de-uso"} component={TermosDeUso} />
           <Route path={"/politica-de-privacidade"} component={PoliticaDePrivacidade} />
           <Route path={"/politica-de-cookies"} component={PoliticaDeCookies} />
+          <Route path={"/kit-solar/:slug"} component={KitSolarDetail} />
+          <Route path={"/404"} component={NotFound} />
           <Route path={"/lgpd"} component={LGPDPage} />
 
-          <Route path={"/404"} component={NotFound} />
+          {/* Final fallback route */}
           <Route component={NotFound} />
         </Switch>
       </main>
-
       <Footer />
-
       <WhatsAppButton
         phoneNumber="5521966084093"
         message="Olá! Gostaria de saber mais sobre energia solar e receber um orçamento."
@@ -101,7 +107,7 @@ function Router() {
   );
 }
 
-export default function App() {
+function App() {
   return (
     <ErrorBoundary>
       <ThemeProvider defaultTheme="light">
@@ -114,3 +120,5 @@ export default function App() {
     </ErrorBoundary>
   );
 }
+
+export default App;
