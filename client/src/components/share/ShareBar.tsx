@@ -150,7 +150,7 @@ export default function ShareBar({
       track("native");
       await navigator.share({ title, text: title, url: absUrl });
     } catch {
-      // usuário cancelou ou navegador bloqueou — ok
+      // cancelado/bloqueado — ok
     }
   };
 
@@ -175,7 +175,9 @@ export default function ShareBar({
     <div className={className}>
       <div className="flex flex-wrap items-center gap-2">
         {!compact && (
-          <div className="mr-1 text-sm font-semibold text-foreground">Compartilhar:</div>
+          <div className="mr-1 text-sm font-semibold text-foreground">
+            Compartilhar:
+          </div>
         )}
 
         <button type="button" className={btnBase} onClick={() => openShare("whatsapp")} aria-label="Compartilhar no WhatsApp">
@@ -205,24 +207,11 @@ export default function ShareBar({
           </button>
         )}
 
-        <button
-          type="button"
-          className={btnBase}
-          onClick={() => openShare("email")}
-          aria-label="Compartilhar por e-mail"
-          title="Compartilhar por e-mail"
-        >
+        <button type="button" className={btnBase} onClick={() => openShare("email")} aria-label="Compartilhar por e-mail" title="Compartilhar por e-mail">
           ✉️ {!compact && "E-mail"}
         </button>
 
-        <button
-          type="button"
-          className={btnBase}
-          onClick={copyLink}
-          aria-label="Copiar link"
-          title="Copiar link"
-          disabled={copying}
-        >
+        <button type="button" className={btnBase} onClick={copyLink} aria-label="Copiar link" title="Copiar link" disabled={copying}>
           <IconLink className={iconClass} />
           {!compact && (copying ? "Copiando..." : "Copiar")}
         </button>
