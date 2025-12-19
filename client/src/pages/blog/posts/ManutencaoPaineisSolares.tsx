@@ -1,5 +1,6 @@
 import { useEffect, useMemo } from "react";
 import { Link } from "wouter";
+import ShareBar from "@/components/share/ShareBar";
 
 const SITE_URL = import.meta.env.VITE_SITE_URL || "https://iluminasun.com.br";
 const POST_PATH = "/blog/manutencao-paineis-solares";
@@ -148,6 +149,13 @@ export default function ManutencaoPaineisSolares() {
               {/* Compartilhamento (padrão do site) */}
               <div className="pt-2">
               </div>
+              <ShareBar
+              title="(cole aqui o título do post)"
+              url={CANONICAL}
+              slug="(cole aqui o slug do post)"
+              contentType="blog"
+              heading=""
+            />
             </header>
 
             <section className="prose prose-slate max-w-none dark:prose-invert">

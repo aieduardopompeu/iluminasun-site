@@ -3,6 +3,7 @@
 
 import { useEffect, useMemo } from "react";
 import { Link } from "wouter";
+import ShareBar from "@/components/share/ShareBar";
 
 const SITE_URL = import.meta.env.VITE_SITE_URL || "https://www.iluminasun.com.br";
 
@@ -112,6 +113,23 @@ export default function PostTemplate() {
               <span>•</span>
               <span>{READING_TIME}</span>
             </div>
+            <div className="pt-2">
+            <ShareBar
+              title={POST_TITLE}
+              url={CANONICAL}
+              slug={POST_SLUG}
+              contentType="blog"
+              compact
+              heading=""
+            />
+          </div>
+          <ShareBar
+            title="(cole aqui o título do post)"
+            url={CANONICAL}
+            slug="(cole aqui o slug do post)"
+            contentType="blog"
+            heading=""
+          />
           </header>
 
           <section className="prose prose-slate max-w-none dark:prose-invert">

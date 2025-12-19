@@ -71,10 +71,10 @@ export default function ShareBar({
       if (typeof window !== "undefined" && typeof window.gtag === "function") {
         // @ts-ignore
         window.gtag("event", eventName, {
-          content_type: contentType,
-          item_id: itemId,
-          ...(extra ?? {}), // ✅ FIX: era ".extra"
-        });
+        content_type: contentType,
+        item_id: itemId,
+        ...(extra ?? {}),
+      });
       }
     } catch {
       // noop

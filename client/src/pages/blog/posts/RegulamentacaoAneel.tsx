@@ -1,5 +1,6 @@
 import { useEffect, useMemo } from "react";
 import { Link } from "wouter";
+import ShareBar from "@/components/share/ShareBar";
 
 const SITE_URL = import.meta.env.VITE_SITE_URL || "https://iluminasun.com.br";
 
@@ -283,6 +284,15 @@ export default function RegulamentacaoAneel() {
               {/* Compartilhamento (padrão do site) */}
               <div className="pt-2">
               </div>
+              <div className="pt-2">
+              <ShareBar
+                title="(cole aqui o título do post)"
+                url={CANONICAL}
+                slug="(cole aqui o slug do post)"
+                contentType="blog"
+                heading=""
+              />
+            </div>
             </header>
 
             {/* Corpo */}

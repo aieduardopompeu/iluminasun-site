@@ -1,5 +1,6 @@
 import { useEffect, useMemo } from "react";
 import { Link } from "wouter";
+import ShareBar from "@/components/share/ShareBar";
 
 const SITE_URL = import.meta.env.VITE_SITE_URL || "https://iluminasun.com.br";
 
@@ -240,6 +241,13 @@ export default function MarcoLegal14300() {
               {/* Compartilhamento (padrão do site) */}
               <div className="pt-2">
               </div>
+              <ShareBar
+                title="(cole aqui o título do post)"
+                url={CANONICAL}
+                slug="(cole aqui o slug do post)"
+                contentType="blog"
+                heading=""
+              />
             </header>
 
             <div className="prose prose-slate mt-10 max-w-none dark:prose-invert">
