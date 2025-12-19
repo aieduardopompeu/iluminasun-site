@@ -5,9 +5,7 @@ export type BlogPost = {
   category: string;
   author: string;
 
-  /** Data real para ordenação (ISO) */
   dateISO: string;
-  /** Texto exibido */
   dateLabel: string;
 
   readTime: string;
@@ -16,9 +14,7 @@ export type BlogPost = {
   image?: string;
   imageAlt?: string;
 
-  /** Controle editorial */
   published: boolean;
-  /** Se definido, entra como candidato a destaque (menor = mais prioritário) */
   featuredRank?: number;
 };
 
@@ -70,7 +66,6 @@ export const blogPosts: BlogPost[] = [
     image: "/blog/regulamentacao-aneel.webp",
     imageAlt: "Manutenção de painéis solares",
     published: true,
-    // featuredRank opcional (se quiser no carrossel)
   },
   {
     id: "5",
@@ -86,6 +81,7 @@ export const blogPosts: BlogPost[] = [
     image: "/blog/regulamentacao-aneel.webp",
     imageAlt: "Energia solar para empresas",
     published: true,
+    featuredRank: 3,
   },
   {
     id: "6",
@@ -101,21 +97,40 @@ export const blogPosts: BlogPost[] = [
     image: "/blog/regulamentacao-aneel.webp",
     imageAlt: "Tendências do mercado de energia solar",
     published: true,
+    featuredRank: 4,
   },
 
-  // Modelo para rascunho (não aparece no site)
-  // {
-  //   id: "7",
-  //   title: "Conta de luz não zerou: entenda mínimos, compensação e cobranças",
-  //   excerpt: "Por que a conta não zera mesmo com solar? Explicação simples e prática para RJ e Região.",
-  //   category: "Financiamento",
-  //   author: "Equipe Ilumina Sun",
-  //   dateISO: "2025-12-30",
-  //   dateLabel: "30 de Dezembro, 2025",
-  //   readTime: "8–10 min",
-  //   slug: "conta-de-luz-nao-zerou-energia-solar",
-  //   image: "/blog/conta-nao-zerou.webp",
-  //   imageAlt: "Conta de luz e energia solar",
-  //   published: false,
-  // }
+  // ✅ NOVO (1): Financiamento
+  {
+    id: "7",
+    title: "Financiamento de Energia Solar no RJ: Parcelas, Juros e Como Aprovar Mais Rápido",
+    excerpt:
+      "Entenda as opções de financiamento para energia solar (residencial e empresas), documentos, prazos e dicas para melhorar a aprovação no RJ, Niterói, São Gonçalo, Itaboraí, Maricá e região.",
+    category: "Financiamento",
+    author: "Equipe Ilumina Sun",
+    dateISO: "2025-01-10",
+    dateLabel: "10 de Janeiro, 2025",
+    readTime: "8–11 min",
+    slug: "financiamento-energia-solar-rj",
+    image: "/blog/regulamentacao-aneel.webp",
+    imageAlt: "Financiamento de energia solar no RJ",
+    published: true,
+  },
+
+  // ✅ NOVO (2): Conta não zerou
+  {
+    id: "8",
+    title: "Conta de Luz Não Zerou com Energia Solar? Entenda Mínimos, Taxas e Compensação no RJ",
+    excerpt:
+      "Mesmo com energia solar, a fatura pode não zerar. Veja os motivos mais comuns (custos mínimos, regras de compensação, demanda e tarifas) e como otimizar seu sistema no RJ e Região.",
+    category: "Regulamentação",
+    author: "Equipe Ilumina Sun",
+    dateISO: "2025-01-07",
+    dateLabel: "07 de Janeiro, 2025",
+    readTime: "7–10 min",
+    slug: "conta-de-luz-nao-zerou-energia-solar",
+    image: "/blog/regulamentacao-aneel.webp",
+    imageAlt: "Conta de luz e compensação com energia solar no RJ",
+    published: true,
+  },
 ];

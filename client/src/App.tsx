@@ -25,6 +25,8 @@ import KitSolarDetail from "./pages/KitSolarDetail";
 import Blog from "./pages/blog/Blog";
 import RegulamentacaoAneel from "./pages/blog/posts/RegulamentacaoAneel";
 import MarcoLegal14300 from "./pages/blog/posts/MarcoLegal14300";
+import FinanciamentoEnergiaSolarRJ from "./pages/blog/posts/FinanciamentoEnergiaSolarRJ";
+import ContaDeLuzNaoZerou from "./pages/blog/posts/ContaDeLuzNaoZerou";
 
 import TermosDeUso from "./pages/TermosDeUso";
 import PoliticaDePrivacidade from "./pages/PoliticaDePrivacidade";
@@ -73,6 +75,8 @@ function Router() {
           <Route path={"/blog/regulamentacao-aneel-energia-solar"} component={RegulamentacaoAneel} />
           <Route path={"/blog/marco-legal-lei-14300-energia-solar-rj"} component={MarcoLegal14300} />
           <Route path={"/blog"} component={Blog} />
+          <Route path={"/blog/financiamento-energia-solar-rj"} component={FinanciamentoEnergiaSolarRJ} />
+          <Route path={"/blog/conta-de-luz-nao-zerou-energia-solar"} component={ContaDeLuzNaoZerou} />
 
           <Route path={"/kit-solar"} component={KitSolar} />
           <Route path={"/kit-solar/:slug"} component={KitSolarDetail} />
