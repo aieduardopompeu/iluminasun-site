@@ -16,11 +16,11 @@ export type ShareBarProps = {
   /** Se true: mostra SOMENTE ícones (sem texto) */
   compact?: boolean;
 
-  /** Compatibilidade com props antigas */
+  /** Compatibilidade com props antigas (não quebra chamadas antigas) */
   variant?: string; // ex.: "compact"
   analyticsTag?: string; // ex.: "blog_post_aneel"
 
-  /** Texto antes dos botões */
+  /** Texto antes dos botões (se vazio, não renderiza) */
   heading?: string;
 
   /** Classe extra */
@@ -30,13 +30,7 @@ export type ShareBarProps = {
   description?: string;
 };
 
-type ShareTarget =
-  | "whatsapp"
-  | "facebook"
-  | "x"
-  | "linkedin"
-  | "telegram"
-  | "email";
+type ShareTarget = "whatsapp" | "facebook" | "x" | "linkedin" | "telegram" | "email";
 
 function safeWindowOpen(url: string) {
   if (typeof window === "undefined") return;
@@ -58,12 +52,12 @@ export default function ShareBar({
   heading = "Compartilhar:",
   className = "",
 }: ShareBarProps) {
-  // ✅ Regra final:
+  // Regra:
   // - se vier compact explícito, respeita
   // - senão, variant="compact" liga o modo compact
   const compact = compactProp ?? (variant === "compact");
 
-  // ✅ ID para analytics: prefere analyticsTag, depois slug, senão url
+  // ID para analytics: prefere analyticsTag, depois slug, senão url
   const itemId = analyticsTag ?? slug ?? url;
 
   const [copying, setCopying] = useState(false);
@@ -80,7 +74,7 @@ export default function ShareBar({
         window.gtag("event", eventName, {
           content_type: contentType,
           item_id: itemId,
-          ...extra,
+          ...(extra ?? {}),
         });
       }
     } catch {
@@ -96,29 +90,19 @@ export default function ShareBar({
         safeWindowOpen(`https://wa.me/?text=${encodedTitle}%0A${encodedUrl}`);
         return;
       case "facebook":
-        safeWindowOpen(
-          `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`
-        );
+        safeWindowOpen(`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`);
         return;
       case "x":
-        safeWindowOpen(
-          `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`
-        );
+        safeWindowOpen(`https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`);
         return;
       case "linkedin":
-        safeWindowOpen(
-          `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`
-        );
+        safeWindowOpen(`https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`);
         return;
       case "telegram":
-        safeWindowOpen(
-          `https://t.me/share/url?url=${encodedUrl}&text=${encodedTitle}`
-        );
+        safeWindowOpen(`https://t.me/share/url?url=${encodedUrl}&text=${encodedTitle}`);
         return;
       case "email":
-        safeWindowOpen(
-          `mailto:?subject=${encodedTitle}&body=${encodedTitle}%0A%0A${encodedUrl}`
-        );
+        safeWindowOpen(`mailto:?subject=${encodedTitle}&body=${encodedTitle}%0A%0A${encodedUrl}`);
         return;
     }
   }
@@ -170,9 +154,11 @@ export default function ShareBar({
   return (
     <div className={`w-full ${className}`}>
       <div className="flex flex-wrap items-center gap-2">
-        <div className="mr-1 text-sm font-semibold text-slate-700">
-          {heading}
-        </div>
+        {!!heading && (
+          <div className="mr-1 text-sm font-semibold text-slate-700">
+            {heading}
+          </div>
+        )}
 
         <button
           type="button"
