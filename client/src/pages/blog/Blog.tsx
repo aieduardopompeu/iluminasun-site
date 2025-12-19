@@ -1,4 +1,3 @@
-// client/src/pages/blog/Blog.tsx
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import SEO from "@/components/SEO";
@@ -6,18 +5,29 @@ import FeaturedCarousel, { FeaturedPost } from "../../components/blog/FeaturedCa
 import { ArrowRight, Calendar, Clock } from "lucide-react";
 import { Link } from "wouter";
 
-interface BlogPost {
+type BlogPost = {
   id: string;
   title: string;
   excerpt: string;
   category: string;
   author: string;
-  date: string;
+
+  /** Data real para ordenação (ISO) */
+  dateISO: string;
+  /** Texto exibido */
+  dateLabel: string;
+
   readTime: string;
   slug: string;
+
   image?: string;
   imageAlt?: string;
-}
+
+  /** Controle editorial */
+  published: boolean;
+  /** Se definido, entra como candidato a destaque (menor = mais prioritário) */
+  featuredRank?: number;
+};
 
 const blogPosts: BlogPost[] = [
   {
@@ -27,11 +37,14 @@ const blogPosts: BlogPost[] = [
       "Entenda as principais normas da ANEEL para geração distribuída de energia solar, incluindo mudanças recentes no marco legal e como isso afeta consumidores e empresas no RJ e Região.",
     category: "Regulamentação",
     author: "Equipe Ilumina Sun",
-    date: "17 de Dezembro, 2025",
+    dateISO: "2025-12-17",
+    dateLabel: "17 de Dezembro, 2025",
     readTime: "10–14 min",
     slug: "regulamentacao-aneel-energia-solar",
     image: "/blog/regulamentacao-aneel.webp",
     imageAlt: "Regulamentação da ANEEL e energia solar",
+    published: true,
+    featuredRank: 1,
   },
   {
     id: "2",
@@ -41,16 +54,15 @@ const blogPosts: BlogPost[] = [
       "Guia direto sobre a Lei 14.300, SCEE/créditos, regras de transição e impacto por perfil (residencial, comercial, industrial e rural) — com foco no RJ e Região.",
     category: "Legislação",
     author: "Equipe Ilumina Sun",
-    date: "18 de Dezembro, 2025",
+    dateISO: "2025-12-18",
+    dateLabel: "18 de Dezembro, 2025",
     readTime: "10–13 min",
     slug: "marco-legal-lei-14300-energia-solar-rj",
     image: "/blog/marco-legal-14300.webp",
     imageAlt: "Lei 14.300 (Marco Legal) e energia solar no RJ",
+    published: true,
+    featuredRank: 2,
   },
-
-  // ✅ Removido: card duplicado "Marco Legal da Geração Distribuída: O Que Mudou em 2024"
-  // (slug: "marco-legal-geracao-distribuida")
-
   {
     id: "4",
     title: "Manutenção de Painéis Solares: Guia Completo para Máxima Eficiência",
@@ -58,11 +70,14 @@ const blogPosts: BlogPost[] = [
       "Aprenda como realizar a manutenção correta do seu sistema fotovoltaico para garantir máxima geração e prolongar a vida útil.",
     category: "Manutenção",
     author: "Equipe Ilumina Sun",
-    date: "28 de Novembro, 2024",
+    dateISO: "2024-11-28",
+    dateLabel: "28 de Novembro, 2024",
     readTime: "6 min",
     slug: "manutencao-paineis-solares",
     image: "/blog/regulamentacao-aneel.webp",
     imageAlt: "Manutenção de painéis solares",
+    published: true,
+    // featuredRank opcional (se quiser no carrossel)
   },
   {
     id: "5",
@@ -71,11 +86,13 @@ const blogPosts: BlogPost[] = [
       "Descubra como empresas de todos os portes estão economizando com energia solar e melhorando competitividade.",
     category: "Comercial",
     author: "Equipe Ilumina Sun",
-    date: "20 de Novembro, 2024",
+    dateISO: "2024-11-20",
+    dateLabel: "20 de Novembro, 2024",
     readTime: "7 min",
     slug: "energia-solar-empresas",
     image: "/blog/regulamentacao-aneel.webp",
     imageAlt: "Energia solar para empresas",
+    published: true,
   },
   {
     id: "6",
@@ -84,42 +101,69 @@ const blogPosts: BlogPost[] = [
       "Análise das principais tendências do setor de energia solar para 2025, incluindo novas tecnologias e projeções do mercado brasileiro.",
     category: "Mercado",
     author: "Equipe Ilumina Sun",
-    date: "15 de Novembro, 2024",
+    dateISO: "2024-11-15",
+    dateLabel: "15 de Novembro, 2024",
     readTime: "9 min",
     slug: "tendencias-mercado-solar-2025",
     image: "/blog/regulamentacao-aneel.webp",
     imageAlt: "Tendências do mercado de energia solar",
+    published: true,
   },
 ];
 
-export default function Blog() {
-  const FEATURED_COUNT = Math.min(4, blogPosts.length);
+function byDateDesc(a: BlogPost, b: BlogPost) {
+  return new Date(b.dateISO).getTime() - new Date(a.dateISO).getTime();
+}
 
-  const featuredPosts: FeaturedPost[] = blogPosts.slice(0, FEATURED_COUNT).map((p) => ({
+export default function Blog() {
+  const published = blogPosts.filter((p) => p.published);
+
+  // -----------------------------
+  // CARROSSEL "BLINDADO"
+  // 1) pega os com featuredRank (ordem)
+  // 2) completa com os mais recentes (por dateISO)
+  // -----------------------------
+  const rankedFeatured = published
+    .filter((p) => typeof p.featuredRank === "number")
+    .sort((a, b) => (a.featuredRank! - b.featuredRank!));
+
+  const rankedIds = new Set(rankedFeatured.map((p) => p.id));
+
+  const recentPool = [...published].sort(byDateDesc).filter((p) => !rankedIds.has(p.id));
+
+  const featured = [...rankedFeatured, ...recentPool].slice(0, 4);
+
+  const featuredPosts: FeaturedPost[] = featured.map((p) => ({
     id: p.id,
     title: p.title,
     excerpt: p.excerpt,
     category: p.category,
     author: p.author,
-    date: p.date,
+    date: p.dateLabel,
     readTime: p.readTime,
     slug: p.slug,
     image: p.image,
     imageAlt: p.imageAlt,
   }));
 
-  // Mostra todos exceto o primeiro (que já está em destaque)
-  const recentPosts = blogPosts.filter((p) => p.id !== blogPosts[0]?.id);
+  // -----------------------------
+  // RECENTES "NUNCA SOME"
+  // Ordena por data e remove só o 1º destaque (para não duplicar o principal)
+  // -----------------------------
+  const primaryFeaturedId = featured[0]?.id;
+
+  const recentPosts = [...published]
+    .sort(byDateDesc)
+    .filter((p) => p.id !== primaryFeaturedId);
 
   return (
     <div className="flex flex-col">
       <SEO
         title="Blog | Ilumina Sun - Notícias e Artigos sobre Energia Solar"
-        description="Conteúdo educativo sobre energia solar, regulamentação (ANEEL), financiamento e novidades do setor — com foco em RJ, Niterói, São Gonçalo, Itaboraí, Tanguá, Rio Bonito e Maricá."
-        keywords="blog energia solar, ANEEL, regulamentação energia solar, financiamento solar, geração distribuída, RJ, Niterói, São Gonçalo, Itaboraí, Tanguá, Rio Bonito, Maricá"
+        description="Conteúdo educativo sobre energia solar, regulamentação (ANEEL), legislação (Lei 14.300) e novidades do setor — com foco em RJ, Niterói, São Gonçalo, Itaboraí, Tanguá, Rio Bonito e Maricá."
+        keywords="blog energia solar, ANEEL, lei 14300, marco legal geração distribuída, energia solar RJ, Niterói, São Gonçalo, Itaboraí, Tanguá, Rio Bonito, Maricá"
       />
 
-      {/* Hero */}
       <section className="bg-gradient-to-br from-primary/10 to-secondary/10 py-16 md:py-24">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center space-y-6">
@@ -131,14 +175,12 @@ export default function Blog() {
         </div>
       </section>
 
-      {/* Destaque: Carrossel */}
       <section className="py-10 md:py-14">
         <div className="container">
           <FeaturedCarousel posts={featuredPosts} />
         </div>
       </section>
 
-      {/* Recentes */}
       <section className="py-16 md:py-24 bg-muted/30">
         <div className="container">
           <h2 className="text-3xl font-bold mb-8">Artigos Recentes</h2>
@@ -162,7 +204,7 @@ export default function Blog() {
 
                   <div className="flex items-center gap-2 text-xs text-muted-foreground pt-2 border-t">
                     <Calendar className="h-3 w-3" />
-                    <span>{post.date}</span>
+                    <span>{post.dateLabel}</span>
                   </div>
 
                   <Link href={`/blog/${post.slug}`}>
@@ -178,7 +220,6 @@ export default function Blog() {
         </div>
       </section>
 
-      {/* Categorias */}
       <section className="py-16 md:py-24">
         <div className="container">
           <h2 className="text-3xl font-bold mb-8 text-center">Categorias</h2>
@@ -192,29 +233,6 @@ export default function Blog() {
         </div>
       </section>
 
-      {/* Newsletter */}
-      <section className="py-16 md:py-24 bg-gradient-to-br from-primary/10 to-secondary/10">
-        <div className="container">
-          <div className="max-w-3xl mx-auto text-center space-y-6">
-            <h2 className="text-3xl md:text-4xl font-bold">Receba Novidades do Setor Solar</h2>
-            <p className="text-lg text-muted-foreground">
-              Assine nossa newsletter e fique por dentro das últimas notícias, regulamentações e oportunidades do mercado de energia solar
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder="Seu melhor e-mail"
-                className="flex-1 px-4 py-3 rounded-lg border bg-background"
-              />
-              <Button size="lg" className="font-semibold">
-                Assinar
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Final */}
       <section className="py-16 md:py-24">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center space-y-6">
