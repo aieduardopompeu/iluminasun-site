@@ -160,7 +160,7 @@ export default function FinanciamentoEnergiaSolarRJ() {
               <div className="pt-2">
               </div>
               <ShareBar
-                title="(cole aqui o título do post)"
+                title="Financiamento de Energia Solar no RJ: Parcelas, Juros e Como Aprovar Mais Rápido"
                 url={CANONICAL}
                 slug="(cole aqui o slug do post)"
                 contentType="blog"

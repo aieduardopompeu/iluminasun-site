@@ -286,7 +286,7 @@ export default function RegulamentacaoAneel() {
               </div>
               <div className="pt-2">
               <ShareBar
-                title="(cole aqui o título do post)"
+                title="Regulamentação da ANEEL: Tudo o que Você Precisa Saber sobre Energia Solar"
                 url={CANONICAL}
                 slug="(cole aqui o slug do post)"
                 contentType="blog"

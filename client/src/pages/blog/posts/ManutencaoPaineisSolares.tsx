@@ -150,7 +150,7 @@ export default function ManutencaoPaineisSolares() {
               <div className="pt-2">
               </div>
               <ShareBar
-              title="(cole aqui o título do post)"
+              title="Manutenção de Painéis Solares: Guia Completo para Máxima Eficiência"
               url={CANONICAL}
               slug="(cole aqui o slug do post)"
               contentType="blog"

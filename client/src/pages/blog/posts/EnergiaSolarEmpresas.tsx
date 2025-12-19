@@ -125,7 +125,7 @@ export default function EnergiaSolarEmpresas() {
               <div className="pt-2">
               </div>
               <ShareBar
-              title="(cole aqui o título do post)"
+              title="Energia Solar para Empresas: Como Reduzir Custos Operacionais"
               url={CANONICAL}
               slug="(cole aqui o slug do post)"
               contentType="blog"

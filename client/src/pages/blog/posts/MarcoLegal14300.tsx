@@ -242,7 +242,7 @@ export default function MarcoLegal14300() {
               <div className="pt-2">
               </div>
               <ShareBar
-                title="(cole aqui o título do post)"
+                title="Lei 14.300 (Marco Legal da Geração Distribuída): o que muda na prática no RJ e como evitar erros na homologação"
                 url={CANONICAL}
                 slug="(cole aqui o slug do post)"
                 contentType="blog"
