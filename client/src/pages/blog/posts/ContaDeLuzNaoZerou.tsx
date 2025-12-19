@@ -160,7 +160,7 @@ export default function ContaDeLuzNaoZerou() {
               <div className="pt-2">
               </div>
               <ShareBar
-              title="(cole aqui o título do post)"
+              title="Conta de Luz Não Zerou com Energia Solar? Entenda Mínimos, Taxas e Compensação no RJ"
               url={CANONICAL}
               slug="(cole aqui o slug do post)"
               contentType="blog"
