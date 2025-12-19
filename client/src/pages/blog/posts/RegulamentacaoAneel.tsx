@@ -1,5 +1,6 @@
 import { useEffect, useMemo } from "react";
 import { Link } from "wouter";
+import ShareBar from "@/components/share/ShareBar";
 
 const SITE_URL = import.meta.env.VITE_SITE_URL || "https://iluminasun.com.br";
 
@@ -230,6 +231,12 @@ export default function RegulamentacaoAneel() {
           {/* Conteúdo */}
           <div>
             <header className="space-y-4">
+            <ShareBar
+              title="TÍTULO DO POST"
+              url={CANONICAL}
+              slug="slug-do-post"
+              contentType="blog"
+            />  
               <div className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
                 Regulamentação · ANEEL · RJ e Região
               </div>
