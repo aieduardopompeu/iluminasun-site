@@ -1,131 +1,50 @@
+// client/src/components/share/ShareBar.tsx
 "use client";
 
-import { useMemo, useState } from "react";
-import { toast } from "sonner";
-
-export type ShareBarVariant = "inline" | "block";
+import React, { useMemo, useState } from "react";
 
 export type ShareBarProps = {
   title: string;
-  /** Pode ser absoluto ou relativo. Se não passar, usa window.location.href */
-  url?: string;
+  url: string;
 
-  /** Opcional (para tracking) */
+  /** Opcional para compatibilidade com posts antigos */
   slug?: string;
-  /** Opcional (para tracking) */
-  contentType?: "blog" | "page" | "kit";
 
-  className?: string;
+  /** Ex.: "blog" (default), "page"... */
+  contentType?: "blog" | "page" | string;
 
-  /** ✅ Quando true, mostra só ícones */
+  /** Se true: mostra SOMENTE ícones (sem texto) */
   compact?: boolean;
 
-  /** (Compatibilidade) */
+  /** Compatibilidade com props antigas */
+  variant?: string; // ex.: "compact"
+  analyticsTag?: string; // ex.: "blog_post_aneel"
+
+  /** Texto antes dos botões */
   heading?: string;
+
+  /** Classe extra */
+  className?: string;
+
+  /** Mantido opcional para não quebrar chamadas antigas */
   description?: string;
-  variant?: ShareBarVariant;
-  analyticsTag?: string;
 };
 
-type SharePlatform =
+type ShareTarget =
   | "whatsapp"
   | "facebook"
   | "x"
   | "linkedin"
   | "telegram"
-  | "email"
-  | "copy"
-  | "native";
+  | "email";
 
-function pushDataLayer(event: Record<string, any>) {
+function safeWindowOpen(url: string) {
   if (typeof window === "undefined") return;
-  (window as any).dataLayer = (window as any).dataLayer || [];
-  (window as any).dataLayer.push(event);
+  window.open(url, "_blank", "noopener,noreferrer");
 }
 
-function toAbsoluteUrl(input?: string) {
-  if (!input) {
-    if (typeof window !== "undefined") return window.location.href;
-    return "";
-  }
-  if (/^https?:\/\//i.test(input)) return input;
-  const origin = typeof window !== "undefined" ? window.location.origin : "";
-  return `${origin}${input.startsWith("/") ? input : `/${input}`}`;
-}
-
-function buildShareUrl(platform: SharePlatform, title: string, url: string) {
-  const u = encodeURIComponent(url);
-  const t = encodeURIComponent(title);
-
-  switch (platform) {
-    case "whatsapp":
-      return `https://wa.me/?text=${encodeURIComponent(`${title}\n${url}`)}`;
-    case "facebook":
-      return `https://www.facebook.com/sharer/sharer.php?u=${u}`;
-    case "x":
-      return `https://twitter.com/intent/tweet?text=${t}&url=${u}`;
-    case "linkedin":
-      return `https://www.linkedin.com/sharing/share-offsite/?url=${u}`;
-    case "telegram":
-      return `https://t.me/share/url?url=${u}&text=${t}`;
-    case "email":
-      return `mailto:?subject=${t}&body=${encodeURIComponent(`${title}\n\n${url}`)}`;
-    default:
-      return url;
-  }
-}
-
-function IconWhatsApp(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...props}>
-      <path d="M20.52 3.48A11.78 11.78 0 0 0 12.06 0C5.47 0 .12 5.35.12 11.94c0 2.1.55 4.15 1.6 5.96L0 24l6.27-1.64a11.9 11.9 0 0 0 5.79 1.48h.01c6.59 0 11.94-5.35 11.94-11.94 0-3.19-1.24-6.18-3.49-8.42ZM12.06 21.8h-.01a9.9 9.9 0 0 1-5.05-1.39l-.36-.21-3.72.97.99-3.62-.23-.37a9.88 9.88 0 0 1-1.51-5.24C2.17 6.46 6.58 2.05 12.06 2.05c2.1 0 4.07.82 5.55 2.3a7.82 7.82 0 0 1 2.3 5.55c0 5.48-4.41 9.9-9.85 9.9Zm5.74-7.41c-.31-.16-1.85-.91-2.14-1.02-.29-.1-.5-.16-.71.16-.21.31-.82 1.02-1 1.23-.18.21-.37.23-.68.08-.31-.16-1.31-.48-2.49-1.52-.92-.82-1.55-1.83-1.73-2.14-.18-.31-.02-.48.14-.63.14-.14.31-.37.47-.55.16-.18.21-.31.31-.52.1-.21.05-.39-.03-.55-.08-.16-.71-1.71-.98-2.34-.26-.62-.52-.53-.71-.54h-.6c-.21 0-.55.08-.84.39-.29.31-1.1 1.08-1.1 2.63 0 1.55 1.13 3.04 1.29 3.25.16.21 2.22 3.39 5.38 4.76.75.32 1.34.51 1.8.65.76.24 1.45.21 2 .13.61-.09 1.85-.76 2.11-1.5.26-.73.26-1.36.18-1.5-.08-.13-.29-.21-.6-.37Z" />
-    </svg>
-  );
-}
-
-function IconFacebook(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...props}>
-      <path d="M22 12a10 10 0 1 0-11.56 9.87v-6.99H7.9V12h2.54V9.8c0-2.5 1.5-3.89 3.78-3.89 1.1 0 2.25.2 2.25.2v2.48h-1.27c-1.25 0-1.64.78-1.64 1.57V12h2.79l-.45 2.88h-2.34v6.99A10 10 0 0 0 22 12Z" />
-    </svg>
-  );
-}
-
-function IconX(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...props}>
-      <path d="M18.9 2H22l-6.77 7.73L23 22h-6.8l-5.32-6.94L4.8 22H2l7.26-8.3L1 2h6.98l4.82 6.27L18.9 2Zm-1.19 18h1.71L7.05 3.9H5.22L17.71 20Z" />
-    </svg>
-  );
-}
-
-function IconLinkedIn(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...props}>
-      <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.15 1.45-2.15 2.95v5.66H9.28V9h3.42v1.56h.05c.48-.9 1.65-1.85 3.4-1.85 3.63 0 4.3 2.39 4.3 5.5v6.24ZM5.26 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14ZM7.04 20.45H3.47V9h3.57v11.45ZM22 2H2v20h20V2Z" />
-    </svg>
-  );
-}
-
-function IconTelegram(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...props}>
-      <path d="M9.04 15.57 8.83 19c.31 0 .44-.13.6-.28l1.44-1.38 2.98 2.18c.55.3.94.15 1.08-.5l1.96-9.18c.2-.8-.29-1.12-.82-.93L4.55 12.3c-.78.31-.77.75-.14.94l3.02.94 6.99-4.41c.33-.2.64-.09.39.13Z" />
-    </svg>
-  );
-}
-
-function IconLink(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
-      <path
-        d="M10.5 13.5 13.5 10.5M9 15a4 4 0 0 1 0-6l1.5-1.5a4 4 0 0 1 6 6L15 15a4 4 0 0 1-6 0"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
+function encode(s: string) {
+  return encodeURIComponent(s);
 }
 
 export default function ShareBar({
@@ -133,176 +52,288 @@ export default function ShareBar({
   url,
   slug,
   contentType = "blog",
-  className,
-  compact = false,
-  heading,
-  description,
-  variant = "inline",
+  compact: compactProp,
+  variant,
   analyticsTag,
+  heading = "Compartilhar:",
+  className = "",
 }: ShareBarProps) {
-  const absUrl = useMemo(() => toAbsoluteUrl(url), [url]);
+  // ✅ Regra final:
+  // - se vier compact explícito, respeita
+  // - senão, variant="compact" liga o modo compact
+  const compact = compactProp ?? (variant === "compact");
+
+  // ✅ ID para analytics: prefere analyticsTag, depois slug, senão url
+  const itemId = analyticsTag ?? slug ?? url;
+
   const [copying, setCopying] = useState(false);
+  const [copied, setCopied] = useState(false);
 
-  const track = (platform: SharePlatform) => {
-    pushDataLayer({
-      event: "share_click",
-      share_platform: platform,
-      share_url: absUrl,
-      content_type: contentType,
-      content_slug: slug,
-      content_title: title,
-      analytics_tag: analyticsTag,
-    });
-  };
+  const encodedUrl = useMemo(() => encode(url), [url]);
+  const encodedTitle = useMemo(() => encode(title), [title]);
 
-  const openShare = (platform: SharePlatform) => {
-    const shareUrl = buildShareUrl(platform, title, absUrl);
-    track(platform);
-    window.open(shareUrl, "_blank", "noopener,noreferrer");
-  };
-
-  const nativeShare = async () => {
+  function track(eventName: string, extra?: Record<string, any>) {
     try {
-      if (typeof navigator === "undefined" || !("share" in navigator)) return;
-      track("native");
-      await (navigator as any).share({ title, text: title, url: absUrl });
+      // @ts-ignore
+      if (typeof window !== "undefined" && typeof window.gtag === "function") {
+        // @ts-ignore
+        window.gtag("event", eventName, {
+          content_type: contentType,
+          item_id: itemId,
+          ...extra,
+        });
+      }
     } catch {
-      // ok (cancelado)
+      // noop
     }
-  };
+  }
 
-  const copyLink = async () => {
+  function openShare(target: ShareTarget) {
+    track("share_click", { method: target });
+
+    switch (target) {
+      case "whatsapp":
+        safeWindowOpen(`https://wa.me/?text=${encodedTitle}%0A${encodedUrl}`);
+        return;
+      case "facebook":
+        safeWindowOpen(
+          `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`
+        );
+        return;
+      case "x":
+        safeWindowOpen(
+          `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`
+        );
+        return;
+      case "linkedin":
+        safeWindowOpen(
+          `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`
+        );
+        return;
+      case "telegram":
+        safeWindowOpen(
+          `https://t.me/share/url?url=${encodedUrl}&text=${encodedTitle}`
+        );
+        return;
+      case "email":
+        safeWindowOpen(
+          `mailto:?subject=${encodedTitle}&body=${encodedTitle}%0A%0A${encodedUrl}`
+        );
+        return;
+    }
+  }
+
+  async function copyLink() {
+    if (typeof window === "undefined") return;
+    if (copying) return;
+
+    setCopying(true);
+    setCopied(false);
+
     try {
-      setCopying(true);
-      track("copy");
-      await navigator.clipboard.writeText(absUrl);
-      toast.success("Link copiado");
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      track("share_copy");
+      setTimeout(() => setCopied(false), 1500);
     } catch {
-      toast.error("Não foi possível copiar o link");
+      // noop
     } finally {
       setCopying(false);
     }
-  };
+  }
 
-  const btnBase = compact
-    ? "inline-flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-background hover:bg-muted/60 transition"
-    : "inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-background px-3 py-2 text-sm font-semibold hover:bg-muted/60 transition";
+  async function nativeShare() {
+    if (typeof window === "undefined") return;
+
+    if (typeof navigator !== "undefined" && "share" in navigator) {
+      try {
+        // @ts-ignore
+        await navigator.share({ title, text: title, url });
+        track("share_native");
+        return;
+      } catch {
+        return; // usuário cancelou
+      }
+    }
+
+    // fallback: copia link
+    await copyLink();
+  }
+
+  const btnBase =
+    "inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 shadow-sm hover:bg-slate-50 active:scale-[0.99] transition";
+  const btnBaseCompact =
+    "inline-flex items-center justify-center rounded-full border border-slate-200 bg-white p-2 text-sm font-semibold text-slate-800 shadow-sm hover:bg-slate-50 active:scale-[0.99] transition";
 
   const iconClass = compact ? "h-5 w-5" : "h-4 w-4";
 
   return (
-    <div className={className}>
-      {(heading || description) && (
-        <div className={variant === "block" ? "mb-3" : "mb-2"}>
-          {heading && <div className="text-sm font-semibold">{heading}</div>}
-          {description && (
-            <div className="text-xs text-muted-foreground">{description}</div>
-          )}
-        </div>
-      )}
-
+    <div className={`w-full ${className}`}>
       <div className="flex flex-wrap items-center gap-2">
-        {!compact && !heading && (
-          <div className="mr-1 text-sm font-semibold text-foreground">
-            Compartilhar:
-          </div>
-        )}
+        <div className="mr-1 text-sm font-semibold text-slate-700">
+          {heading}
+        </div>
 
         <button
           type="button"
-          className={btnBase}
+          className={compact ? btnBaseCompact : btnBase}
           onClick={() => openShare("whatsapp")}
           aria-label="Compartilhar no WhatsApp"
           title="WhatsApp"
         >
           <IconWhatsApp className={iconClass} />
-          {!compact && "WhatsApp"}
+          {!compact && <span>WhatsApp</span>}
         </button>
 
         <button
           type="button"
-          className={btnBase}
+          className={compact ? btnBaseCompact : btnBase}
           onClick={() => openShare("facebook")}
           aria-label="Compartilhar no Facebook"
           title="Facebook"
         >
           <IconFacebook className={iconClass} />
-          {!compact && "Facebook"}
+          {!compact && <span>Facebook</span>}
         </button>
 
         <button
           type="button"
-          className={btnBase}
+          className={compact ? btnBaseCompact : btnBase}
           onClick={() => openShare("x")}
           aria-label="Compartilhar no X"
           title="X"
         >
           <IconX className={iconClass} />
-          {!compact && "X"}
+          {!compact && <span>X</span>}
         </button>
 
         <button
           type="button"
-          className={btnBase}
+          className={compact ? btnBaseCompact : btnBase}
           onClick={() => openShare("linkedin")}
           aria-label="Compartilhar no LinkedIn"
           title="LinkedIn"
         >
           <IconLinkedIn className={iconClass} />
-          {!compact && "LinkedIn"}
+          {!compact && <span>LinkedIn</span>}
         </button>
 
         <button
           type="button"
-          className={btnBase}
+          className={compact ? btnBaseCompact : btnBase}
           onClick={() => openShare("telegram")}
           aria-label="Compartilhar no Telegram"
           title="Telegram"
         >
           <IconTelegram className={iconClass} />
-          {!compact && "Telegram"}
+          {!compact && <span>Telegram</span>}
         </button>
 
         <button
           type="button"
-          className={btnBase}
+          className={compact ? btnBaseCompact : btnBase}
           onClick={() => openShare("email")}
           aria-label="Compartilhar por e-mail"
           title="E-mail"
         >
-          <span className={compact ? "text-[18px] leading-none" : ""}>✉️</span>
-          {!compact && "E-mail"}
+          <IconMail className={iconClass} />
+          {!compact && <span>E-mail</span>}
         </button>
 
         <button
           type="button"
-          className={btnBase}
+          className={compact ? btnBaseCompact : btnBase}
           onClick={copyLink}
           aria-label="Copiar link"
-          title="Copiar link"
+          title={copied ? "Copiado!" : "Copiar"}
           disabled={copying}
         >
           <IconLink className={iconClass} />
-          {!compact && (copying ? "Copiando..." : "Copiar")}
+          {!compact && (
+            <span>{copied ? "Copiado!" : copying ? "Copiando..." : "Copiar"}</span>
+          )}
         </button>
 
         {typeof navigator !== "undefined" && "share" in navigator && (
           <button
             type="button"
-            className={btnBase}
+            className={compact ? btnBaseCompact : btnBase}
             onClick={nativeShare}
             aria-label="Compartilhar (nativo)"
-            title="Compartilhar (nativo)"
+            title="Nativo"
           >
-            <span
-              className={compact ? "text-[18px] leading-none" : "text-base leading-none"}
-            >
-              ⤴︎
-            </span>
-            {!compact && "Nativo"}
+            <IconShare className={iconClass} />
+            {!compact && <span>Nativo</span>}
           </button>
         )}
       </div>
     </div>
+  );
+}
+
+/* -------------------- ÍCONES (SVG) -------------------- */
+
+function IconWhatsApp({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 32 32" className={className} fill="currentColor" aria-hidden="true">
+      <path d="M19.11 17.45c-.27-.14-1.6-.79-1.85-.88-.25-.09-.43-.14-.61.14-.18.27-.7.88-.86 1.06-.16.18-.32.2-.59.07-.27-.14-1.14-.42-2.17-1.34-.8-.71-1.34-1.59-1.5-1.86-.16-.27-.02-.41.12-.55.12-.12.27-.32.41-.48.14-.16.18-.27.27-.45.09-.18.05-.34-.02-.48-.07-.14-.61-1.47-.84-2.01-.22-.53-.45-.46-.61-.47h-.52c-.18 0-.48.07-.73.34-.25.27-.95.93-.95 2.27 0 1.34.98 2.63 1.12 2.81.14.18 1.93 2.95 4.68 4.13.65.28 1.15.45 1.54.57.65.21 1.25.18 1.72.11.52-.08 1.6-.65 1.83-1.27.23-.62.23-1.15.16-1.27-.07-.12-.25-.2-.52-.34z" />
+      <path d="M16.02 2.67C8.88 2.67 3.08 8.46 3.08 15.6c0 2.26.59 4.38 1.63 6.22L3 29.33l7.7-1.66c1.78.97 3.82 1.52 5.98 1.52 7.14 0 12.93-5.79 12.93-12.93S23.16 2.67 16.02 2.67zm0 23.11c-2.01 0-3.88-.59-5.45-1.6l-.39-.24-4.57.98.97-4.46-.25-.4a9.58 9.58 0 0 1-1.47-5.16c0-5.31 4.32-9.63 9.63-9.63s9.63 4.32 9.63 9.63-4.32 9.63-9.63 9.63z" />
+    </svg>
+  );
+}
+
+function IconFacebook({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true">
+      <path d="M22 12a10 10 0 1 0-11.56 9.87v-6.99H7.9V12h2.54V9.8c0-2.5 1.5-3.88 3.77-3.88 1.09 0 2.23.2 2.23.2v2.46h-1.25c-1.23 0-1.62.77-1.62 1.55V12h2.76l-.44 2.88h-2.32v6.99A10 10 0 0 0 22 12z" />
+    </svg>
+  );
+}
+
+function IconX({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true">
+      <path d="M18.9 2H22l-6.76 7.73L23 22h-6.8l-5.32-6.86L4.9 22H2l7.27-8.3L1 2h7l4.8 6.2L18.9 2zm-1.2 18h1.88L7.1 3.9H5.08L17.7 20z" />
+    </svg>
+  );
+}
+
+function IconLinkedIn({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true">
+      <path d="M20.45 20.45h-3.55v-5.56c0-1.33-.03-3.05-1.86-3.05-1.86 0-2.14 1.45-2.14 2.95v5.66H9.31V9h3.41v1.56h.05c.48-.9 1.65-1.86 3.4-1.86 3.63 0 4.29 2.39 4.29 5.49v6.26zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.55V9h3.57v11.45z" />
+    </svg>
+  );
+}
+
+function IconTelegram({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true">
+      <path d="M9.04 15.56 8.8 19.1c.35 0 .5-.15.68-.33l1.63-1.56 3.38 2.48c.62.34 1.06.16 1.22-.57l2.22-10.4c.2-.93-.33-1.3-.93-1.08L4.26 10.9c-.9.35-.89.85-.16 1.08l3.47 1.08 8.05-5.08c.38-.23.72-.1.44.13L9.04 15.56z" />
+    </svg>
+  );
+}
+
+function IconMail({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true">
+      <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z" />
+    </svg>
+  );
+}
+
+function IconLink({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true">
+      <path d="M3.9 12a5 5 0 0 1 5-5h4v2h-4a3 3 0 1 0 0 6h4v2h-4a5 5 0 0 1-5-5zm7.1 1h2v-2h-2v2zm4.1-6h4a5 5 0 1 1 0 10h-4v-2h4a3 3 0 1 0 0-6h-4V7z" />
+    </svg>
+  );
+}
+
+function IconShare({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true">
+      <path d="M18 16a3 3 0 0 0-2.39 1.2l-6.2-3.1a3.04 3.04 0 0 0 0-2.2l6.2-3.1A3 3 0 1 0 15 6a2.98 2.98 0 0 0 .12.8l-6.2 3.1a3 3 0 1 0 0 4.2l6.2 3.1A3 3 0 1 0 18 16z" />
+    </svg>
   );
 }

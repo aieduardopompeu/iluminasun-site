@@ -156,14 +156,15 @@ export default function ContaDeLuzNaoZerou() {
               </div>
               
               {/* Compartilhamento (padrão do site) */}
-              
+
               <div className="pt-2">
-                <ShareBar
-                  title="TÍTULO EXATO DO POST"
-                  url={CANONICAL}
-                  slug="slug-do-post"
-                  contentType="blog"
-                />
+              <ShareBar
+                title="..."
+                url={CANONICAL}
+                slug="..."
+                contentType="blog"
+                compact
+              />
               </div>
             </header>
 

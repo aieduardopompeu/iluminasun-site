@@ -120,9 +120,9 @@ export default function TendenciasMercadoSolar2026() {
               {/* Compartilhamento (padrão do site) */}
               <div className="pt-2">
                 <ShareBar
-                  title="TÍTULO EXATO DO POST"
+                  title="Lei 14.300 (Marco Legal da Geração Distribuída): o que muda na prática no RJ e como evitar erros na homologação"
                   url={CANONICAL}
-                  slug="slug-do-post"
+                  slug="marco-legal-lei-14300-energia-solar-rj"
                   contentType="blog"
                 />
               </div>

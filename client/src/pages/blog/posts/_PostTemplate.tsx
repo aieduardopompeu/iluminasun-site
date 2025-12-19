@@ -99,13 +99,12 @@ export default function SeuPost() {
 
             {/* ✅ Compartilhamento padrão (já vem no template) */}
             <div className="pt-2">
-            <ShareBar
-              title="..."
-              url={CANONICAL}
-              slug="..."
-              contentType="blog"
-              compact
-            />
+              <ShareBar
+                title="TÍTULO DO POST"
+                url={CANONICAL}
+                slug="SEU-SLUG-AQUI"
+                contentType="blog"
+              />
             </div>
           </header>
 
