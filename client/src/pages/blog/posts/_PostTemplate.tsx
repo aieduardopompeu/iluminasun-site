@@ -1,9 +1,27 @@
 // client/src/pages/blog/posts/_PostTemplate.tsx
 "use client";
+const HERO_IMAGE = "/blog/ARQUIVO.webp";
+const HERO_ALT = "Descrição curta da imagem";
+const HERO_CAPTION = "Legenda curta (opcional)";
 
 import { useEffect, useMemo } from "react";
 import { Link } from "wouter";
 import ShareBar from "@/components/share/ShareBar";
+
+{/* Hero image */}
+<figure className="overflow-hidden rounded-2xl border border-border bg-muted/30">
+  <img
+    src={HERO_IMAGE}
+    alt={HERO_ALT}
+    className="h-auto w-full object-cover"
+    loading="lazy"
+  />
+  {HERO_CAPTION ? (
+    <figcaption className="px-4 py-3 text-xs text-muted-foreground">
+      {HERO_CAPTION}
+    </figcaption>
+  ) : null}
+</figure>
 
 const SITE_URL = import.meta.env.VITE_SITE_URL || "https://www.iluminasun.com.br";
 
