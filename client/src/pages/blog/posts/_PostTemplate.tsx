@@ -147,6 +147,16 @@ export default function PostTemplate() {
               compact
               heading=""
             />
+<AdSenseAd
+  client={ADSENSE_CLIENT}
+  slot={ADSENSE_SLOTS.BLOG_TOP}
+  layout="in-article"
+  format="fluid"
+  refreshKey={POST_SLUG}
+  adTest={import.meta.env.DEV}
+  className="my-8"
+  style={{ textAlign: "center" }}
+/>
           </div>
           <ShareBar
             title="(cole aqui o título do post)"
@@ -155,6 +165,16 @@ export default function PostTemplate() {
             contentType="blog"
             heading=""
           />
+<AdSenseAd
+  client={ADSENSE_CLIENT}
+  slot={ADSENSE_SLOTS.BLOG_TOP}
+  layout="in-article"
+  format="fluid"
+  refreshKey={POST_SLUG}
+  adTest={import.meta.env.DEV}
+  className="my-8"
+  style={{ textAlign: "center" }}
+/>
           </header>
 
           <section className="prose prose-slate max-w-none dark:prose-invert">
@@ -166,9 +186,28 @@ export default function PostTemplate() {
           {/* 
           <div className="pt-6">
             <ShareBar title={POST_TITLE} url={CANONICAL} slug={POST_SLUG} contentType="blog" compact heading="" />
+<AdSenseAd
+  client={ADSENSE_CLIENT}
+  slot={ADSENSE_SLOTS.BLOG_TOP}
+  layout="in-article"
+  format="fluid"
+  refreshKey={POST_SLUG}
+  adTest={import.meta.env.DEV}
+  className="my-8"
+  style={{ textAlign: "center" }}
+/>
           </div>
           */}
-        </article>
+        <AdSenseAd
+  client={ADSENSE_CLIENT}
+  slot={ADSENSE_SLOTS.BLOG_BOTTOM}
+  format="auto"
+  fullWidthResponsive
+  refreshKey={POST_SLUG}
+  adTest={import.meta.env.DEV}
+  className="my-10"
+/>
+</article>
       </div>
     </main>
   );

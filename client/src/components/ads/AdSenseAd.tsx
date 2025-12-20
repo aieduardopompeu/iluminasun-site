@@ -24,8 +24,11 @@ type AdSenseAdProps = {
   /** Ative para testar sem servir anúncio real (DEV) */
   adTest?: boolean;
 
-  /** Auto = geralmente o melhor para responsivo */
+  /** Auto = geralmente o melhor para responsivo; fluid = usado em in-article */
   format?: "auto" | "fluid";
+
+  /** Para in-article: layout="in-article" */
+  layout?: "in-article" | string;
 
   /** true = recomendado para responsivo */
   fullWidthResponsive?: boolean;
@@ -68,9 +71,11 @@ export default function AdSenseAd({
   refreshKey = "",
   adTest = false,
   format = "auto",
+  layout,
   fullWidthResponsive = true,
   style,
 }: AdSenseAdProps) {
+  // Em SPA, key diferente => recria o <ins> ao trocar de post
   const insKey = useMemo(() => `${slot}__${refreshKey}`, [slot, refreshKey]);
 
   useEffect(() => {
@@ -79,7 +84,6 @@ export default function AdSenseAd({
 
     ensureAdSenseScript(client);
 
-    // Espera um tick para garantir que o <ins> entrou no DOM
     const t = window.setTimeout(() => {
       try {
         (window.adsbygoogle = window.adsbygoogle || []).push({});
@@ -103,6 +107,7 @@ export default function AdSenseAd({
         data-ad-slot={slot}
         data-ad-format={format}
         data-full-width-responsive={fullWidthResponsive ? "true" : "false"}
+        {...(layout ? { "data-ad-layout": layout } : {})}
         {...(adTest ? { "data-adtest": "on" } : {})}
       />
     </div>
