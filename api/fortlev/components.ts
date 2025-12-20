@@ -1,6 +1,6 @@
 // api/fortlev/components.ts
 import type { IncomingMessage, ServerResponse } from "http";
-import { fortlevFetch } from "../../shared/fortlevPartner";
+import { fortlevFetch } from "../../shared/fortlevPartner.js";
 
 function sendJson(res: ServerResponse, status: number, payload: any) {
   res.statusCode = status;
