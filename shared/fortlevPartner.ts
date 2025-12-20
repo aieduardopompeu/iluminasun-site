@@ -32,15 +32,15 @@ async function login(): Promise<void> {
   if (inflightLogin) return inflightLogin;
 
   inflightLogin = (async () => {
-    const base = env("FORTLEV_BASE_URL").replace(/\/$/, "");
-    const username = env("FORTLEV_USERNAME");
-    const pwd = env("FORTLEV_PASSWORD");
+  const base = env("FORTLEV_BASE_URL").replace(/\/$/, "");
+  const username = env("FORTLEV_USERNAME");
+  const password = env("FORTLEV_PASSWORD");
 
-    const res = await fetch(`${base}/user/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, pwd }),
-    });
+  const res = await fetch(`${base}/user/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, password }),
+  });
 
     if (!res.ok) {
       const txt = await res.text().catch(() => "");
