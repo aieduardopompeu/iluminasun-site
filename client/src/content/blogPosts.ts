@@ -73,16 +73,15 @@ export const blogPosts: BlogPost[] = [
   {
     id: "5",
     title: "Energia Solar para Empresas: Como Reduzir Custos Operacionais",
-    excerpt:
-      "Descubra como empresas de todos os portes estão economizando com energia solar e melhorando competitividade.",
+    excerpt: "Descubra como empresas de todos os portes estão economizando com energia solar e melhorando competitividade.",
     category: "Comercial",
     author: "Equipe Ilumina Sun",
     dateISO: "2024-11-20",
     dateLabel: "20 de Novembro, 2024",
     readTime: "7 min",
     slug: "energia-solar-empresas",
-    image: "/blog/regulamentacao-aneel.webp",
-    imageAlt: "Energia solar para empresas",
+    image: "/blog/energia-solar-empresas.webp",
+    imageAlt: "Energia solar para empresas: como reduzir custos e aumentar competitividade.",
     published: true,
   },
 
@@ -90,16 +89,15 @@ export const blogPosts: BlogPost[] = [
   {
     id: "7",
     title: "Financiamento de Energia Solar no RJ: Parcelas, Juros e Como Aprovar Mais Rápido",
-    excerpt:
-      "Entenda as opções de financiamento para energia solar (residencial e empresas), documentos, prazos e dicas para melhorar a aprovação no RJ, Niterói, São Gonçalo, Itaboraí, Maricá e região.",
+    excerpt: "Entenda as opções de financiamento para energia solar (residencial e empresas), documentos, prazos e dicas para melhorar a aprovação no RJ, Niterói, São Gonçalo, Itaboraí, Maricá e região.",
     category: "Financiamento",
     author: "Equipe Ilumina Sun",
     dateISO: "2025-01-10",
     dateLabel: "10 de Janeiro, 2025",
     readTime: "8–11 min",
     slug: "financiamento-energia-solar-rj",
-    image: "/blog/regulamentacao-aneel.webp",
-    imageAlt: "Financiamento de energia solar no RJ",
+    image: "/blog/financiamento-energia-solar-rj.webp",
+    imageAlt: "Financiamento de energia solar no RJ: parcelas, juros e aprovação.",
     published: true,
   },
 
@@ -107,16 +105,15 @@ export const blogPosts: BlogPost[] = [
   {
     id: "8",
     title: "Conta de Luz Não Zerou com Energia Solar? Entenda Mínimos, Taxas e Compensação no RJ",
-    excerpt:
-      "Mesmo com energia solar, a fatura pode não zerar. Veja os motivos mais comuns (custos mínimos, regras de compensação, demanda e tarifas) e como otimizar seu sistema no RJ e Região.",
+    excerpt: "Mesmo com energia solar, a fatura pode não zerar. Veja os motivos mais comuns (custos mínimos, regras de compensação, demanda e tarifas) e como otimizar seu sistema no RJ e Região.",
     category: "Regulamentação",
     author: "Equipe Ilumina Sun",
     dateISO: "2025-01-07",
     dateLabel: "07 de Janeiro, 2025",
     readTime: "7–10 min",
     slug: "conta-de-luz-nao-zerou-energia-solar",
-    image: "/blog/regulamentacao-aneel.webp",
-    imageAlt: "Conta de luz e compensação com energia solar no RJ",
+    image: "/blog/conta-de-luz-nao-zerou.webp",
+    imageAlt: "Conta de luz com energia solar: mínimos, taxas e compensação no RJ.",
     published: true,
   },
 
@@ -124,8 +121,7 @@ export const blogPosts: BlogPost[] = [
   {
     id: "9",
     title: "Tendências do Mercado Solar em 2026: O Que Esperar",
-    excerpt:
-      "Principais tendências para 2026 no setor solar: eficiência, baterias, inversores, precificação, regulação e oportunidades no RJ e Região.",
+    excerpt: "Principais tendências para 2026 no setor solar: eficiência, baterias, inversores, precificação, regulação e oportunidades no RJ e Região.",
     category: "Mercado",
     author: "Equipe Ilumina Sun",
     dateISO: "2025-11-15",
@@ -133,7 +129,7 @@ export const blogPosts: BlogPost[] = [
     readTime: "9–11 min",
     slug: "tendencias-mercado-solar-2026",
     image: "/blog/tendencias-mercado-solar-2026.webp",
-    imageAlt: "Tendências do mercado solar 2026",
+    imageAlt: "Tendências do mercado solar em 2026: preços, eficiência, baterias e regulação.",
     published: true,
   },
 ];
