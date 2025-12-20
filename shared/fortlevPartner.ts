@@ -36,10 +36,16 @@ async function login(): Promise<void> {
   const username = env("FORTLEV_USERNAME");
   const password = env("FORTLEV_PASSWORD");
 
+  // ✅ Enviar como form-urlencoded (muito comum em /login)
+  const form = new URLSearchParams({ username, password });
+
   const res = await fetch(`${base}/user/login`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username, password }),
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
+      "Accept": "application/json",
+    },
+    body: form.toString(),
   });
 
     if (!res.ok) {
