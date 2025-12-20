@@ -34,16 +34,15 @@ export default function Header() {
                 : undefined
             }
             alt="Ilumina Sun"
-            width={180}
-            height={52}
-            style={{ width: "auto", height: undefined }}
-            className="h-[44px] md:h-[52px] w-auto block select-none"
+            // 50% maior que 180x52 -> 270x78 (atributos ajudam no layout shift)
+            width={270}
+            height={78}
+            className="h-[66px] md:h-[78px] w-auto block select-none"
             draggable={false}
             loading="eager"
             decoding="async"
             fetchPriority="high"
             onError={() => {
-              // Se o SVG falhar, cai para PNG (uma vez)
               if (!logoIsPng) setLogoIsPng(true);
             }}
           />
