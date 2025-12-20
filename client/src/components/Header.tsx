@@ -7,15 +7,8 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [location] = useLocation();
 
-  // Preferir SVG; cai para PNG se houver erro.
-    <img
-    src="/logo.svg"
-    alt="Ilumina Sun"
-    width={180}
-    height={52}
-    className="h-[44px] md:h-[52px] w-auto block"
-    draggable={false}
-    />
+  // Logo: tenta SVG; se falhar, usa PNG com srcSet para retina
+  const [logoIsPng, setLogoIsPng] = useState(false);
 
   const navItems = [
     { href: "/", label: "Início" },
@@ -30,21 +23,30 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-gradient-to-r from-primary/5 via-background/90 to-secondary/5 backdrop-blur supports-[backdrop-filter]:bg-background/70">
-      {/* Aumentei a altura para acomodar a logo maior */}
       <nav className="container flex h-24 items-center justify-between">
-        {/* Logo (somente imagem, sem texto, sem caixa) */}
+        {/* Logo */}
         <Link href="/">
-          <div className="cursor-pointer">
-            <img
-              src="/logo.svg"
-              alt="Iluminasun"
-              width={180}
-              height={52}
-              className="h-[44px] md:h-[52px] w-auto block"
-              draggable={false}
-              loading="eager"
-            />
-          </div>
+          <img
+            src={logoIsPng ? "/logo.png" : "/logo.svg"}
+            srcSet={
+              logoIsPng
+                ? "/logo.png 1x, /logo@2x.png 2x, /logo@3x.png 3x"
+                : undefined
+            }
+            alt="Ilumina Sun"
+            width={180}
+            height={52}
+            style={{ width: "auto", height: undefined }}
+            className="h-[44px] md:h-[52px] w-auto block select-none"
+            draggable={false}
+            loading="eager"
+            decoding="async"
+            fetchPriority="high"
+            onError={() => {
+              // Se o SVG falhar, cai para PNG (uma vez)
+              if (!logoIsPng) setLogoIsPng(true);
+            }}
+          />
         </Link>
 
         {/* Desktop Navigation */}
@@ -97,6 +99,7 @@ export default function Header() {
                 </div>
               </Link>
             ))}
+
             <Link href="/simulador">
               <Button
                 size="default"
