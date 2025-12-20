@@ -1,6 +1,7 @@
-export const config = { runtime: "nodejs" };
-
+// api/fortlev/components.ts
 import { fortlevFetch, sendJson } from "../../shared/fortlevPartner";
+
+export const config = { runtime: "nodejs" };
 
 export default async function handler(req: any, res: any) {
   if (req.method !== "GET") {

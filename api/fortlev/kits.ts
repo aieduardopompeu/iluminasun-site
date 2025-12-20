@@ -1,6 +1,7 @@
-export const config = { runtime: "nodejs" };
-
+// api/fortlev/kits.ts
 import { fortlevFetch, sendJson } from "../../shared/fortlevPartner";
+
+export const config = { runtime: "nodejs" };
 
 function toNumber(v: any, fallback: number) {
   const n = Number(v);
@@ -13,7 +14,7 @@ export default async function handler(req: any, res: any) {
   }
 
   try {
-    const power = toNumber(req.query?.power, 0);
+    const power = toNumber(req.query?.power, 0); // 0 => catálogo
     const phase = toNumber(req.query?.phase, 1);
     const voltage = String(req.query?.voltage ?? "220");
 
