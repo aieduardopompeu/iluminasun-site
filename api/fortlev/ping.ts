@@ -1,5 +1,5 @@
-import { sendJson } from "../../shared/fortlevPartner";
+export const config = { runtime: "nodejs20.x" };
 
 export default async function handler(_req: any, res: any) {
-  return sendJson(res, 200, { ok: true, imported: true });
+  res.status(200).json({ ok: true, where: "fortlev-ping" });
 }
