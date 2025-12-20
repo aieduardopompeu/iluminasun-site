@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+ï»¿import { useEffect, useMemo } from "react";
 import { Link } from "wouter";
 import ShareBar from "@/components/share/ShareBar";
 
@@ -7,9 +7,8 @@ const POST_PATH = "/blog/energia-solar-empresas";
 const CANONICAL = `${SITE_URL}${POST_PATH}`;
 const HERO_IMAGE = "/blog/energia-solar-empresas.webp";
 const HERO_ALT = "Energia solar para empresas: como reduzir custos e aumentar competitividade.";
-const HERO_CAPTION = "Empresas: dimensionamento, demanda, perfil de consumo e payback — RJ e região.";
-const OG_IMAGE = `${SITE_URL}/blog/regulamentacao-aneel.webp`;
-
+const HERO_CAPTION = "Empresas: dimensionamento, demanda, perfil de consumo e payback ï¿½ RJ e regiï¿½o.";
+const OG_IMAGE = `${SITE_URL}/blog/energia-solar-empresas.webp`;
 const DATE_PUBLISHED = "2024-11-20";
 const DATE_MODIFIED = "2024-11-20";
 

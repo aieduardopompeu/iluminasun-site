@@ -1,7 +1,11 @@
-import { useEffect, useMemo } from "react";
+﻿import { useEffect, useMemo } from "react";
 import { Link } from "wouter";
 import ShareBar from "@/components/share/ShareBar";
+
 
+const HERO_IMAGE = "/blog/marco-legal-lei-14300-energia-solar-rj.webp";
+const HERO_ALT = "marco-legal-lei-14300-energia-solar-rj";
+const HERO_CAPTION = "";
 const SITE_URL = import.meta.env.VITE_SITE_URL || "https://iluminasun.com.br";
 
 // Imagem do post (capa dentro do artigo)
@@ -9,8 +13,7 @@ const POST_IMAGE_PATH = "/blog/marco-legal-14300.webp";
 const POST_IMAGE_ABS = `${SITE_URL}${POST_IMAGE_PATH}`;
 
 // OG (ideal 1200x630). Se você tiver uma OG específica, defina VITE_OG_IMAGE_MARCO_14300.
-const OG_IMAGE = import.meta.env.VITE_OG_IMAGE_MARCO_14300 || `${SITE_URL}/og.png`;
-
+const OG_IMAGE = `${SITE_URL}/blog/marco-legal-lei-14300-energia-solar-rj.webp`;
 const POST_PATH = "/blog/marco-legal-lei-14300-energia-solar-rj";
 const CANONICAL = `${SITE_URL}${POST_PATH}`;
 

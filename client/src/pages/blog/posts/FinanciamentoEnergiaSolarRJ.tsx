@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+ï»¿import { useEffect, useMemo } from "react";
 import { Link } from "wouter";
 import ShareBar from "@/components/share/ShareBar";
 
@@ -6,10 +6,9 @@ const SITE_URL = import.meta.env.VITE_SITE_URL || "https://iluminasun.com.br";
 const POST_PATH = "/blog/financiamento-energia-solar-rj";
 const CANONICAL = `${SITE_URL}${POST_PATH}`;
 const HERO_IMAGE = "/blog/financiamento-energia-solar-rj.webp";
-const HERO_ALT = "Financiamento de energia solar no RJ: parcelas, juros e aprovação.";
-const HERO_CAPTION = "Financiamento no RJ: documentos, prazos e como acelerar a aprovação.";
-const OG_IMAGE = `${SITE_URL}/blog/regulamentacao-aneel.webp`;
-
+const HERO_ALT = "Financiamento de energia solar no RJ: parcelas, juros e aprovaï¿½ï¿½o.";
+const HERO_CAPTION = "Financiamento no RJ: documentos, prazos e como acelerar a aprovaï¿½ï¿½o.";
+const OG_IMAGE = `${SITE_URL}/blog/financiamento-energia-solar-rj.webp`;
 const DATE_PUBLISHED = "2025-01-10";
 const DATE_MODIFIED = "2025-01-10";
 
