@@ -7,6 +7,7 @@ const HERO_CAPTION = "Legenda curta (opcional)";
 import { useEffect, useMemo } from "react";
 import { Link } from "wouter";
 import ShareBar from "@/components/share/ShareBar";
+import AdSenseAd from "@/components/ads/AdSenseAd";
 
 {/* Hero image */}
 <figure className="overflow-hidden rounded-2xl border border-border bg-muted/30">
@@ -37,6 +38,12 @@ const OG_IMAGE = `${SITE_URL}/blog/SEU-OG.webp`;
 const DATE_PUBLISHED = "2025-01-01";
 const DATE_MODIFIED = "2025-01-01";
 const READING_TIME = "10–14 min de leitura";
+
+const ADSENSE_CLIENT = "ca-pub-4436420746304287"; // <- seu ca-pub
+const SLOT_TOP = "1234567890";    // <- Ad unit 1 (in-article/top)
+const SLOT_MID = "2345678901";    // <- Ad unit 2 (mid)
+const SLOT_BOTTOM = "3456789012"; // <- Ad unit 3 (bottom)
+
 
 function upsertMetaBy(attr: "name" | "property", key: string, content: string) {
   let el = document.querySelector(`meta[${attr}="${key}"]`) as HTMLMetaElement | null;
