@@ -32,9 +32,9 @@ async function login(): Promise<void> {
   if (inflightLogin) return inflightLogin;
 
   inflightLogin = (async () => {
-  const base = env("FORTLEV_BASE_URL").replace(/\/$/, "");
-  const username = env("FORTLEV_USERNAME");
-  const password = env("FORTLEV_PASSWORD");
+  const base = env("FORTLEV_BASE_URL").trim().replace(/\/$/, "");
+  const username = env("FORTLEV_USERNAME").trim();
+  const password = env("FORTLEV_PASSWORD").trim();
 
   // ✅ Enviar como form-urlencoded (muito comum em /login)
   const form = new URLSearchParams({ username, password });
