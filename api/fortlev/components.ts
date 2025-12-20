@@ -1,4 +1,5 @@
-// api/fortlev/components.ts
+export const config = { runtime: "nodejs" };
+
 import { fortlevFetch, sendJson } from "../../shared/fortlevPartner";
 
 export default async function handler(req: any, res: any) {
