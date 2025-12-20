@@ -1,18 +1,34 @@
 // api/fortlev/components.ts
-import { fortlevFetch, sendJson } from "../../shared/fortlevPartner";
+import type { IncomingMessage, ServerResponse } from "http";
+import { fortlevFetch } from "../../shared/fortlevPartner";
 
-export const config = { runtime: "nodejs" };
+function sendJson(res: ServerResponse, status: number, payload: any) {
+  res.statusCode = status;
+  res.setHeader("Content-Type", "application/json; charset=utf-8");
+  res.setHeader("Cache-Control", "no-store");
+  res.end(JSON.stringify(payload));
+}
 
-export default async function handler(req: any, res: any) {
-  if (req.method !== "GET") {
-    return sendJson(res, 405, { error: "Method not allowed" });
-  }
-
+export default async function handler(req: IncomingMessage, res: ServerResponse) {
   try {
+    if (req.method !== "GET") {
+      return sendJson(res, 405, { ok: false, error: "Method not allowed" });
+    }
+
     const r = await fortlevFetch("/component/all", { method: "GET" });
-    const data = await r.json().catch(() => null);
+
+    // tenta JSON; se não for JSON, devolve texto
+    const text = await r.text();
+    let data: any = null;
+    try {
+      data = text ? JSON.parse(text) : null;
+    } catch {
+      data = { raw: text };
+    }
+
     return sendJson(res, r.status, data);
   } catch (e: any) {
-    return sendJson(res, 500, { error: e?.message || "Unexpected error" });
+    console.error("[fortlev/components] error:", e?.message || e, e?.stack);
+    return sendJson(res, 500, { ok: false, error: e?.message || "Unexpected error" });
   }
 }

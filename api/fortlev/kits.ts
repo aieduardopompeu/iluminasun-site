@@ -1,25 +1,36 @@
 // api/fortlev/kits.ts
-import { fortlevFetch, sendJson } from "../../shared/fortlevPartner";
+import type { IncomingMessage, ServerResponse } from "http";
+import { fortlevFetch } from "../../shared/fortlevPartner";
 
-export const config = { runtime: "nodejs" };
+function sendJson(res: ServerResponse, status: number, payload: any) {
+  res.statusCode = status;
+  res.setHeader("Content-Type", "application/json; charset=utf-8");
+  res.setHeader("Cache-Control", "no-store");
+  res.end(JSON.stringify(payload));
+}
 
 function toNumber(v: any, fallback: number) {
   const n = Number(v);
   return Number.isFinite(n) ? n : fallback;
 }
 
-export default async function handler(req: any, res: any) {
-  if (req.method !== "GET") {
-    return sendJson(res, 405, { error: "Method not allowed" });
-  }
-
+export default async function handler(req: IncomingMessage, res: ServerResponse) {
   try {
-    const power = toNumber(req.query?.power, 0); // 0 => catálogo
-    const phase = toNumber(req.query?.phase, 1);
-    const voltage = String(req.query?.voltage ?? "220");
+    if (req.method !== "GET") {
+      return sendJson(res, 405, { ok: false, error: "Method not allowed" });
+    }
 
-    const surface = req.query?.surface ? String(req.query.surface) : null;
-    const city = req.query?.city ? String(req.query.city) : null;
+    // Parse query via URL (não depende de req.query)
+    const host = req.headers.host || "localhost";
+    const url = new URL(req.url || "/", `https://${host}`);
+    const qs = url.searchParams;
+
+    const power = toNumber(qs.get("power"), 0); // 0 => catálogo
+    const phase = toNumber(qs.get("phase"), 1);
+    const voltage = String(qs.get("voltage") ?? "220");
+
+    const surface = qs.get("surface") ? String(qs.get("surface")) : null;
+    const city = qs.get("city") ? String(qs.get("city")) : null;
 
     const body = { power, voltage, phase, surface, city };
 
@@ -28,17 +39,17 @@ export default async function handler(req: any, res: any) {
       body: JSON.stringify(body),
     });
 
-    const raw = await r.json().catch(() => null);
+    const text = await r.text();
+    let data: any = null;
+    try {
+      data = text ? JSON.parse(text) : null;
+    } catch {
+      data = { raw: text };
+    }
 
-    const pv_kits =
-      Array.isArray(raw)
-        ? raw.flatMap((order: any) =>
-            Array.isArray(order?.pv_kits) ? order.pv_kits : []
-          )
-        : [];
-
-    return sendJson(res, r.status, { raw, pv_kits });
+    return sendJson(res, r.status, data);
   } catch (e: any) {
-    return sendJson(res, 500, { error: e?.message || "Unexpected error" });
+    console.error("[fortlev/kits] error:", e?.message || e, e?.stack);
+    return sendJson(res, 500, { ok: false, error: e?.message || "Unexpected error" });
   }
 }
