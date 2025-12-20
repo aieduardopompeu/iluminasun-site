@@ -1,49 +1,33 @@
 // client/src/pages/blog/posts/_PostTemplate.tsx
 "use client";
-const HERO_IMAGE = "/blog/ARQUIVO.webp";
-const HERO_ALT = "Descrição curta da imagem";
-const HERO_CAPTION = "Legenda curta (opcional)";
 
 import { useEffect, useMemo } from "react";
 import { Link } from "wouter";
 import ShareBar from "@/components/share/ShareBar";
 import AdSenseAd from "@/components/ads/AdSenseAd";
+import { ADSENSE_CLIENT, ADSENSE_SLOTS } from "@/config/adsense";
 
-{/* Hero image */}
-<figure className="overflow-hidden rounded-2xl border border-border bg-muted/30">
-  <img
-    src={HERO_IMAGE}
-    alt={HERO_ALT}
-    className="h-auto w-full object-cover"
-    loading="lazy"
-  />
-  {HERO_CAPTION ? (
-    <figcaption className="px-4 py-3 text-xs text-muted-foreground">
-      {HERO_CAPTION}
-    </figcaption>
-  ) : null}
-</figure>
+const SITE_URL = import.meta.env.VITE_SITE_URL || "https://iluminasun.com.br";
 
-const SITE_URL = import.meta.env.VITE_SITE_URL || "https://www.iluminasun.com.br";
-
-// ✅ Troque APENAS estes 3 itens ao criar um post novo
+// ✅ Troque APENAS estes itens ao criar um post novo
 const POST_SLUG = "SEU-SLUG-AQUI";
+const CATEGORY_LABEL = "Categoria"; // ex.: "Regulamentação", "Financiamento", "Manutenção", "Mercado"
 const POST_TITLE = "TÍTULO DO POST";
 const POST_DESCRIPTION = "DESCRIÇÃO DO POST (SEO).";
 
-const POST_PATH = `/blog/${POST_SLUG}`;
-const CANONICAL = `${SITE_URL}${POST_PATH}`;
-const OG_IMAGE = `${SITE_URL}/blog/SEU-OG.webp`;
+const HERO_IMAGE = "/blog/ARQUIVO.webp";
+const HERO_ALT = "Descrição curta da imagem";
+const HERO_CAPTION = ""; // opcional
 
 const DATE_PUBLISHED = "2025-01-01";
 const DATE_MODIFIED = "2025-01-01";
-const READING_TIME = "10–14 min de leitura";
+const READING_TIME = "7–10 min";
 
-const ADSENSE_CLIENT = "ca-pub-4436420746304287"; // <- seu ca-pub
-const SLOT_TOP = "1234567890";    // <- Ad unit 1 (in-article/top)
-const SLOT_MID = "2345678901";    // <- Ad unit 2 (mid)
-const SLOT_BOTTOM = "3456789012"; // <- Ad unit 3 (bottom)
+const POST_PATH = `/blog/${POST_SLUG}`;
+const CANONICAL = `${SITE_URL}${POST_PATH}`;
 
+// Se você quiser, pode usar a mesma imagem do HERO como OG
+const OG_IMAGE = `${SITE_URL}${HERO_IMAGE}`;
 
 function upsertMetaBy(attr: "name" | "property", key: string, content: string) {
   let el = document.querySelector(`meta[${attr}="${key}"]`) as HTMLMetaElement | null;
@@ -79,7 +63,24 @@ export default function PostTemplate() {
     upsertMetaBy("property", "og:description", POST_DESCRIPTION);
     upsertMetaBy("property", "og:url", CANONICAL);
     upsertMetaBy("property", "og:image", OG_IMAGE);
+
+    upsertMetaBy("name", "twitter:card", "summary_large_image");
+    upsertMetaBy("name", "twitter:title", pageTitle);
+    upsertMetaBy("name", "twitter:description", POST_DESCRIPTION);
+    upsertMetaBy("name", "twitter:image", OG_IMAGE);
   }, [pageTitle]);
+
+  const breadcrumbJsonLd = useMemo(
+    () => ({
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Blog", item: `${SITE_URL}/blog` },
+        { "@type": "ListItem", position: 2, name: CATEGORY_LABEL, item: CANONICAL },
+      ],
+    }),
+    []
+  );
 
   const articleJsonLd = useMemo(
     () => ({
@@ -103,10 +104,8 @@ export default function PostTemplate() {
 
   return (
     <main className="min-h-screen bg-background text-foreground">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
 
       <div className="mx-auto w-full max-w-6xl px-4 pt-24 pb-16 md:px-6 lg:px-0">
         <div className="mb-6 flex items-center gap-2 text-sm text-muted-foreground">
@@ -114,100 +113,84 @@ export default function PostTemplate() {
             <a className="hover:text-primary">Blog</a>
           </Link>
           <span>•</span>
-          <span className="truncate">Categoria</span>
+          <span className="truncate">{CATEGORY_LABEL}</span>
         </div>
 
-        <article className="space-y-8">
-          <header className="space-y-4">
-            <div className="inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-              Categoria
-            </div>
+        <article className="grid gap-10 lg:grid-cols-[1fr_320px]">
+          {/* Coluna principal */}
+          <div className="space-y-8">
+            <header className="space-y-4">
+              <div className="inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+                {CATEGORY_LABEL}
+              </div>
 
-            <h1 className="text-3xl font-bold leading-tight md:text-4xl">
-              {POST_TITLE}
-            </h1>
+              <h1 className="text-3xl font-bold leading-tight md:text-4xl">{POST_TITLE}</h1>
 
-            <p className="text-base text-muted-foreground md:text-lg">
-              {POST_DESCRIPTION}
-            </p>
+              <p className="text-base text-muted-foreground md:text-lg">{POST_DESCRIPTION}</p>
 
-            <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
-              <span>Equipe Ilumina Sun</span>
-              <span>•</span>
-              <span>{DATE_MODIFIED}</span>
-              <span>•</span>
-              <span>{READING_TIME}</span>
-            </div>
-            <div className="pt-2">
-            <ShareBar
-              title={POST_TITLE}
-              url={CANONICAL}
-              slug={POST_SLUG}
-              contentType="blog"
-              compact
-              heading=""
+              <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
+                <span>Equipe Ilumina Sun</span>
+                <span>•</span>
+                <span>{DATE_MODIFIED}</span>
+                <span>•</span>
+                <span>{READING_TIME}</span>
+              </div>
+
+              {/* Compartilhar + AdSense Topo */}
+              <div className="pt-2">
+                <ShareBar title={POST_TITLE} url={CANONICAL} slug={POST_SLUG} contentType="blog" compact heading="" />
+              </div>
+
+              <AdSenseAd
+                client={ADSENSE_CLIENT}
+                slot={ADSENSE_SLOTS.BLOG_TOP}
+                format="fluid"
+                refreshKey={POST_SLUG}
+                adTest={import.meta.env.DEV}
+                className="my-8"
+                style={{ textAlign: "center" }}
+              />
+
+              {/* Hero image */}
+              <figure className="overflow-hidden rounded-2xl border border-border bg-muted/30">
+                <img src={HERO_IMAGE} alt={HERO_ALT} className="h-auto w-full object-cover" loading="lazy" />
+                {HERO_CAPTION ? (
+                  <figcaption className="px-4 py-3 text-xs text-muted-foreground">{HERO_CAPTION}</figcaption>
+                ) : null}
+              </figure>
+            </header>
+
+            <section className="prose prose-slate max-w-none dark:prose-invert">
+              <h2>Seção</h2>
+              <p>Conteúdo…</p>
+            </section>
+
+            {/* AdSense Rodapé */}
+            <AdSenseAd
+              client={ADSENSE_CLIENT}
+              slot={ADSENSE_SLOTS.BLOG_BOTTOM}
+              format="auto"
+              fullWidthResponsive
+              refreshKey={POST_SLUG}
+              adTest={import.meta.env.DEV}
+              className="my-10"
             />
-<AdSenseAd
-  client={ADSENSE_CLIENT}
-  slot={ADSENSE_SLOTS.BLOG_TOP}
-  layout="in-article"
-  format="fluid"
-  refreshKey={POST_SLUG}
-  adTest={import.meta.env.DEV}
-  className="my-8"
-  style={{ textAlign: "center" }}
-/>
           </div>
-          <ShareBar
-            title="(cole aqui o título do post)"
-            url={CANONICAL}
-            slug="(cole aqui o slug do post)"
-            contentType="blog"
-            heading=""
-          />
-<AdSenseAd
-  client={ADSENSE_CLIENT}
-  slot={ADSENSE_SLOTS.BLOG_TOP}
-  layout="in-article"
-  format="fluid"
-  refreshKey={POST_SLUG}
-  adTest={import.meta.env.DEV}
-  className="my-8"
-  style={{ textAlign: "center" }}
-/>
-          </header>
 
-          <section className="prose prose-slate max-w-none dark:prose-invert">
-            <h2>Seção</h2>
-            <p>Conteúdo…</p>
-          </section>
-
-          {/* Opcional: se quiser repetir no final do post */}
-          {/* 
-          <div className="pt-6">
-            <ShareBar title={POST_TITLE} url={CANONICAL} slug={POST_SLUG} contentType="blog" compact heading="" />
-<AdSenseAd
-  client={ADSENSE_CLIENT}
-  slot={ADSENSE_SLOTS.BLOG_TOP}
-  layout="in-article"
-  format="fluid"
-  refreshKey={POST_SLUG}
-  adTest={import.meta.env.DEV}
-  className="my-8"
-  style={{ textAlign: "center" }}
-/>
-          </div>
-          */}
-        <AdSenseAd
-  client={ADSENSE_CLIENT}
-  slot={ADSENSE_SLOTS.BLOG_BOTTOM}
-  format="auto"
-  fullWidthResponsive
-  refreshKey={POST_SLUG}
-  adTest={import.meta.env.DEV}
-  className="my-10"
-/>
-</article>
+          {/* Sidebar (opcional) */}
+          <aside className="space-y-6">
+            <div className="rounded-2xl border border-border bg-muted/30 p-5">
+              <div className="text-sm font-semibold">Relacionados</div>
+              <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
+                <li>
+                  <Link href="/blog">
+                    <a className="hover:text-primary">Ver todos os posts →</a>
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </aside>
+        </article>
       </div>
     </main>
   );
