@@ -1,17 +1,17 @@
+// client/src/App.tsx
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { lazy, Suspense, useEffect } from "react";
 import { Route, Switch, useLocation } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
-import { ThemeProvider } from "./contexts/ThemeContext";
-import Header from "./components/Header";
 import Footer from "./components/Footer";
+import Header from "./components/Header";
+import { ThemeProvider } from "./contexts/ThemeContext";
 
-// ✅ Lazy: componentes não-críticos
 const WhatsAppButton = lazy(() => import("./components/WhatsAppButton"));
 const CookieBanner = lazy(() => import("./components/CookieBanner"));
 
-// ✅ Lazy: páginas
+// Lazy: páginas
 const Home = lazy(() => import("./pages/Home"));
 const QuemSomos = lazy(() => import("./pages/QuemSomos"));
 const Servicos = lazy(() => import("./pages/Servicos"));
@@ -26,16 +26,21 @@ const TermosDeUso = lazy(() => import("./pages/TermosDeUso"));
 const PoliticaDePrivacidade = lazy(() => import("./pages/PoliticaDePrivacidade"));
 const PoliticaDeCookies = lazy(() => import("./pages/PoliticaDeCookies"));
 const LGPDPage = lazy(() => import("./pages/LGPD"));
-const NotFound = lazy(() => import("@/pages/NotFound"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
-// ✅ Lazy: posts (isso derruba bastante o JS inicial)
-const RegulamentacaoAneel = lazy(() => import("./pages/blog/posts/RegulamentacaoAneel"));
+// ✅ SEO Local (Cidades)
+const Cidades = lazy(() => import("./pages/cidades/Cidades"));
+const Cidade = lazy(() => import("./pages/cidades/Cidade"));
+
+// Blog posts
 const MarcoLegal14300 = lazy(() => import("./pages/blog/posts/MarcoLegal14300"));
 const FinanciamentoEnergiaSolarRJ = lazy(
   () => import("./pages/blog/posts/FinanciamentoEnergiaSolarRJ")
 );
 const ContaDeLuzNaoZerou = lazy(() => import("./pages/blog/posts/ContaDeLuzNaoZerou"));
-const ManutencaoPaineisSolares = lazy(() => import("./pages/blog/posts/ManutencaoPaineisSolares"));
+const ManutencaoPaineisSolares = lazy(
+  () => import("./pages/blog/posts/ManutencaoPaineisSolares")
+);
 const EnergiaSolarEmpresas = lazy(() => import("./pages/blog/posts/EnergiaSolarEmpresas"));
 const TendenciasMercadoSolar2026 = lazy(
   () => import("./pages/blog/posts/TendenciasMercadoSolar2026")
@@ -55,18 +60,16 @@ function pushDataLayer(event: Record<string, any>) {
 }
 
 function RouteFallback() {
-  // Leve o suficiente para não virar “novo LCP”
   return (
     <div className="mx-auto flex min-h-[50vh] max-w-6xl items-center justify-center px-4">
-      <span className="text-sm text-muted-foreground">Carregando…</span>
+      <span className="text-sm text-muted-foreground">Carregando...</span>
     </div>
   );
 }
 
-function Router() {
+export default function App() {
   const [location] = useLocation();
 
-  // SPA pageview: dispara em toda mudança de rota (inclui carregamento inicial).
   useEffect(() => {
     pushDataLayer({
       event: "page_view",
@@ -76,96 +79,76 @@ function Router() {
   }, [location]);
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <Header />
+    <ThemeProvider>
+      <TooltipProvider>
+        <ErrorBoundary>
+          <div className="flex min-h-screen flex-col">
+            <Header />
 
-      <main className="flex-1">
-        <Suspense fallback={<RouteFallback />}>
-          <Switch>
-            <Route path={"/"} component={Home} />
-            <Route path={"/quem-somos"} component={QuemSomos} />
-            <Route path={"/servicos"} component={Servicos} />
-            <Route path={"/portfolio"} component={Portfolio} />
-            <Route path={"/vantagens"} component={Vantagens} />
-            <Route path={"/simulador"} component={Simulador} />
-            <Route path={"/contato"} component={Contato} />
+            <main className="flex-1">
+              <Suspense fallback={<RouteFallback />}>
+                <Switch>
+                  <Route path="/" component={Home} />
+                  <Route path="/quem-somos" component={QuemSomos} />
+                  <Route path="/servicos" component={Servicos} />
+                  <Route path="/portfolio" component={Portfolio} />
+                  <Route path="/vantagens" component={Vantagens} />
+                  <Route path="/simulador" component={Simulador} />
+                  <Route path="/contato" component={Contato} />
 
-            {/* Blog posts */}
-            <Route
-              path={"/blog/regulamentacao-aneel-energia-solar"}
-              component={RegulamentacaoAneel}
-            />
-            <Route
-              path={"/blog/marco-legal-lei-14300-energia-solar-rj"}
-              component={MarcoLegal14300}
-            />
-            <Route
-              path={"/blog/financiamento-energia-solar-rj"}
-              component={FinanciamentoEnergiaSolarRJ}
-            />
-            <Route
-              path={"/blog/conta-de-luz-nao-zerou-energia-solar"}
-              component={ContaDeLuzNaoZerou}
-            />
-            <Route
-              path={"/blog/manutencao-paineis-solares"}
-              component={ManutencaoPaineisSolares}
-            />
-            <Route path={"/blog/energia-solar-empresas"} component={EnergiaSolarEmpresas} />
-            <Route
-              path={"/blog/tendencias-mercado-solar-2026"}
-              component={TendenciasMercadoSolar2026}
-            />
+                  <Route path="/kit-solar" component={KitSolar} />
+                  <Route path="/kit-solar/:slug" component={KitSolarDetail} />
 
-            {/* compatibilidade se alguém tiver acessado o slug antigo */}
-            <Route
-              path={"/blog/tendencias-mercado-solar-2025"}
-              component={TendenciasMercadoSolar2026}
-            />
+                  <Route path="/blog" component={Blog} />
 
-            <Route path={"/blog"} component={Blog} />
+                  {/* ✅ SEO Local (wouter: específico primeiro; sem exact) */}
+                  <Route path="/cidades/:slug" component={Cidade} />
+                  <Route path="/cidades" component={Cidades} />
 
-            {/* Site */}
-            <Route path={"/kit-solar"} component={KitSolar} />
-            <Route path={"/kit-solar/:slug"} component={KitSolarDetail} />
-            <Route path={"/termos-de-uso"} component={TermosDeUso} />
-            <Route path={"/politica-de-privacidade"} component={PoliticaDePrivacidade} />
-            <Route path={"/politica-de-cookies"} component={PoliticaDeCookies} />
-            <Route path={"/lgpd"} component={LGPDPage} />
+                  {/* Blog posts */}
+                  <Route
+                    path="/blog/marco-legal-lei-14300-energia-solar-rj"
+                    component={MarcoLegal14300}
+                  />
+                  <Route
+                    path="/blog/financiamento-energia-solar-rj"
+                    component={FinanciamentoEnergiaSolarRJ}
+                  />
+                  <Route
+                    path="/blog/conta-de-luz-nao-zerou-energia-solar"
+                    component={ContaDeLuzNaoZerou}
+                  />
+                  <Route
+                    path="/blog/manutencao-paineis-solares"
+                    component={ManutencaoPaineisSolares}
+                  />
+                  <Route path="/blog/energia-solar-empresas" component={EnergiaSolarEmpresas} />
+                  <Route
+                    path="/blog/tendencias-mercado-solar-2026"
+                    component={TendenciasMercadoSolar2026}
+                  />
 
-            <Route path={"/404"} component={NotFound} />
-            <Route component={NotFound} />
-          </Switch>
-        </Suspense>
-      </main>
+                  <Route path="/termos-de-uso" component={TermosDeUso} />
+                  <Route path="/politica-de-privacidade" component={PoliticaDePrivacidade} />
+                  <Route path="/politica-de-cookies" component={PoliticaDeCookies} />
+                  <Route path="/lgpd" component={LGPDPage} />
 
-      <Footer />
+                  <Route component={NotFound} />
+                </Switch>
+              </Suspense>
+            </main>
 
-      {/* Não-crítico: não deve bloquear o primeiro render */}
-      <Suspense fallback={null}>
-        <WhatsAppButton
-          phoneNumber="5521966084093"
-          message="Olá! Gostaria de saber mais sobre energia solar e receber um orçamento."
-        />
-      </Suspense>
-    </div>
+            <Footer />
+
+            <Suspense fallback={null}>
+              <WhatsAppButton />
+              <CookieBanner />
+            </Suspense>
+
+            <Toaster />
+          </div>
+        </ErrorBoundary>
+      </TooltipProvider>
+    </ThemeProvider>
   );
 }
-
-function App() {
-  return (
-    <ErrorBoundary>
-      <ThemeProvider defaultTheme="light">
-        <TooltipProvider>
-          <Toaster />
-          <Router />
-          <Suspense fallback={null}>
-            <CookieBanner />
-          </Suspense>
-        </TooltipProvider>
-      </ThemeProvider>
-    </ErrorBoundary>
-  );
-}
-
-export default App;
