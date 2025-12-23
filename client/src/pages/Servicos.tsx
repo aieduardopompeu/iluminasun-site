@@ -98,6 +98,35 @@ export default function Servicos() {
             <p className="text-lg md:text-xl text-muted-foreground">
               Soluções completas em energia solar fotovoltaica para todos os tipos de necessidade
             </p>
+
+            {/* ✅ CTA (Topo – alto impacto) */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-2">
+              <Link href="/simulador">
+                <Button size="lg" className="text-base font-semibold w-full sm:w-auto">
+                  Simular Economia
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
+              <Link href="/contato">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="text-base font-semibold w-full sm:w-auto"
+                >
+                  Falar com Especialista
+                </Button>
+              </Link>
+            </div>
+
+            {/* ✅ CTA Local (Topo – secundário, sem poluir) */}
+            <div>
+              <Link href="/cidades">
+                <Button variant="ghost" className="font-semibold px-0">
+                  Atendemos sua cidade
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -111,7 +140,9 @@ export default function Servicos() {
               return (
                 <Card key={index} className="border-2 hover:border-primary transition-colors">
                   <CardContent className="p-8 space-y-6">
-                    <div className={`flex h-16 w-16 items-center justify-center rounded-lg bg-${servico.color}/10`}>
+                    <div
+                      className={`flex h-16 w-16 items-center justify-center rounded-lg bg-${servico.color}/10`}
+                    >
                       <Icon className={`h-8 w-8 text-${servico.color}`} />
                     </div>
                     <div className="space-y-3">
@@ -121,7 +152,9 @@ export default function Servicos() {
                     <ul className="space-y-2">
                       {servico.features.map((feature, idx) => (
                         <li key={idx} className="flex items-start gap-2">
-                          <ArrowRight className={`h-5 w-5 text-${servico.color} flex-shrink-0 mt-0.5`} />
+                          <ArrowRight
+                            className={`h-5 w-5 text-${servico.color} flex-shrink-0 mt-0.5`}
+                          />
                           <span className="text-sm">{feature}</span>
                         </li>
                       ))}
@@ -130,6 +163,38 @@ export default function Servicos() {
                 </Card>
               );
             })}
+          </div>
+
+          {/* ✅ CTA (Meio – alto impacto local) */}
+          <div className="mt-12">
+            <Card className="border-2">
+              <CardContent className="p-8 md:p-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                <div className="space-y-2">
+                  <h2 className="text-2xl md:text-3xl font-bold">Atendemos sua cidade?</h2>
+                  <p className="text-muted-foreground">
+                    Veja as cidades atendidas e fale com um especialista para receber uma proposta personalizada.
+                  </p>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
+                  <Link href="/cidades">
+                    <Button size="lg" className="text-base font-semibold w-full sm:w-auto">
+                      Ver Cidades Atendidas
+                      <ArrowRight className="ml-2 h-5 w-5" />
+                    </Button>
+                  </Link>
+                  <Link href="/contato">
+                    <Button
+                      size="lg"
+                      variant="outline"
+                      className="text-base font-semibold w-full sm:w-auto"
+                    >
+                      Falar com Especialista
+                    </Button>
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
@@ -162,13 +227,11 @@ export default function Servicos() {
         </div>
       </section>
 
-      {/* CTA */}
+      {/* CTA Final */}
       <section className="py-16 md:py-24">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center space-y-6">
-            <h2 className="text-3xl md:text-4xl font-bold">
-              Pronto para Começar?
-            </h2>
+            <h2 className="text-3xl md:text-4xl font-bold">Pronto para Começar?</h2>
             <p className="text-lg text-muted-foreground">
               Entre em contato e receba uma proposta personalizada para suas necessidades
             </p>
@@ -180,7 +243,11 @@ export default function Servicos() {
                 </Button>
               </Link>
               <Link href="/contato">
-                <Button size="lg" variant="outline" className="text-base font-semibold w-full sm:w-auto">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="text-base font-semibold w-full sm:w-auto"
+                >
                   Falar com Especialista
                 </Button>
               </Link>

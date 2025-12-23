@@ -64,6 +64,16 @@ export default function Home() {
                   <p className="text-sm text-muted-foreground">Clientes Satisfeitos</p>
                 </div>
               </div>
+
+              {/* ✅ CTA secundário (abaixo do "print"/métricas) */}
+              <div className="pt-2">
+                <Link href="/cidades">
+                  <Button variant="ghost" className="font-semibold px-0">
+                    Ver cidades atendidas
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
+              </div>
             </div>
 
             {/* Hero Image */}
