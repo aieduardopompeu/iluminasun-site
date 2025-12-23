@@ -1,6 +1,6 @@
 // client/src/pages/cidades/Cidade.tsx
-import React, { useEffect } from "react";
-import { Link, useLocation } from "wouter";
+import React from "react";
+import { Link } from "wouter";
 import SEO from "../../components/SEO";
 
 type CityDetail = {
@@ -51,22 +51,7 @@ type Props = {
 
 export default function Cidade(props: Props) {
   const rawSlug = props?.params?.slug || "";
-  const urlSlug = normalizeSlug(rawSlug);
   const city = findCity(rawSlug);
-
-  const [, setLocation] = useLocation();
-
-  // ✅ Canonical redirect: se a URL veio "suja" (acentos/encoding/maiúsculas),
-  // faz replace para /cidades/{slug-canônico}
-  useEffect(() => {
-    if (!city) return;
-    if (!urlSlug) return;
-
-    const canonicalSlug = normalizeSlug(city.slug);
-    if (urlSlug !== canonicalSlug) {
-      setLocation(`/cidades/${city.slug}`, { replace: true });
-    }
-  }, [city, urlSlug, setLocation]);
 
   if (!city) {
     return (
@@ -95,6 +80,24 @@ export default function Cidade(props: Props) {
 
   const canonical = `https://www.iluminasun.com.br/cidades/${city.slug}`;
 
+  // ✅ FAQ único (usa o mesmo array tanto para renderização quanto para JSON-LD)
+  const faqItems = [
+    {
+      question: `A Ilumina Sun atende ${city.name}?`,
+      answer: `Sim. Atendemos ${city.name} e outras cidades do RJ (veja em /cidades).`,
+    },
+    {
+      question: "Como pedir orçamento?",
+      answer:
+        "O caminho mais rápido é simular e enviar seu consumo pelo WhatsApp. Se preferir, fale pela página de contato.",
+    },
+    {
+      question: "Quanto posso economizar com energia solar?",
+      answer:
+        "A economia depende do consumo, perfil de uso, telhado, sombreamento e dimensionamento do sistema. Em muitos casos, é possível reduzir grande parte do valor da conta de luz.",
+    },
+  ];
+
   return (
     <>
       <SEO
@@ -103,6 +106,25 @@ export default function Cidade(props: Props) {
         canonical={canonical}
         url={canonical}
         ogImage={OG_IMAGE}
+      />
+
+      {/* ✅ Schema.org FAQPage (JSON-LD) */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: faqItems.map((item) => ({
+              "@type": "Question",
+              name: item.question,
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: item.answer,
+              },
+            })),
+          }),
+        }}
       />
 
       <main className="min-h-screen bg-white">
@@ -217,34 +239,40 @@ export default function Cidade(props: Props) {
                 </div>
               </div>
 
+              {/* FAQ (render) */}
               <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
                 <h3 className="text-lg font-bold text-slate-900">
                   Perguntas frequentes (FAQ)
                 </h3>
-                <div className="mt-4 space-y-3 text-slate-700">
-                  <div className="rounded-xl border border-slate-200 p-4">
-                    <p className="font-semibold">
-                      A Ilumina Sun atende {city.name}?
-                    </p>
-                    <p className="mt-1 text-sm text-slate-600">
-                      Sim. Atendemos {city.name} e outras cidades do RJ (veja em{" "}
-                      <Link
-                        href="/cidades"
-                        className="text-blue-700 hover:text-blue-800"
-                      >
-                        /cidades
-                      </Link>
-                      ).
-                    </p>
-                  </div>
 
-                  <div className="rounded-xl border border-slate-200 p-4">
-                    <p className="font-semibold">Como pedir orçamento?</p>
-                    <p className="mt-1 text-sm text-slate-600">
-                      O caminho mais rápido é simular e enviar seu consumo pelo
-                      WhatsApp. Se preferir, fale pela página de contato.
-                    </p>
-                  </div>
+                <div className="mt-4 space-y-3">
+                  {faqItems.map((item) => (
+                    <div
+                      key={item.question}
+                      className="rounded-xl border border-slate-200 p-4"
+                    >
+                      <p className="font-semibold text-slate-900">
+                        {item.question}
+                      </p>
+                      <p className="mt-1 text-sm text-slate-600">
+                        {item.answer.includes("/cidades") ? (
+                          <>
+                            Sim. Atendemos {city.name} e outras cidades do RJ
+                            (veja em{" "}
+                            <Link
+                              href="/cidades"
+                              className="text-blue-700 hover:text-blue-800"
+                            >
+                              /cidades
+                            </Link>
+                            ).
+                          </>
+                        ) : (
+                          item.answer
+                        )}
+                      </p>
+                    </div>
+                  ))}
                 </div>
               </div>
             </section>
