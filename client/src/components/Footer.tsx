@@ -36,18 +36,25 @@ export default function Footer() {
             <p className="text-sm font-semibold">Links Rápidos</p>
 
             <ul className="space-y-2 text-sm text-muted-foreground">
+              {/* ✅ SEO Local */}
+              <li>
+                <Link href="/cidades">
+                  <a className="hover:text-primary">Cidades atendidas</a>
+                </Link>
+              </li>
+
               <li>
                 <Link href="/blog">
                   <a className="hover:text-primary">Blog</a>
                 </Link>
               </li>
-              
+
               <li>
                 <Link href="/portfolio">
                   <a className="hover:text-primary">Portfólio</a>
                 </Link>
               </li>
-              
+
               <li>
                 <Link href="/quem-somos">
                   <a className="hover:text-primary">Quem Somos</a>
@@ -60,13 +67,15 @@ export default function Footer() {
                 </Link>
               </li>
 
-              <li className="pt-2 text-sm font-semibold text-foreground">Termos e Políticas</li>
-              
+              <li className="pt-2 text-sm font-semibold text-foreground">
+                Termos e Políticas
+              </li>
+
               <li>
                 <Link href="/lgpd">
-                <a className="hover:text-primary">LGPD</a>
+                  <a className="hover:text-primary">LGPD</a>
                 </Link>
-              </li> 
+              </li>
 
               <li>
                 <Link href="/politica-de-cookies">
@@ -84,7 +93,8 @@ export default function Footer() {
                 <button
                   type="button"
                   onClick={openCookiePreferences}
-                  className="hover:text-primary">
+                  className="hover:text-primary"
+                >
                   Preferências de cookies
                 </button>
               </li>
@@ -94,7 +104,6 @@ export default function Footer() {
                   <a className="hover:text-primary">Termos de Uso</a>
                 </Link>
               </li>
-              
             </ul>
           </div>
 
@@ -146,7 +155,7 @@ export default function Footer() {
               <li className="flex items-start gap-2">
                 <MapPin className="mt-0.5 h-4 w-4" />
                 <span>
-                  R. Visconde de Pirajá, 414
+                  R. Visconde de Pirajá
                   <br />
                   Ipanema, Rio de Janeiro - RJ
                   <br />
@@ -202,78 +211,78 @@ export default function Footer() {
             <div className="pt-2">
               <p className="text-sm font-semibold">Selos</p>
 
-                        <div className="mt-2 flex items-center gap-3">
-            <a
-              href="https://www.ssllabs.com/ssltest/analyze.html?d=iluminasun.com.br"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="SSL (SSL Labs)"
-              title="SSL (SSL Labs)"
-              className="inline-flex items-center opacity-80 transition hover:opacity-100"
-            >
-              <img
-                src="/ssl-secure.svg"
-                alt="SSL (SSL Labs)"
-                width={40}
-                height={40}
-                className="h-10 w-10 object-contain"
-                loading="lazy"
-              />
-            </a>
+              <div className="mt-2 flex items-center gap-3">
+                <a
+                  href="https://www.ssllabs.com/ssltest/analyze.html?d=iluminasun.com.br"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="SSL (SSL Labs)"
+                  title="SSL (SSL Labs)"
+                  className="inline-flex items-center opacity-80 transition hover:opacity-100"
+                >
+                  <img
+                    src="/ssl-secure.svg"
+                    alt="SSL (SSL Labs)"
+                    width={40}
+                    height={40}
+                    className="h-10 w-10 object-contain"
+                    loading="lazy"
+                  />
+                </a>
 
-            <a
-              href="https://transparencyreport.google.com/safe-browsing/search?url=iluminasun.com.br"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Google Safe Browsing"
-              title="Google Safe Browsing"
-              className="inline-flex items-center opacity-80 transition hover:opacity-100"
-            >
-              <img
-                src="/google-safe.svg"
-                alt="Google Safe Browsing"
-                width={40}
-                height={40}
-                className="h-10 w-10 object-contain"
-                loading="lazy"
-              />
-            </a>
+                <a
+                  href="https://transparencyreport.google.com/safe-browsing/search?url=iluminasun.com.br"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Google Safe Browsing"
+                  title="Google Safe Browsing"
+                  className="inline-flex items-center opacity-80 transition hover:opacity-100"
+                >
+                  <img
+                    src="/google-safe.svg"
+                    alt="Google Safe Browsing"
+                    width={40}
+                    height={40}
+                    className="h-10 w-10 object-contain"
+                    loading="lazy"
+                  />
+                </a>
 
-            <Link href="/lgpd">
-              <a
-                aria-label="LGPD"
-                title="LGPD"
-                className="inline-flex items-center opacity-80 transition hover:opacity-100"
-              >
-                <img
-                  src="/lgpd.png"
-                  alt="LGPD"
-                  width={40}
-                  height={40}
-                  className="h-14 w-14 object-contain"
-                  loading="lazy"
-                />
-              </a>
-            </Link>
+                <Link href="/lgpd">
+                  <a
+                    aria-label="LGPD"
+                    title="LGPD"
+                    className="inline-flex items-center opacity-80 transition hover:opacity-100"
+                  >
+                    <img
+                      src="/lgpd.png"
+                      alt="LGPD"
+                      width={40}
+                      height={40}
+                      className="h-14 w-14 object-contain"
+                      loading="lazy"
+                    />
+                  </a>
+                </Link>
 
-            <a
-              href="https://www.altacloud.com.br"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Developer"
-              title="Developer"
-              className="inline-flex items-center opacity-80 transition hover:opacity-100"
-            >
-              <img
-                src="/altacloud.png"
-                alt="Developer"
-                width={40}
-                height={40}
-                className="h-14 w-14 object-contain"
-                loading="lazy"
-              />
-            </a>
-          </div>
+                <a
+                  href="https://www.altacloud.com.br"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Developer"
+                  title="Developer"
+                  className="inline-flex items-center opacity-80 transition hover:opacity-100"
+                >
+                  <img
+                    src="/altacloud.png"
+                    alt="Developer"
+                    width={40}
+                    height={40}
+                    className="h-14 w-14 object-contain"
+                    loading="lazy"
+                  />
+                </a>
+              </div>
             </div>
           </div>
         </div>

@@ -15,6 +15,10 @@ export default function Header() {
     { href: "/quem-somos", label: "Quem Somos" },
     { href: "/servicos", label: "Serviços" },
     { href: "/kit-solar", label: "Kit Solar" },
+
+    // ✅ SEO Local
+    { href: "/cidades", label: "Cidades" },
+
     { href: "/portfolio", label: "Portfólio" },
     { href: "/vantagens", label: "Vantagens" },
     { href: "/blog", label: "Blog" },
