@@ -2,6 +2,9 @@
 import React from "react";
 import { Link } from "wouter";
 import SEO from "../../components/SEO";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { ArrowRight, MapPin } from "lucide-react";
 
 const CITIES = [
   { name: "Niterói", slug: "niteroi", desc: "Orçamento e simulação de economia para Niterói, RJ." },
@@ -23,71 +26,113 @@ export default function Cidades() {
         description="Confira as cidades do RJ atendidas pela Ilumina Sun e acesse páginas locais com simulação de economia e pedido de orçamento."
         canonical={CANONICAL}
         url={CANONICAL}
+        keywords="energia solar RJ, energia solar Niterói, energia solar São Gonçalo, energia solar Maricá, instalação solar, placas solares"
       />
 
-      <main className="min-h-screen bg-white">
-        <div className="mx-auto w-full max-w-6xl px-4 pt-24 pb-16">
-          <header className="mb-8">
-            <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-              Cidades atendidas (RJ)
-            </h1>
-            <p className="mt-2 text-slate-600">
-              Atendemos:{" "}
-              <span className="font-semibold text-slate-800">
-                {CITIES.map((c) => c.name).join(", ")}.
-              </span>
-            </p>
-          </header>
+      <div className="flex flex-col">
+        {/* Hero (padrão do site) */}
+        <section className="bg-gradient-to-br from-primary/10 to-secondary/10 py-16 md:py-24">
+          <div className="container">
+            <div className="max-w-3xl mx-auto text-center space-y-6">
+              <p className="inline-flex items-center justify-center gap-2 text-sm font-semibold text-muted-foreground">
+                <MapPin className="h-4 w-4" />
+                Atendimento no Rio de Janeiro
+              </p>
 
-          <section className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {CITIES.map((c) => (
-              <div
-                key={c.slug}
-                className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
-              >
-                <h2 className="text-lg font-extrabold text-slate-900">
-                  Energia Solar em {c.name}
-                </h2>
-                <p className="mt-2 text-sm text-slate-600">{c.desc}</p>
+              <h1 className="text-4xl md:text-5xl font-bold">Cidades atendidas (RJ)</h1>
 
-                <div className="mt-4">
-                  <Link
-                    href={`/cidades/${c.slug}`}
-                    className="text-sm font-semibold text-blue-700 hover:text-blue-800"
+              <p className="text-lg md:text-xl text-muted-foreground">
+                Escolha sua cidade para ver detalhes, simular economia e pedir orçamento com base no seu consumo.
+              </p>
+
+              {/* CTA topo */}
+              <div className="flex flex-col sm:flex-row gap-4 justify-center pt-2">
+                <Link href="/simulador">
+                  <Button size="lg" className="text-base font-semibold w-full sm:w-auto">
+                    Simular Economia
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Button>
+                </Link>
+
+                <Link href="/contato">
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="text-base font-semibold w-full sm:w-auto"
                   >
-                    Ver página →
-                  </Link>
-                </div>
+                    Falar com Especialista
+                  </Button>
+                </Link>
               </div>
-            ))}
-          </section>
 
-          <section className="mt-10 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-            <h3 className="text-lg font-extrabold text-slate-900">Próximo passo</h3>
-            <p className="mt-2 text-slate-600">
-              Use o simulador e fale no WhatsApp para um orçamento com base no seu consumo.
-            </p>
-
-            <div className="mt-4 flex flex-wrap gap-3">
-              <Link
-                href="/simulador"
-                className="inline-flex items-center justify-center rounded-xl bg-blue-700 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-800"
-              >
-                Simular agora
-              </Link>
-
-              <a
-                href="https://wa.me/5521966084093"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-100"
-              >
-                Falar com a Ilumina Sun
-              </a>
+              <p className="text-sm text-muted-foreground">
+                Atendemos:{" "}
+                <span className="font-semibold text-foreground">
+                  {CITIES.map((c) => c.name).join(", ")}.
+                </span>
+              </p>
             </div>
-          </section>
-        </div>
-      </main>
+          </div>
+        </section>
+
+        {/* Lista (Cards) */}
+        <section className="py-16 md:py-24 bg-background">
+          <div className="container">
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {CITIES.map((c) => (
+                <Card key={c.slug} className="border-2 hover:border-primary transition-colors">
+                  <CardContent className="p-6 space-y-3">
+                    <h2 className="text-xl font-semibold">Energia Solar em {c.name}</h2>
+                    <p className="text-sm text-muted-foreground">{c.desc}</p>
+
+                    <div className="pt-2">
+                      <Link href={`/cidades/${c.slug}`}>
+                        <Button variant="outline" size="sm" className="font-semibold">
+                          Ver página
+                          <ArrowRight className="ml-2 h-4 w-4" />
+                        </Button>
+                      </Link>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            {/* CTA meio (padrão) */}
+            <div className="mt-12">
+              <Card className="border-2">
+                <CardContent className="p-8 md:p-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                  <div className="space-y-2">
+                    <h3 className="text-2xl md:text-3xl font-bold">Próximo passo</h3>
+                    <p className="text-muted-foreground">
+                      Faça uma simulação gratuita e receba orientação para dimensionar seu sistema com base no seu consumo.
+                    </p>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
+                    <Link href="/simulador">
+                      <Button size="lg" className="text-base font-semibold w-full sm:w-auto">
+                        Simular agora
+                        <ArrowRight className="ml-2 h-5 w-5" />
+                      </Button>
+                    </Link>
+
+                    <Link href="/contato">
+                      <Button
+                        size="lg"
+                        variant="outline"
+                        className="text-base font-semibold w-full sm:w-auto"
+                      >
+                        Falar com a Ilumina Sun
+                      </Button>
+                    </Link>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+      </div>
     </>
   );
 }
