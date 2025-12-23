@@ -3,6 +3,10 @@ import { useEffect } from "react";
 export type SEOProps = {
   title: string;
   description: string;
+
+  /** Keywords (separadas por vírgula). Opcional. */
+  keywords?: string;
+
   /** URL canônica (ex.: https://iluminasun.com.br/cidades/niteroi) */
   canonical?: string;
   /** URL absoluta para Open Graph (se não vier, usa canonical) */
@@ -57,6 +61,7 @@ function setCanonical(href: string) {
 export default function SEO({
   title,
   description,
+  keywords,
   canonical,
   url,
   ogImage,
@@ -73,6 +78,9 @@ export default function SEO({
     // Basic
     updateMetaTag("description", description, false);
 
+    // ✅ Keywords (opcional)
+    if (keywords) updateMetaTag("keywords", keywords, false);
+
     // Open Graph
     updateMetaTag("og:title", title, true);
     updateMetaTag("og:description", description, true);
@@ -88,7 +96,7 @@ export default function SEO({
     updateMetaTag("twitter:title", title, false);
     updateMetaTag("twitter:description", description, false);
     if (ogImg) updateMetaTag("twitter:image", ogImg, false);
-  }, [title, description, canonical, url, ogImage, ogType]);
+  }, [title, description, keywords, canonical, url, ogImage, ogType]);
 
   return null;
 }
