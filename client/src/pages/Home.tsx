@@ -65,10 +65,14 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* ✅ CTA secundário (abaixo do "print"/métricas) */}
+              {/* ✅ CTA secundário: agora é outline pequeno (botão discreto) */}
               <div className="pt-2">
                 <Link href="/cidades">
-                  <Button variant="ghost" className="font-semibold px-0">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="font-semibold w-full sm:w-auto"
+                  >
                     Ver cidades atendidas
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
