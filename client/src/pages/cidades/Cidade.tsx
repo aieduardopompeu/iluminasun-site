@@ -1,6 +1,6 @@
 // client/src/pages/cidades/Cidade.tsx
-import React from "react";
-import { Link } from "wouter";
+import React, { useEffect } from "react";
+import { Link, useLocation } from "wouter";
 import SEO from "../../components/SEO";
 
 type CityDetail = {
@@ -19,7 +19,6 @@ const CITIES: CityDetail[] = [
 ];
 
 function normalizeSlug(input: string) {
-  // aceita slug com % encoding, acentos, maiúsculas e espaços
   return decodeURIComponent(input || "")
     .trim()
     .toLowerCase()
@@ -51,8 +50,23 @@ type Props = {
 };
 
 export default function Cidade(props: Props) {
-  const slug = props?.params?.slug || "";
-  const city = findCity(slug);
+  const rawSlug = props?.params?.slug || "";
+  const urlSlug = normalizeSlug(rawSlug);
+  const city = findCity(rawSlug);
+
+  const [, setLocation] = useLocation();
+
+  // ✅ Canonical redirect: se a URL veio "suja" (acentos/encoding/maiúsculas),
+  // faz replace para /cidades/{slug-canônico}
+  useEffect(() => {
+    if (!city) return;
+    if (!urlSlug) return;
+
+    const canonicalSlug = normalizeSlug(city.slug);
+    if (urlSlug !== canonicalSlug) {
+      setLocation(`/cidades/${city.slug}`, { replace: true });
+    }
+  }, [city, urlSlug, setLocation]);
 
   if (!city) {
     return (
