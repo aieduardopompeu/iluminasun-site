@@ -14,7 +14,7 @@ export default function PoliticaPrivacidadePage() {
       <section className="prose prose-slate mt-8 max-w-none">
         <p>
           Esta Política descreve como a {" "}
-          <strong>ILUMINA SUN ENERGIA SOLAR LTDA - CNPJ: 62.751.668/0001-28 - RUA VISCONDE DE PIRAJA, 414 - RJ</strong> trata dados
+          <strong>ILUMINA SUN ENERGIA SOLAR LTDA - CNPJ: 62.751.668/0001-28 - RUA VISCONDE DE PIRAJA - RJ</strong> trata dados
           pessoais em conformidade com a legislação aplicável, incluindo a LGPD.
         </p>
 

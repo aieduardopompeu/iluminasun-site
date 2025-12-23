@@ -208,7 +208,7 @@ export default function Contato() {
                       <div>
                         <h3 className="font-semibold mb-1">Endereço</h3>
                         <p className="text-muted-foreground">
-                          R. Visconde de Pirajá, 414<br />
+                          R. Visconde de Pirajá<br />
                           Ipanema, Rio de Janeiro - RJ<br />
                           CEP: 22410-002
                         </p>

@@ -13,7 +13,7 @@ export default function TermosDeUsoPage() {
 
       <section className="prose prose-slate mt-8 max-w-none">
         <p>
-          Este site é operado pela {" "}<strong>ILUMINA SUN ENERGIA SOLAR LTDA - CNPJ: 62.751.668/0001-28 - RUA VISCONDE DE PIRAJA, 414 - RJ</strong>. Ao acessar
+          Este site é operado pela {" "}<strong>ILUMINA SUN ENERGIA SOLAR LTDA - CNPJ: 62.751.668/0001-28 - RUA VISCONDE DE PIRAJA - RJ</strong>. Ao acessar
           e utilizar este site, você concorda com estes Termos de Uso.
         </p>
 
