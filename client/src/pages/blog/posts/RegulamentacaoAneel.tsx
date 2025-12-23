@@ -1,7 +1,8 @@
 ﻿import { useEffect, useMemo } from "react";
 import { Link } from "wouter";
 import ShareBar from "@/components/share/ShareBar";
-
+
+
 
 const HERO_IMAGE = "/blog/regulamentacao-aneel-energia-solar.webp";
 const HERO_ALT = "regulamentacao-aneel-energia-solar";
@@ -291,7 +292,7 @@ export default function RegulamentacaoAneel() {
               <ShareBar
                 title="Regulamentação da ANEEL: Tudo o que Você Precisa Saber sobre Energia Solar"
                 url={CANONICAL}
-                slug="(cole aqui o slug do post)"
+                slug="regulamentacao-aneel-energia-solar"
                 contentType="blog"
                 heading=""
               />

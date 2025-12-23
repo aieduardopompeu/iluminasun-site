@@ -20,6 +20,7 @@ const Portfolio = lazy(() => import("./pages/Portfolio"));
 const Vantagens = lazy(() => import("./pages/Vantagens"));
 const Contato = lazy(() => import("./pages/Contato"));
 const Blog = lazy(() => import("./pages/blog/Blog"));
+const RegulamentacaoAneel = lazy(() => import("./pages/blog/posts/RegulamentacaoAneel"));
 const KitSolar = lazy(() => import("./pages/KitSolar"));
 const KitSolarDetail = lazy(() => import("./pages/KitSolarDetail"));
 const TermosDeUso = lazy(() => import("./pages/TermosDeUso"));
@@ -106,6 +107,10 @@ export default function App() {
                   <Route path="/cidades" component={Cidades} />
 
                   {/* Blog posts */}
+                  <Route
+                    path="/blog/regulamentacao-aneel-energia-solar"
+                    component={RegulamentacaoAneel}
+                  />
                   <Route
                     path="/blog/marco-legal-lei-14300-energia-solar-rj"
                     component={MarcoLegal14300}
