@@ -18,16 +18,8 @@ const CITIES: CityDetail[] = [
   { name: "Maricá", slug: "marica" },
 ];
 
-function safeDecode(input: string) {
-  try {
-    return decodeURIComponent(input || "");
-  } catch {
-    return input || "";
-  }
-}
-
 function normalizeSlug(input: string) {
-  return safeDecode(input)
+  return decodeURIComponent(input || "")
     .trim()
     .toLowerCase()
     .normalize("NFD")
@@ -59,25 +51,22 @@ type Props = {
 
 export default function Cidade(props: Props) {
   const rawSlug = props?.params?.slug || "";
-  const decodedSlug = safeDecode(rawSlug).trim();
+  const urlSlug = normalizeSlug(rawSlug);
   const city = findCity(rawSlug);
 
   const [, setLocation] = useLocation();
 
-  // ✅ Canonical redirect forte:
-  // se a URL não estiver exatamente igual ao slug canônico (city.slug),
-  // faz replace para /cidades/{city.slug}
+  // ✅ Canonical redirect: se a URL veio "suja" (acentos/encoding/maiúsculas),
+  // faz replace para /cidades/{slug-canônico}
   useEffect(() => {
     if (!city) return;
+    if (!urlSlug) return;
 
-    // Se já está canônico, não faz nada
-    if (decodedSlug === city.slug) return;
-
-    // Só redireciona se for "equivalente" (mesma cidade após normalização)
-    if (normalizeSlug(decodedSlug) === normalizeSlug(city.slug)) {
+    const canonicalSlug = normalizeSlug(city.slug);
+    if (urlSlug !== canonicalSlug) {
       setLocation(`/cidades/${city.slug}`, { replace: true });
     }
-  }, [city, decodedSlug, setLocation]);
+  }, [city, urlSlug, setLocation]);
 
   if (!city) {
     return (
@@ -118,6 +107,7 @@ export default function Cidade(props: Props) {
 
       <main className="min-h-screen bg-white">
         <div className="mx-auto w-full max-w-6xl px-4 pt-24 pb-16">
+          {/* Breadcrumb */}
           <nav className="mb-5 text-sm text-slate-500">
             <Link href="/" className="hover:text-slate-700">
               Início
@@ -130,6 +120,7 @@ export default function Cidade(props: Props) {
             <span className="font-semibold text-slate-700">{city.name}</span>
           </nav>
 
+          {/* Cabeçalho */}
           <header className="mb-8">
             <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
               Energia Solar em {city.name} (RJ)
@@ -170,6 +161,7 @@ export default function Cidade(props: Props) {
             </div>
           </header>
 
+          {/* Corpo */}
           <div className="grid gap-6 lg:grid-cols-3">
             <section className="lg:col-span-2 space-y-6">
               <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
@@ -200,6 +192,60 @@ export default function Cidade(props: Props) {
                     redução; vale simulação detalhada.
                   </li>
                 </ul>
+
+                <div className="mt-5 rounded-xl bg-slate-50 p-4">
+                  <p className="text-sm text-slate-600">
+                    Quer uma estimativa inicial? Use o simulador e envie o
+                    resultado no WhatsApp.
+                  </p>
+                  <div className="mt-3 flex flex-wrap gap-3">
+                    <Link
+                      href="/simulador"
+                      className="inline-flex items-center justify-center rounded-xl bg-blue-700 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-800"
+                    >
+                      Abrir simulador
+                    </Link>
+                    <a
+                      href={WHATSAPP}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-100"
+                    >
+                      Enviar no WhatsApp
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+                <h3 className="text-lg font-bold text-slate-900">
+                  Perguntas frequentes (FAQ)
+                </h3>
+                <div className="mt-4 space-y-3 text-slate-700">
+                  <div className="rounded-xl border border-slate-200 p-4">
+                    <p className="font-semibold">
+                      A Ilumina Sun atende {city.name}?
+                    </p>
+                    <p className="mt-1 text-sm text-slate-600">
+                      Sim. Atendemos {city.name} e outras cidades do RJ (veja em{" "}
+                      <Link
+                        href="/cidades"
+                        className="text-blue-700 hover:text-blue-800"
+                      >
+                        /cidades
+                      </Link>
+                      ).
+                    </p>
+                  </div>
+
+                  <div className="rounded-xl border border-slate-200 p-4">
+                    <p className="font-semibold">Como pedir orçamento?</p>
+                    <p className="mt-1 text-sm text-slate-600">
+                      O caminho mais rápido é simular e enviar seu consumo pelo
+                      WhatsApp. Se preferir, fale pela página de contato.
+                    </p>
+                  </div>
+                </div>
               </div>
             </section>
 
@@ -208,22 +254,34 @@ export default function Cidade(props: Props) {
                 <h3 className="text-lg font-bold text-slate-900">Links úteis</h3>
                 <ul className="mt-3 space-y-2 text-sm">
                   <li>
-                    <Link className="text-blue-700 hover:text-blue-800" href="/servicos">
+                    <Link
+                      className="text-blue-700 hover:text-blue-800"
+                      href="/servicos"
+                    >
                       Serviços
                     </Link>
                   </li>
                   <li>
-                    <Link className="text-blue-700 hover:text-blue-800" href="/portfolio">
+                    <Link
+                      className="text-blue-700 hover:text-blue-800"
+                      href="/portfolio"
+                    >
                       Portfólio / Projetos
                     </Link>
                   </li>
                   <li>
-                    <Link className="text-blue-700 hover:text-blue-800" href="/vantagens">
+                    <Link
+                      className="text-blue-700 hover:text-blue-800"
+                      href="/vantagens"
+                    >
                       Vantagens
                     </Link>
                   </li>
                   <li>
-                    <Link className="text-blue-700 hover:text-blue-800" href="/blog">
+                    <Link
+                      className="text-blue-700 hover:text-blue-800"
+                      href="/blog"
+                    >
                       Blog
                     </Link>
                   </li>
