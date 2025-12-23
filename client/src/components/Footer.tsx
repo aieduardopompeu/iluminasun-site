@@ -36,16 +36,18 @@ export default function Footer() {
             <p className="text-sm font-semibold">Links Rápidos</p>
 
             <ul className="space-y-2 text-sm text-muted-foreground">
+              
               {/* ✅ SEO Local */}
+              
+              <li>
+               <Link href="/blog">
+                  <a className="hover:text-primary">Blog</a>
+               </Link>
+              </li>
+              
               <li>
                 <Link href="/cidades">
                   <a className="hover:text-primary">Cidades atendidas</a>
-                </Link>
-              </li>
-
-              <li>
-                <Link href="/blog">
-                  <a className="hover:text-primary">Blog</a>
                 </Link>
               </li>
 
