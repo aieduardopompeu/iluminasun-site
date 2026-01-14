@@ -7,6 +7,8 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import { ThemeProvider } from "./contexts/ThemeContext";
+// no topo do App.tsx
+import AdsenseChecklistPage from "./pages/internal/AdsenseChecklistPage";
 
 const WhatsAppButton = lazy(() => import("./components/WhatsAppButton"));
 const CookieBanner = lazy(() => import("./components/CookieBanner"));
@@ -96,6 +98,8 @@ export default function App() {
                   <Route path="/vantagens" component={Vantagens} />
                   <Route path="/simulador" component={Simulador} />
                   <Route path="/contato" component={Contato} />
+                  
+                  <Route path="/_internal/adsense-checklist" component={AdsenseChecklistPage} />
 
                   <Route path="/kit-solar" component={KitSolar} />
                   <Route path="/kit-solar/:slug" component={KitSolarDetail} />
