@@ -9,18 +9,26 @@ export type SEOProps = {
 
   /** URL canônica (ex.: https://iluminasun.com.br/cidades/niteroi) */
   canonical?: string;
+
   /** URL absoluta para Open Graph (se não vier, usa canonical) */
   url?: string;
+
   /** Imagem OG (URL absoluta ou caminho público) */
   ogImage?: string;
+
   /** og:type */
   ogType?: "website" | "article";
+
+  /**
+   * Se informado, força robots/googlebot (ex.: "noindex, nofollow")
+   * Útil para rotas removidas (category/wp-admin etc).
+   */
+  robots?: string;
 };
 
 function ensureAbsoluteUrl(value?: string) {
   if (!value) return "";
   if (value.startsWith("http://") || value.startsWith("https://")) return value;
-  // Se vier "/og-default.webp", tenta transformar em absoluta no domínio atual
   if (typeof window !== "undefined" && value.startsWith("/")) {
     return `${window.location.origin}${value}`;
   }
@@ -58,32 +66,6 @@ function setCanonical(href: string) {
   link.setAttribute("href", href);
 }
 
-function shouldNoIndex(pathname: string) {
-  const p = (pathname || "/").toLowerCase();
-
-  // Rotas removidas / lixo / legado WP
-  const noindexExact = new Set<string>([
-    "/410",
-    "/wp-login.php",
-    "/xmlrpc.php",
-    "/feed",
-    "/comments/feed",
-  ]);
-
-  const noindexPrefixes = [
-    "/category/",
-    "/tag/",
-    "/author/",
-    "/wp-admin",
-    "/wp-content",
-    "/wp-includes",
-    "/comments/",
-  ];
-
-  if (noindexExact.has(p)) return true;
-  return noindexPrefixes.some((prefix) => p.startsWith(prefix));
-}
-
 export default function SEO({
   title,
   description,
@@ -92,6 +74,7 @@ export default function SEO({
   url,
   ogImage,
   ogType = "website",
+  robots,
 }: SEOProps) {
   useEffect(() => {
     document.title = title;
@@ -103,17 +86,12 @@ export default function SEO({
 
     // Basic
     updateMetaTag("description", description, false);
-
-    // ✅ Keywords (opcional)
     if (keywords) updateMetaTag("keywords", keywords, false);
 
-    // Robots: noindex só para rotas lixo/legado
-    const pathname = typeof window !== "undefined" ? window.location.pathname : "/";
-    const noindex = shouldNoIndex(pathname);
-
-    // (Robôs gerais + Googlebot) — ajuda a desindexar mais rápido
-    updateMetaTag("robots", noindex ? "noindex, nofollow" : "index, follow", false);
-    updateMetaTag("googlebot", noindex ? "noindex, nofollow" : "index, follow", false);
+    // Robots (forçado quando informado)
+    const robotsValue = robots?.trim() || "index, follow";
+    updateMetaTag("robots", robotsValue, false);
+    updateMetaTag("googlebot", robotsValue, false);
 
     // Open Graph
     updateMetaTag("og:title", title, true);
@@ -130,7 +108,13 @@ export default function SEO({
     updateMetaTag("twitter:title", title, false);
     updateMetaTag("twitter:description", description, false);
     if (ogImg) updateMetaTag("twitter:image", ogImg, false);
-  }, [title, description, keywords, canonical, url, ogImage, ogType]);
+
+    // Blindagem: reaplica robots no próximo tick para evitar overwrite por outro effect
+    setTimeout(() => {
+      updateMetaTag("robots", robotsValue, false);
+      updateMetaTag("googlebot", robotsValue, false);
+    }, 0);
+  }, [title, description, keywords, canonical, url, ogImage, ogType, robots]);
 
   return null;
 }
