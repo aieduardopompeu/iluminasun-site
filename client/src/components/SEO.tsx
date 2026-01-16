@@ -58,6 +58,32 @@ function setCanonical(href: string) {
   link.setAttribute("href", href);
 }
 
+function shouldNoIndex(pathname: string) {
+  const p = (pathname || "/").toLowerCase();
+
+  // Rotas removidas / lixo / legado WP
+  const noindexExact = new Set<string>([
+    "/410",
+    "/wp-login.php",
+    "/xmlrpc.php",
+    "/feed",
+    "/comments/feed",
+  ]);
+
+  const noindexPrefixes = [
+    "/category/",
+    "/tag/",
+    "/author/",
+    "/wp-admin",
+    "/wp-content",
+    "/wp-includes",
+    "/comments/",
+  ];
+
+  if (noindexExact.has(p)) return true;
+  return noindexPrefixes.some((prefix) => p.startsWith(prefix));
+}
+
 export default function SEO({
   title,
   description,
@@ -80,6 +106,14 @@ export default function SEO({
 
     // ✅ Keywords (opcional)
     if (keywords) updateMetaTag("keywords", keywords, false);
+
+    // Robots: noindex só para rotas lixo/legado
+    const pathname = typeof window !== "undefined" ? window.location.pathname : "/";
+    const noindex = shouldNoIndex(pathname);
+
+    // (Robôs gerais + Googlebot) — ajuda a desindexar mais rápido
+    updateMetaTag("robots", noindex ? "noindex, nofollow" : "index, follow", false);
+    updateMetaTag("googlebot", noindex ? "noindex, nofollow" : "index, follow", false);
 
     // Open Graph
     updateMetaTag("og:title", title, true);
