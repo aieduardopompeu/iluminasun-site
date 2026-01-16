@@ -1,45 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://iluminasun.com.br/</loc>
-    <lastmod>2024-11-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://iluminasun.com.br/quem-somos</loc>
-    <lastmod>2024-11-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://iluminasun.com.br/servicos</loc>
-    <lastmod>2024-11-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://iluminasun.com.br/portfolio</loc>
-    <lastmod>2024-11-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://iluminasun.com.br/vantagens</loc>
-    <lastmod>2024-11-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://iluminasun.com.br/simulador</loc>
-    <lastmod>2024-11-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://iluminasun.com.br/contato</loc>
-    <lastmod>2024-11-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
+  <!-- Atualizado em 2026-01-16: inclui páginas principais, blog, políticas e rotas SEO local -->
+
+  <!-- Páginas institucionais -->
+  <url><loc>https://iluminasun.com.br/</loc><lastmod>2026-01-16</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://iluminasun.com.br/quem-somos</loc><lastmod>2026-01-16</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://iluminasun.com.br/servicos</loc><lastmod>2026-01-16</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://iluminasun.com.br/portfolio</loc><lastmod>2026-01-16</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://iluminasun.com.br/vantagens</loc><lastmod>2026-01-16</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://iluminasun.com.br/simulador</loc><lastmod>2026-01-16</lastmod><changefreq>monthly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://iluminasun.com.br/contato</loc><lastmod>2026-01-16</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+
+  <!-- Blog -->
+  <url><loc>https://iluminasun.com.br/blog</loc><lastmod>2026-01-16</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://iluminasun.com.br/blog/regulamentacao-aneel-energia-solar</loc><lastmod>2026-01-16</lastmod><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://iluminasun.com.br/blog/marco-legal-lei-14300-energia-solar-rj</loc><lastmod>2026-01-16</lastmod><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://iluminasun.com.br/blog/financiamento-energia-solar-rj</loc><lastmod>2026-01-16</lastmod><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://iluminasun.com.br/blog/conta-de-luz-nao-zerou-energia-solar</loc><lastmod>2026-01-16</lastmod><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://iluminasun.com.br/blog/manutencao-paineis-solares</loc><lastmod>2026-01-16</lastmod><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://iluminasun.com.br/blog/energia-solar-empresas</loc><lastmod>2026-01-16</lastmod><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://iluminasun.com.br/blog/tendencias-mercado-solar-2026</loc><lastmod>2026-01-16</lastmod><changefreq>yearly</changefreq><priority>0.6</priority></url>
+
+  <!-- Kits -->
+  <url><loc>https://iluminasun.com.br/kit-solar</loc><lastmod>2026-01-16</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://iluminasun.com.br/kit-solar/residencial-basico</loc><lastmod>2026-01-16</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://iluminasun.com.br/kit-solar/residencial-medio</loc><lastmod>2026-01-16</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://iluminasun.com.br/kit-solar/residencial-premium</loc><lastmod>2026-01-16</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://iluminasun.com.br/kit-solar/comercial</loc><lastmod>2026-01-16</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://iluminasun.com.br/kit-solar/industrial</loc><lastmod>2026-01-16</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+
+  <!-- SEO Local (Cidades) -->
+  <url><loc>https://iluminasun.com.br/cidades</loc><lastmod>2026-01-16</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://iluminasun.com.br/cidades/niteroi</loc><lastmod>2026-01-16</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://iluminasun.com.br/cidades/sao-goncalo</loc><lastmod>2026-01-16</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://iluminasun.com.br/cidades/rio-de-janeiro</loc><lastmod>2026-01-16</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://iluminasun.com.br/cidades/itaborai</loc><lastmod>2026-01-16</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://iluminasun.com.br/cidades/rio-bonito</loc><lastmod>2026-01-16</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://iluminasun.com.br/cidades/tangua</loc><lastmod>2026-01-16</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://iluminasun.com.br/cidades/marica</loc><lastmod>2026-01-16</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+
+  <!-- Termos e políticas -->
+  <url><loc>https://iluminasun.com.br/termos-de-uso</loc><lastmod>2026-01-16</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://iluminasun.com.br/politica-de-privacidade</loc><lastmod>2026-01-16</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://iluminasun.com.br/politica-de-cookies</loc><lastmod>2026-01-16</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://iluminasun.com.br/lgpd</loc><lastmod>2026-01-16</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
 </urlset>

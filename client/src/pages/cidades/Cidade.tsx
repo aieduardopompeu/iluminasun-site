@@ -43,7 +43,8 @@ function descFor(cityName: string) {
   return `Energia solar em ${cityName}, RJ: simule economia na conta de luz e peça orçamento com a Ilumina Sun. Atendimento em ${cityName} e região.`;
 }
 
-const OG_IMAGE = "https://www.iluminasun.com.br/og.jpg"; // ajuste se necessário
+// OG image deve existir no domínio para evitar 404 em crawlers.
+const OG_IMAGE = "https://www.iluminasun.com.br/logo.png";
 const WHATSAPP = "https://wa.me/5521966084093";
 
 type Props = {
@@ -191,21 +192,21 @@ export default function Cidade(props: Props) {
                 </Link>
               </div>
 
-              {/* Prova social (padrão) */}
-              <div className="flex items-center gap-6 pt-4">
+              {/* Prova social (evitar números não comprováveis) */}
+              <div className="flex flex-wrap items-center gap-6 pt-4">
                 <div className="text-center">
-                  <p className="text-3xl font-bold text-primary">500+</p>
-                  <p className="text-sm text-muted-foreground">Projetos Instalados</p>
+                  <p className="text-sm font-semibold text-primary">Projeto sob medida</p>
+                  <p className="text-sm text-muted-foreground">Dimensionamento pelo seu consumo</p>
                 </div>
-                <div className="h-12 w-px bg-border"></div>
+                <div className="h-12 w-px bg-border hidden sm:block"></div>
                 <div className="text-center">
-                  <p className="text-3xl font-bold text-secondary">15+</p>
-                  <p className="text-sm text-muted-foreground">Anos de Experiência</p>
+                  <p className="text-sm font-semibold text-secondary">Equipe especializada</p>
+                  <p className="text-sm text-muted-foreground">Atendimento consultivo no RJ</p>
                 </div>
-                <div className="h-12 w-px bg-border"></div>
+                <div className="h-12 w-px bg-border hidden sm:block"></div>
                 <div className="text-center">
-                  <p className="text-3xl font-bold text-primary">98%</p>
-                  <p className="text-sm text-muted-foreground">Clientes Satisfeitos</p>
+                  <p className="text-sm font-semibold text-primary">Suporte pós-venda</p>
+                  <p className="text-sm text-muted-foreground">Acompanhamento e orientações</p>
                 </div>
               </div>
             </div>

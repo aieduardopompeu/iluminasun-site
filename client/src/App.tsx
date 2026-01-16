@@ -30,6 +30,7 @@ const PoliticaDePrivacidade = lazy(() => import("./pages/PoliticaDePrivacidade")
 const PoliticaDeCookies = lazy(() => import("./pages/PoliticaDeCookies"));
 const LGPDPage = lazy(() => import("./pages/LGPD"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+const Removed410 = lazy(() => import("./pages/Removed410"));
 
 // ✅ SEO Local (Cidades)
 const Cidades = lazy(() => import("./pages/cidades/Cidades"));
@@ -141,6 +142,8 @@ export default function App() {
                   <Route path="/politica-de-privacidade" component={PoliticaDePrivacidade} />
                   <Route path="/politica-de-cookies" component={PoliticaDeCookies} />
                   <Route path="/lgpd" component={LGPDPage} />
+                  
+                  <Route path="/410" component={Removed410} />
 
                   <Route component={NotFound} />
                 </Switch>
