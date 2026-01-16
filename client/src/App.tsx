@@ -108,8 +108,8 @@ export default function App() {
                   <Route path="/blog" component={Blog} />
 
                   {/* ✅ SEO Local (wouter: específico primeiro; sem exact) */}
-                  <Route path="/cidades/:slug" component={Cidade} />
                   <Route path="/cidades" component={Cidades} />
+                  <Route path="/cidades/:slug" component={Cidade} />
 
                   {/* Blog posts */}
                   <Route
@@ -145,7 +145,18 @@ export default function App() {
                   
                   <Route path="/410" component={Removed410} />
 
-                  <Route component={NotFound} />
+                  {/* Bloqueio de rotas antigas (WP/lixo) */}
+                  <Route path="/category/:rest*" component={Removed410} />
+                  <Route path="/tag/:rest*" component={Removed410} />
+                  <Route path="/author/:rest*" component={Removed410} />
+                  <Route path="/wp-admin/:rest*" component={Removed410} />
+                  <Route path="/wp-content/:rest*" component={Removed410} />
+                  <Route path="/wp-includes/:rest*" component={Removed410} />
+                  <Route path="/xmlrpc.php" component={Removed410} />
+                  <Route path="/wp-login.php" component={Removed410} />
+                  <Route path="/feed" component={Removed410} />
+                  <Route path="/comments/:rest*" component={Removed410} />
+
                 </Switch>
               </Suspense>
             </main>
