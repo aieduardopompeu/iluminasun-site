@@ -153,11 +153,11 @@ export default function FeaturedCarousel({
         onPointerCancel={onPointerUp}
       >
         {/* Imagem */}
-        <div className="relative min-h-[220px] rounded-xl overflow-hidden border border-border bg-muted">
+        <div className="relative w-full overflow-hidden rounded-xl border border-border bg-muted aspect-[16/9]">
           <img
             src={imgSrc}
             alt={imgAlt}
-            className="absolute inset-0 h-full w-full object-cover"
+            className="absolute inset-0 h-full w-full object-cover object-center"
             loading="eager"
             decoding="async"
           />
@@ -245,10 +245,18 @@ export default function FeaturedCarousel({
             <div className="text-xs text-muted-foreground">
               <div className="font-semibold text-foreground/80">Relacionados</div>
               <div className="mt-1 flex flex-wrap gap-x-3 gap-y-1">
-                <Link href="/simulador"><a className="hover:text-primary">Simulador</a></Link>
-                <Link href="/kit-solar"><a className="hover:text-primary">Kits</a></Link>
-                <Link href="/servicos"><a className="hover:text-primary">Serviços</a></Link>
-                <Link href="/contato"><a className="hover:text-primary">Contato</a></Link>
+                <Link href="/simulador">
+                  <a className="hover:text-primary">Simulador</a>
+                </Link>
+                <Link href="/kit-solar">
+                  <a className="hover:text-primary">Kits</a>
+                </Link>
+                <Link href="/servicos">
+                  <a className="hover:text-primary">Serviços</a>
+                </Link>
+                <Link href="/contato">
+                  <a className="hover:text-primary">Contato</a>
+                </Link>
               </div>
             </div>
           </div>
@@ -256,7 +264,8 @@ export default function FeaturedCarousel({
           <div className="pt-2">
             <Link href="/contato">
               <a className="text-xs text-muted-foreground hover:text-primary">
-                Quer ajuda para entender seu enquadramento (residencial/comercial/industrial/rural)? Falar com especialista →
+                Quer ajuda para entender seu enquadramento (residencial/comercial/industrial/rural)? Falar
+                com especialista →
               </a>
             </Link>
           </div>

@@ -1,4 +1,4 @@
-﻿import { useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Link } from "wouter";
 import ShareBar from "@/components/share/ShareBar";
 
@@ -262,7 +262,7 @@ export default function RegulamentacaoAneel() {
                 <img
                   src={POST_IMAGE_PATH}
                   alt="Regulamentação da ANEEL e energia solar: geração distribuída, créditos e homologação"
-                  className="h-[260px] w-full object-cover sm:h-[320px]"
+                  className="h-[340px] w-full object-cover sm:h-[420px]"
                   loading="eager"
                   decoding="async"
                 />

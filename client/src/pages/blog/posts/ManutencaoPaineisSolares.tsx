@@ -1,4 +1,4 @@
-﻿import { useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Link } from "wouter";
 import ShareBar from "@/components/share/ShareBar";
 
@@ -6,8 +6,8 @@ const SITE_URL = import.meta.env.VITE_SITE_URL || "https://iluminasun.com.br";
 const POST_PATH = "/blog/manutencao-paineis-solares";
 const CANONICAL = `${SITE_URL}${POST_PATH}`;
 const HERO_IMAGE = "/blog/manutencao-paineis-solares.webp";
-const HERO_ALT = "Manuten��o de pain�is solares: checklist e boas pr�ticas.";
-const HERO_CAPTION = "Manuten��o: limpeza, inspe��o, sombreamento e performance  RJ e regi�o.";
+const HERO_ALT = "Manutenção de painéis solares: checklist e boas práticas.";
+const HERO_CAPTION = "Manutenção: limpeza, inspeção, sombreamento e performance  RJ e região.";
 const OG_IMAGE = `${SITE_URL}/blog/manutencao-paineis-solares.webp`;
 const DATE_PUBLISHED = "2024-11-28";
 const DATE_MODIFIED = "2024-11-28";

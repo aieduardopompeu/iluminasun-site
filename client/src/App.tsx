@@ -36,7 +36,7 @@ const Removed410 = lazy(() => import("./pages/Removed410"));
 const Cidades = lazy(() => import("./pages/cidades/Cidades"));
 const Cidade = lazy(() => import("./pages/cidades/Cidade"));
 
-// Blog posts
+// Blog posts (existentes)
 const MarcoLegal14300 = lazy(() => import("./pages/blog/posts/MarcoLegal14300"));
 const FinanciamentoEnergiaSolarRJ = lazy(
   () => import("./pages/blog/posts/FinanciamentoEnergiaSolarRJ")
@@ -49,6 +49,30 @@ const EnergiaSolarEmpresas = lazy(() => import("./pages/blog/posts/EnergiaSolarE
 const TendenciasMercadoSolar2026 = lazy(
   () => import("./pages/blog/posts/TendenciasMercadoSolar2026")
 );
+
+// ✅ Blog posts (NOVOS — adicionados)
+const QuantoCustaEnergiaSolarBrasil2026 = lazy(
+  () => import("./pages/blog/posts/QuantoCustaEnergiaSolarBrasil2026")
+);
+const MarcoLegalEnergiaSolarLei14300Explicado = lazy(
+  () => import("./pages/blog/posts/MarcoLegalEnergiaSolarLei14300Explicado")
+);
+const KitSolarOuProjetoPersonalizadoDiferencas = lazy(
+  () => import("./pages/blog/posts/KitSolarOuProjetoPersonalizadoDiferencas")
+);
+const PaybackEnergiaSolarEmQuantoTempoSePaga = lazy(
+  () => import("./pages/blog/posts/PaybackEnergiaSolarEmQuantoTempoSePaga")
+);
+const VidaUtilEManutencaoPaineisSolares = lazy(
+  () => import("./pages/blog/posts/VidaUtilEManutencaoPaineisSolares")
+);
+const ComoEscolherEmpresaEnergiaSolar = lazy(
+  () => import("./pages/blog/posts/ComoEscolherEmpresaEnergiaSolar")
+);
+const EnergiaSolarTransformandoContasDeLuz2026 = lazy(
+  () => import("./pages/blog/posts/EnergiaSolarTransformandoContasDeLuz2026")
+);
+
 
 declare global {
   interface Window {
@@ -99,7 +123,7 @@ export default function App() {
                   <Route path="/vantagens" component={Vantagens} />
                   <Route path="/simulador" component={Simulador} />
                   <Route path="/contato" component={Contato} />
-                  
+
                   <Route path="/_internal/adsense-checklist" component={AdsenseChecklistPage} />
 
                   <Route path="/kit-solar" component={KitSolar} />
@@ -111,7 +135,7 @@ export default function App() {
                   <Route path="/cidades" component={Cidades} />
                   <Route path="/cidades/:slug" component={Cidade} />
 
-                  {/* Blog posts */}
+                  {/* Blog posts (existentes) */}
                   <Route
                     path="/blog/regulamentacao-aneel-energia-solar"
                     component={RegulamentacaoAneel}
@@ -138,11 +162,41 @@ export default function App() {
                     component={TendenciasMercadoSolar2026}
                   />
 
+                  {/* ✅ Blog posts (NOVOS) */}
+                  <Route
+                    path="/blog/quanto-custa-energia-solar-brasil-2026"
+                    component={QuantoCustaEnergiaSolarBrasil2026}
+                  />
+                  <Route
+                    path="/blog/marco-legal-energia-solar-lei-14300-explicado"
+                    component={MarcoLegalEnergiaSolarLei14300Explicado}
+                  />
+                  <Route
+                    path="/blog/kit-solar-ou-projeto-personalizado-diferencas"
+                    component={KitSolarOuProjetoPersonalizadoDiferencas}
+                  />
+                  <Route
+                    path="/blog/payback-energia-solar-em-quanto-tempo-se-paga"
+                    component={PaybackEnergiaSolarEmQuantoTempoSePaga}
+                  />
+                  <Route
+                    path="/blog/vida-util-e-manutencao-paineis-solares"
+                    component={VidaUtilEManutencaoPaineisSolares}
+                  />
+                  <Route
+                    path="/blog/como-escolher-empresa-energia-solar"
+                    component={ComoEscolherEmpresaEnergiaSolar}
+                  />
+                  <Route
+                    path="/blog/energia-solar-transformando-contas-de-luz-2026"
+                    component={EnergiaSolarTransformandoContasDeLuz2026}
+                  />
+
                   <Route path="/termos-de-uso" component={TermosDeUso} />
                   <Route path="/politica-de-privacidade" component={PoliticaDePrivacidade} />
                   <Route path="/politica-de-cookies" component={PoliticaDeCookies} />
                   <Route path="/lgpd" component={LGPDPage} />
-                  
+
                   <Route path="/410" component={Removed410} />
 
                   {/* Bloqueio de rotas antigas (WP/lixo) */}
@@ -156,7 +210,7 @@ export default function App() {
                   <Route path="/wp-login.php" component={Removed410} />
                   <Route path="/feed" component={Removed410} />
                   <Route path="/comments/:rest*" component={Removed410} />
-
+                  <Route component={NotFound} />
                 </Switch>
               </Suspense>
             </main>

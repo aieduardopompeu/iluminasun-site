@@ -1,7 +1,8 @@
-﻿import { useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Link } from "wouter";
 import ShareBar from "@/components/share/ShareBar";
-
+
+
 
 const HERO_IMAGE = "/blog/marco-legal-lei-14300-energia-solar-rj.webp";
 const HERO_ALT = "marco-legal-lei-14300-energia-solar-rj";

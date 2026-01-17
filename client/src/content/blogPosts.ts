@@ -19,11 +19,13 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  // ======= “Base” (posts antigos) =======
+
   {
     id: "1",
     title: "Regulamentação da ANEEL: Tudo o que Você Precisa Saber sobre Energia Solar",
     excerpt:
-      "Entenda as principais normas da ANEEL para geração distribuída de energia solar, incluindo mudanças recentes no marco legal e como isso afeta consumidores e empresas no RJ e Região.",
+      "Entenda as principais normas da ANEEL para geração distribuída de energia solar, o que mudou no marco legal e como isso afeta consumidores e empresas no RJ e Região.",
     category: "Regulamentação",
     author: "Equipe Ilumina Sun",
     dateISO: "2025-12-17",
@@ -35,12 +37,13 @@ export const blogPosts: BlogPost[] = [
     published: true,
     featuredRank: 1,
   },
+
   {
     id: "2",
     title:
       "Lei 14.300 (Marco Legal da Geração Distribuída): o que muda na prática no RJ e como evitar erros na homologação",
     excerpt:
-      "Guia direto sobre a Lei 14.300, SCEE/créditos, regras de transição e impacto por perfil (residencial, comercial, industrial e rural) — com foco no RJ e Região.",
+      "Guia direto sobre a Lei 14.300, compensação de créditos e regras de transição — com foco no RJ e Região.",
     category: "Legislação",
     author: "Equipe Ilumina Sun",
     dateISO: "2025-12-18",
@@ -53,27 +56,27 @@ export const blogPosts: BlogPost[] = [
     featuredRank: 2,
   },
 
-  // ✅ Manutenção (único)
   {
-    id: "4",
+    id: "3",
     title: "Manutenção de Painéis Solares: Guia Completo para Máxima Eficiência",
     excerpt:
-      "Aprenda como realizar a manutenção correta do seu sistema fotovoltaico para garantir máxima geração e prolongar a vida útil.",
+      "Boas práticas de limpeza, inspeção e cuidados que preservam a performance e prolongam a vida útil do sistema fotovoltaico.",
     category: "Manutenção",
     author: "Equipe Ilumina Sun",
     dateISO: "2024-11-28",
     dateLabel: "28 de Novembro, 2024",
     readTime: "6 min",
     slug: "manutencao-paineis-solares",
-    image: "/blog/regulamentacao-aneel.webp",
+    image: "/blog/vida-util-e-manutencao-paineis-solares.webp",
     imageAlt: "Manutenção de painéis solares",
     published: true,
   },
 
   {
-    id: "5",
+    id: "4",
     title: "Energia Solar para Empresas: Como Reduzir Custos Operacionais",
-    excerpt: "Descubra como empresas de todos os portes estão economizando com energia solar e melhorando competitividade.",
+    excerpt:
+      "Como empresas reduzem custos com energia solar: dimensionamento, demanda, perfil de consumo e payback — com foco no RJ e Região.",
     category: "Comercial",
     author: "Equipe Ilumina Sun",
     dateISO: "2024-11-20",
@@ -81,15 +84,15 @@ export const blogPosts: BlogPost[] = [
     readTime: "7 min",
     slug: "energia-solar-empresas",
     image: "/blog/energia-solar-empresas.webp",
-    imageAlt: "Energia solar para empresas: como reduzir custos e aumentar competitividade.",
+    imageAlt: "Energia solar para empresas: redução de custos e competitividade.",
     published: true,
   },
 
-  // ✅ Financiamento
   {
-    id: "7",
+    id: "5",
     title: "Financiamento de Energia Solar no RJ: Parcelas, Juros e Como Aprovar Mais Rápido",
-    excerpt: "Entenda as opções de financiamento para energia solar (residencial e empresas), documentos, prazos e dicas para melhorar a aprovação no RJ, Niterói, São Gonçalo, Itaboraí, Maricá e região.",
+    excerpt:
+      "Opções de financiamento, documentos e prazos — com dicas para melhorar a aprovação no RJ, Niterói, São Gonçalo, Itaboraí, Maricá e região.",
     category: "Financiamento",
     author: "Equipe Ilumina Sun",
     dateISO: "2025-01-10",
@@ -101,11 +104,11 @@ export const blogPosts: BlogPost[] = [
     published: true,
   },
 
-  // ✅ Conta não zerou
   {
-    id: "8",
+    id: "6",
     title: "Conta de Luz Não Zerou com Energia Solar? Entenda Mínimos, Taxas e Compensação no RJ",
-    excerpt: "Mesmo com energia solar, a fatura pode não zerar. Veja os motivos mais comuns (custos mínimos, regras de compensação, demanda e tarifas) e como otimizar seu sistema no RJ e Região.",
+    excerpt:
+      "Mesmo com energia solar, a fatura pode não zerar. Veja por quê (custo mínimo, compensação, tarifas) e como otimizar no RJ e Região.",
     category: "Regulamentação",
     author: "Equipe Ilumina Sun",
     dateISO: "2025-01-07",
@@ -117,11 +120,11 @@ export const blogPosts: BlogPost[] = [
     published: true,
   },
 
-  // ✅ Tendências 2026 (NOVO) — para aparecer no Blog
   {
-    id: "9",
+    id: "7",
     title: "Tendências do Mercado Solar em 2026: O Que Esperar",
-    excerpt: "Principais tendências para 2026 no setor solar: eficiência, baterias, inversores, precificação, regulação e oportunidades no RJ e Região.",
+    excerpt:
+      "Eficiência, baterias, inversores, precificação, regulação e oportunidades — panorama prático para 2026 com foco no RJ e Região.",
     category: "Mercado",
     author: "Equipe Ilumina Sun",
     dateISO: "2025-11-15",
@@ -129,7 +132,121 @@ export const blogPosts: BlogPost[] = [
     readTime: "9–11 min",
     slug: "tendencias-mercado-solar-2026",
     image: "/blog/tendencias-mercado-solar-2026.webp",
-    imageAlt: "Tendências do mercado solar em 2026: preços, eficiência, baterias e regulação.",
+    imageAlt: "Tendências do mercado solar em 2026: baterias, eficiência e regulação.",
+    published: true,
+  },
+
+  // ======= “Novo padrão editorial” (posts novos) =======
+
+  {
+    id: "8",
+    title: "Como a Energia Solar Está Transformando as Contas de Luz no Brasil em 2026",
+    excerpt:
+      "Em 2026, a energia solar virou decisão financeira: previsibilidade, redução de custo e proteção contra reajustes. Entenda o que muda na prática e como avaliar seu caso.",
+    category: "Custos",
+    author: "Equipe Ilumina Sun",
+    dateISO: "2026-01-16",
+    dateLabel: "16 de Janeiro, 2026",
+    readTime: "12–15 min",
+    slug: "energia-solar-transformando-contas-de-luz-2026",
+    image: "/blog/energia-solar-transformando-contas-de-luz-2026.webp",
+    imageAlt: "Energia solar reduzindo contas de luz no Brasil em 2026",
+    published: true,
+  },
+
+  {
+    id: "9",
+    title: "Quanto custa energia solar no Brasil em 2026? Guia completo com valores reais",
+    excerpt:
+      "Entenda o que entra no preço de um sistema fotovoltaico em 2026 e como comparar propostas com segurança — com foco no RJ e Região.",
+    category: "Custos",
+    author: "Equipe Ilumina Sun",
+    dateISO: "2026-01-16",
+    dateLabel: "16 de Janeiro, 2026",
+    readTime: "10–14 min",
+    slug: "quanto-custa-energia-solar-brasil-2026",
+    image: "/blog/quanto-custa-energia-solar-brasil-2026.webp",
+    imageAlt: "Quanto custa energia solar no Brasil em 2026: valores, itens e economia.",
+    published: true,
+  },
+
+  {
+    id: "10",
+    title: "Marco legal da energia solar (Lei 14.300): o que mudou e como isso afeta sua conta de luz",
+    excerpt:
+      "Entenda a Lei 14.300, regras de compensação, prazos e como isso aparece na fatura — com visão prática para o consumidor.",
+    category: "Legislação",
+    author: "Equipe Ilumina Sun",
+    dateISO: "2026-01-15",
+    dateLabel: "15 de Janeiro, 2026",
+    readTime: "10–13 min",
+    slug: "marco-legal-energia-solar-lei-14300-explicado",
+    image: "/blog/marco-legal-energia-solar-lei-14300-explicado.webp",
+    imageAlt: "Lei 14.300 e compensação: impactos na conta de luz.",
+    published: true,
+  },
+
+  {
+    id: "11",
+    title: "Kit solar ou projeto personalizado: entenda as diferenças antes de decidir",
+    excerpt:
+      "Compare kit pronto e projeto personalizado (dimensionamento, segurança, homologação e performance) e escolha com confiança.",
+    category: "Comercial",
+    author: "Equipe Ilumina Sun",
+    dateISO: "2026-01-14",
+    dateLabel: "14 de Janeiro, 2026",
+    readTime: "9–12 min",
+    slug: "kit-solar-ou-projeto-personalizado-diferencas",
+    image: "/blog/kit-solar-ou-projeto-personalizado-diferencas.webp",
+    imageAlt: "Kit solar versus projeto personalizado: diferenças e riscos.",
+    published: true,
+  },
+
+  {
+    id: "12",
+    title: "Payback da energia solar: em quanto tempo o investimento se paga na prática",
+    excerpt:
+      "Como calcular payback com premissas realistas e o que acelera ou atrasa o retorno — com exemplos por consumo.",
+    category: "Custos",
+    author: "Equipe Ilumina Sun",
+    dateISO: "2026-01-13",
+    dateLabel: "13 de Janeiro, 2026",
+    readTime: "9–12 min",
+    slug: "payback-energia-solar-em-quanto-tempo-se-paga",
+    image: "/blog/payback-energia-solar-em-quanto-tempo-se-paga.webp",
+    imageAlt: "Payback da energia solar: retorno do investimento e fatores.",
+    published: true,
+  },
+
+  {
+    id: "13",
+    title: "Vida útil e manutenção de painéis solares: o que esperar ao longo dos anos",
+    excerpt:
+      "Vida útil real de módulos e inversores, cuidados que preservam performance e quando fazer manutenção — com foco no RJ e Região.",
+    category: "Manutenção",
+    author: "Equipe Ilumina Sun",
+    dateISO: "2026-01-12",
+    dateLabel: "12 de Janeiro, 2026",
+    readTime: "8–11 min",
+    slug: "vida-util-e-manutencao-paineis-solares",
+    image: "/blog/vida-util-e-manutencao-paineis-solares.webp",
+    imageAlt: "Vida útil e manutenção de painéis solares: garantias e performance.",
+    published: true,
+  },
+
+  {
+    id: "14",
+    title: "Como escolher uma empresa de energia solar: checklist do que avaliar antes de contratar",
+    excerpt:
+      "Checklist prático para avaliar empresa, proposta e contrato (engenharia, homologação, garantias, suporte e documentação).",
+    category: "Comercial",
+    author: "Equipe Ilumina Sun",
+    dateISO: "2026-01-11",
+    dateLabel: "11 de Janeiro, 2026",
+    readTime: "8–10 min",
+    slug: "como-escolher-empresa-energia-solar",
+    image: "/blog/como-escolher-empresa-energia-solar.webp",
+    imageAlt: "Checklist para escolher empresa de energia solar.",
     published: true,
   },
 ];
