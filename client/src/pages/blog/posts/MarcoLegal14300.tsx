@@ -2,23 +2,18 @@ import { useEffect, useMemo } from "react";
 import { Link } from "wouter";
 import ShareBar from "@/components/share/ShareBar";
 
-
-
-const HERO_IMAGE = "/blog/marco-legal-lei-14300-energia-solar-rj.webp";
-const HERO_ALT = "marco-legal-lei-14300-energia-solar-rj";
-const HERO_CAPTION = "";
 const SITE_URL = import.meta.env.VITE_SITE_URL || "https://iluminasun.com.br";
 
-// Imagem do post (capa dentro do artigo)
-const POST_IMAGE_PATH = "/blog/marco-legal-14300.webp";
-const POST_IMAGE_ABS = `${SITE_URL}${POST_IMAGE_PATH}`;
-
-// OG (ideal 1200x630). Se você tiver uma OG específica, defina VITE_OG_IMAGE_MARCO_14300.
-const OG_IMAGE = `${SITE_URL}/blog/marco-legal-lei-14300-energia-solar-rj.webp`;
-const POST_PATH = "/blog/marco-legal-lei-14300-energia-solar-rj";
+const POST_SLUG = "marco-legal-lei-14300-energia-solar-rj";
+const POST_PATH = `/blog/${POST_SLUG}`;
 const CANONICAL = `${SITE_URL}${POST_PATH}`;
 
-// Datas para schema (ISO)
+const HERO_IMAGE = "/blog/marco-legal-lei-14300.webp";
+const HERO_ALT = "Lei 14.300 (Marco Legal) e o que muda na geração distribuída no RJ.";
+const HERO_CAPTION = "Marco Legal (Lei 14.300): efeitos práticos no projeto, no faturamento e na homologação.";
+
+const OG_IMAGE = `${SITE_URL}${HERO_IMAGE}`;
+
 const DATE_PUBLISHED = "2025-12-18";
 const DATE_MODIFIED = "2025-12-18";
 
@@ -42,30 +37,40 @@ function upsertLink(rel: string, href: string) {
   el.setAttribute("href", href);
 }
 
-function slugifyId(s: string) {
-  return s
+function slugifyId(text: string) {
+  return text
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/[^a-z0-9\s-]/g, "")
     .trim()
-    .replace(/\s+/g, "-");
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
 }
 
 export default function MarcoLegal14300() {
-  const title =
-    "Lei 14.300 (Marco Legal da Geração Distribuída): o que muda na prática no RJ e como evitar erros na homologação";
-
+  const title = "Lei 14.300 (Marco Legal da Geração Distribuída): o que muda na prática no RJ e como evitar erros na homologação";
+  const pageTitle = `${title} | Ilumina Sun`;
   const description =
-    "Guia direto sobre a Lei 14.300 (marco legal da geração distribuída), SCEE/créditos, regras de transição e impacto por perfil (residencial, comercial, industrial e rural) — com foco no Rio de Janeiro, Niterói, São Gonçalo, Itaboraí, Tanguá, Rio Bonito e Maricá.";
+    "Entenda a Lei 14.300 (Marco Legal da geração distribuída), o que muda na compensação, prazos e regras de transição. Guia prático com foco no RJ e região.";
 
-  const keywords =
-    "lei 14300 energia solar, marco legal geração distribuída, SCEE créditos, regra de transição GD, homologação energia solar RJ, energia solar rio de janeiro, energia solar niterói, energia solar são gonçalo, energia solar itaboraí, energia solar maricá, autoconsumo remoto, geração compartilhada";
+  useEffect(() => {
+    document.title = pageTitle;
 
-  const areaCities = useMemo(
-    () => ["Rio de Janeiro", "Niterói", "São Gonçalo", "Itaboraí", "Tanguá", "Rio Bonito", "Maricá"],
-    []
-  );
+    upsertLink("canonical", CANONICAL);
+    upsertMetaBy("name", "description", description);
+
+    upsertMetaBy("property", "og:type", "article");
+    upsertMetaBy("property", "og:title", pageTitle);
+    upsertMetaBy("property", "og:description", description);
+    upsertMetaBy("property", "og:url", CANONICAL);
+    upsertMetaBy("property", "og:image", OG_IMAGE);
+
+    upsertMetaBy("name", "twitter:card", "summary_large_image");
+    upsertMetaBy("name", "twitter:title", pageTitle);
+    upsertMetaBy("name", "twitter:description", description);
+    upsertMetaBy("name", "twitter:image", OG_IMAGE);
+  }, []);
 
   const toc = useMemo(
     () => [
@@ -77,111 +82,78 @@ export default function MarcoLegal14300() {
       "Autoconsumo remoto, condomínios e geração compartilhada",
       "Homologação no RJ: como reduzir atraso e reprovação",
       "Checklist do projeto para fechar com segurança",
-      "FAQ: dúvidas comuns sobre o marco legal",
+      "Perguntas frequentes (FAQ)",
       "Ilumina Sun: projeto e orientação para RJ e Região",
     ],
     []
   );
 
-  useEffect(() => {
-    document.title = title;
+  const breadcrumbJsonLd = useMemo(
+    () => ({
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Blog", item: `${SITE_URL}/blog` },
+        { "@type": "ListItem", position: 2, name: "Marco Legal", item: CANONICAL },
+      ],
+    }),
+    []
+  );
 
-    upsertMetaBy("name", "description", description);
-    upsertMetaBy("name", "keywords", keywords);
-    upsertLink("canonical", CANONICAL);
+  const articleJsonLd = useMemo(
+    () => ({
+      "@context": "https://schema.org",
+      "@type": "Article",
+      mainEntityOfPage: { "@type": "WebPage", "@id": CANONICAL },
+      headline: title,
+      description,
+      image: [OG_IMAGE],
+      author: { "@type": "Organization", name: "Ilumina Sun" },
+      publisher: { "@type": "Organization", name: "Ilumina Sun" },
+      datePublished: DATE_PUBLISHED,
+      dateModified: DATE_MODIFIED,
+    }),
+    []
+  );
 
-    // Open Graph
-    upsertMetaBy("property", "og:type", "article");
-    upsertMetaBy("property", "og:site_name", "Ilumina Sun");
-    upsertMetaBy("property", "og:title", title);
-    upsertMetaBy("property", "og:description", description);
-    upsertMetaBy("property", "og:url", CANONICAL);
-    upsertMetaBy("property", "og:image", OG_IMAGE);
-
-    // Twitter
-    upsertMetaBy("name", "twitter:card", "summary_large_image");
-    upsertMetaBy("name", "twitter:title", title);
-    upsertMetaBy("name", "twitter:description", description);
-    upsertMetaBy("name", "twitter:image", OG_IMAGE);
-  }, [title, description, keywords]);
-
-  const breadcrumbJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Início", item: SITE_URL },
-      { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE_URL}/blog` },
-      { "@type": "ListItem", position: 3, name: "Lei 14.300 (Marco Legal da GD)", item: CANONICAL },
-    ],
-  };
-
-  const articleJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    mainEntityOfPage: { "@type": "WebPage", "@id": CANONICAL },
-    headline: title,
-    description,
-    image: [OG_IMAGE, POST_IMAGE_ABS],
-    author: { "@type": "Organization", name: "Equipe Ilumina Sun" },
-    publisher: {
-      "@type": "Organization",
-      name: "Ilumina Sun",
-      logo: { "@type": "ImageObject", url: `${SITE_URL}/logo.png` },
-    },
-    datePublished: DATE_PUBLISHED,
-    dateModified: DATE_MODIFIED,
-    inLanguage: "pt-BR",
-  };
-
-  const localBusinessJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    name: "Ilumina Sun",
-    url: SITE_URL,
-    areaServed: areaCities.map((c) => ({ "@type": "City", name: c })),
-    email: "contato@iluminasun.com.br",
-  };
-
-  const faqJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "A Lei 14.300 acabou com os créditos de energia solar?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text:
-            "Não. A lei organiza o marco legal da geração distribuída e mantém o SCEE, mas define regras de transição e parâmetros que influenciam o faturamento, principalmente para novas conexões, conforme regulamentação e práticas da distribuidora.",
+  const faqJsonLd = useMemo(
+    () => ({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: "A Lei 14.300 impede instalar energia solar?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Não. Ela organiza regras e transições. O ponto é projetar e enquadrar corretamente para evitar pendências e prazos estourados.",
+          },
         },
-      },
-      {
-        "@type": "Question",
-        name: "Energia solar ainda vale a pena no RJ com o marco legal?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text:
-            "Na maioria dos casos, sim. O que muda é que o projeto deve ser dimensionado com precisão, considerando perfil de consumo, modalidade (local/remoto/condomínio/compartilhada) e o fluxo de homologação da distribuidora no seu endereço.",
+        {
+          "@type": "Question",
+          name: "O que mais causa reprovação na homologação?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Documentação incompleta, padrão/entrada com ajustes pendentes e incompatibilidade entre projeto elétrico e o que foi instalado.",
+          },
         },
-      },
-      {
-        "@type": "Question",
-        name: "Qual o maior erro que gera atraso na homologação?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text:
-            "Fechar o sistema sem validar enquadramento e documentação (ART, diagrama, formulários e requisitos do padrão). Esse tipo de falha costuma gerar pendências, retrabalho e semanas de atraso.",
+        {
+          "@type": "Question",
+          name: "Compensa para empresas e comércios no RJ?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Geralmente sim quando o consumo ocorre no horário comercial e o dimensionamento considera demanda, perfil e sazonalidade.",
+          },
         },
-      },
-    ],
-  };
+      ],
+    }),
+    []
+  );
 
   return (
     <main className="min-h-screen bg-background text-foreground">
-      {/* JSON-LD (SEO) */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 
       <div className="mx-auto w-full max-w-6xl px-4 pt-24 pb-16 md:px-6 lg:px-0">
@@ -194,21 +166,16 @@ export default function MarcoLegal14300() {
         </div>
 
         <article className="grid gap-10 lg:grid-cols-[1fr_320px]">
-          <div>
+          <div className="space-y-8">
             <header className="space-y-4">
-              <div className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+              <div className="inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
                 Lei 14.300 · Marco Legal · RJ e Região
               </div>
 
-              <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">{title}</h1>
+              <h1 className="text-3xl font-bold leading-tight md:text-4xl">{title}</h1>
+              <p className="text-base text-muted-foreground md:text-lg">{description}</p>
 
-              <p className="text-base text-muted-foreground sm:text-lg">
-                Se você está em{" "}
-                <strong>Rio de Janeiro, Niterói, São Gonçalo, Itaboraí, Tanguá, Rio Bonito ou Maricá</strong>, este guia vai te
-                ajudar a entender o que realmente muda na prática e como tomar decisões sem cair em ruído ou desinformação.
-              </p>
-
-              <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+              <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
                 <span>Equipe Ilumina Sun</span>
                 <span>•</span>
                 <span>Atualizado em 18/12/2025</span>
@@ -216,17 +183,9 @@ export default function MarcoLegal14300() {
                 <span>10–13 min de leitura</span>
               </div>
 
-              <figure className="mt-6 overflow-hidden rounded-2xl border border-border bg-muted">
-                <img
-                  src={POST_IMAGE_PATH}
-                  alt="Lei 14.300 (Marco Legal da Geração Distribuída) e energia solar no RJ"
-                  className="h-[260px] w-full object-cover sm:h-[320px]"
-                  loading="eager"
-                  decoding="async"
-                />
-                <figcaption className="px-4 py-3 text-xs text-muted-foreground">
-                  Marco Legal (Lei 14.300): efeitos práticos no projeto, no faturamento e na homologação.
-                </figcaption>
+              <figure className="overflow-hidden rounded-2xl border border-border bg-muted/30">
+                <img src={HERO_IMAGE} alt={HERO_ALT} className="h-[340px] w-full object-cover sm:h-[420px]" loading="lazy" />
+                <figcaption className="px-4 py-3 text-xs text-muted-foreground">{HERO_CAPTION}</figcaption>
               </figure>
 
               <div className="mt-4 flex flex-col gap-3 sm:flex-row">
@@ -242,215 +201,155 @@ export default function MarcoLegal14300() {
                 </Link>
               </div>
 
-              {/* Compartilhamento (padrão do site) */}
               <div className="pt-2">
+                <ShareBar title={title} url={CANONICAL} slug={POST_SLUG} contentType="blog" heading="" />
               </div>
-              <ShareBar
-                title="Lei 14.300 (Marco Legal da Geração Distribuída): o que muda na prática no RJ e como evitar erros na homologação"
-                url={CANONICAL}
-                slug="(cole aqui o slug do post)"
-                contentType="blog"
-                heading=""
-              />
             </header>
 
             <div className="prose prose-slate mt-10 max-w-none dark:prose-invert">
               <h2 id={slugifyId(toc[0])}>{toc[0]}</h2>
+
               <div className="not-prose rounded-2xl border border-border bg-muted/30 p-5">
                 <ul className="m-0 list-disc space-y-2 pl-5 text-sm text-muted-foreground">
-                  <li>
-                    A Lei 14.300 cria o “manual do jogo” da geração distribuída e organiza a relação entre consumidor, integrador e distribuidora.
-                  </li>
-                  <li>
-                    O SCEE (compensação/créditos) permanece, mas o marco legal introduz parâmetros e transições que impactam principalmente novas conexões.
-                  </li>
-                  <li>
-                    Na prática, a economia continua forte — desde que o projeto seja dimensionado corretamente e homologado sem pendências.
-                  </li>
-                  <li>
-                    Para RJ e Região, o caminho mais seguro é: consumo → modalidade (local/remoto/condomínio/compartilhada) → documentação → homologação.
-                  </li>
+                  <li>A Lei 14.300 organiza regras e transições — o impacto real depende de enquadramento, documentação e prazos.</li>
+                  <li>No RJ, o que mais atrasa projeto é pendência de padrão/entrada e inconsistência entre projeto e instalação.</li>
+                  <li>Para evitar retrabalho, trate o processo como: dimensionamento → engenharia → documentação → instalação → homologação.</li>
                 </ul>
+
+                <div className="mt-4 flex flex-col gap-2 sm:flex-row">
+                  <Link href="/contato">
+                    <a className="inline-flex items-center justify-center rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:opacity-95">
+                      Pedir análise do meu caso
+                    </a>
+                  </Link>
+                  <Link href="/blog/regulamentacao-aneel-energia-solar">
+                    <a className="inline-flex items-center justify-center rounded-xl border border-border bg-background px-4 py-2 text-sm font-semibold hover:bg-muted">
+                      Ver regulamentação ANEEL
+                    </a>
+                  </Link>
+                </div>
               </div>
 
               <h2 id={slugifyId(toc[1])}>{toc[1]}</h2>
               <p>
                 Pense na Lei 14.300 como um marco que padroniza o setor: define princípios, dá previsibilidade e cria uma lógica de transição.
-                O objetivo prático é reduzir incerteza e organizar o crescimento da energia solar conectada à rede, incluindo modelos como autoconsumo remoto,
-                condomínios e geração compartilhada.
+                O objetivo prático é reduzir incerteza e organizar o crescimento da energia solar conectada à rede.
               </p>
 
               <h2 id={slugifyId(toc[2])}>{toc[2]}</h2>
               <p>
-                O SCEE é o mecanismo em que a energia excedente vira crédito e ajuda a abater consumo futuro. O que o mercado aprende com o marco legal é simples:
-                o “segredo” não é só instalar — é instalar com <strong>enquadramento correto</strong> e <strong>projeto limpo</strong> para não perder tempo em pendência.
+                O SCEE e o mecanismo de compensação seguem existindo. O que o mercado aprende com o marco legal é simples:
+                o “segredo” não é só instalar — é instalar <strong>enquadrando corretamente</strong> e com projeto limpo para não perder tempo em pendência.
               </p>
 
               <h2 id={slugifyId(toc[3])}>{toc[3]}</h2>
               <p>
-                O marco legal prevê transições que afetam principalmente novas conexões ao longo do tempo. Em vez de decorar regra, a decisão inteligente é:
+                A transição prevê parâmetros que afetam principalmente novas conexões ao longo do tempo. Em vez de tratar timing como detalhe,
+                trate como variável de projeto (planejamento e documentação).
               </p>
               <ul>
-                <li><strong>Tratar timing como variável do projeto</strong> (planejamento e documentação)</li>
-                <li><strong>Dimensionar com base no seu perfil real</strong> (e não em “promessa genérica”)</li>
-                <li><strong>Evitar retrabalho</strong> (o custo oculto mais comum do cliente é atraso e desgaste)</li>
+                <li>Dimensionar com base no seu perfil real (e não em “promessa genérica”).</li>
+                <li>Evitar retrabalho (o custo oculto mais comum do cliente é atraso e desgaste).</li>
+                <li>Impacto maior quando documentação e padrão estão bem fechados.</li>
               </ul>
 
               <h2 id={slugifyId(toc[4])}>{toc[4]}</h2>
-
-              <h3>Residencial</h3>
-              <ul>
-                <li>Mais sensível a consumo sazonal (verão/inverno) e hábitos.</li>
-                <li>Mais rápido quando documentação e padrão estão bem fechados.</li>
-              </ul>
-
-              <h3>Comercial</h3>
-              <ul>
-                <li>Economia forte quando o consumo ocorre no horário comercial (sinergia com geração).</li>
-                <li>Para redes com mais de uma unidade, avaliar modalidade antes de instalar.</li>
-              </ul>
-
-              <h3>Industrial</h3>
-              <ul>
-                <li>Projeto é engenharia: demanda, proteções, qualidade de energia, cronograma e documentação.</li>
-                <li>Evita surpresa no comissionamento e reduz risco de reprovação.</li>
-              </ul>
-
-              <h3>Rural</h3>
-              <ul>
-                <li>Perfil específico (bombeamento, irrigação, refrigeração) e logística.</li>
-                <li>Dimensionamento e robustez do sistema têm peso maior do que “preço do kit”.</li>
-              </ul>
-
-              <div className="not-prose my-8 rounded-2xl border border-border bg-background p-5">
-                <div className="text-sm font-semibold">Ação recomendada</div>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Quer saber o impacto no seu caso (RJ, Niterói, São Gonçalo, Itaboraí, Tanguá, Rio Bonito ou Maricá)? Faça a simulação
-                  e peça análise do enquadramento antes de fechar.
-                </p>
-                <div className="mt-4 flex flex-col gap-2 sm:flex-row">
-                  <Link href="/simulador">
-                    <a className="inline-flex items-center justify-center rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:opacity-95">
-                      Simular economia
-                    </a>
-                  </Link>
-                  <Link href="/contato">
-                    <a className="inline-flex items-center justify-center rounded-xl border border-border bg-background px-4 py-2 text-sm font-semibold hover:bg-muted">
-                      Pedir análise
-                    </a>
-                  </Link>
-                </div>
-              </div>
+              <p><strong>Residencial</strong>: mais sensível a consumo sazonal e hábitos. <strong>Comercial</strong>: melhor quando consumo ocorre no horário comercial.
+                <strong>Industrial</strong>: demanda, proteções e cronograma de documentação contam muito. <strong>Rural</strong>: perfil de bombeamento/irrigação e robustez.
+              </p>
 
               <h2 id={slugifyId(toc[5])}>{toc[5]}</h2>
               <p>
-                A Lei 14.300 dá sustentação para modalidades que ajudam muito quem tem mais de um imóvel/empresa ou quer viabilizar energia solar em conjunto.
-                O ponto central é: a documentação e o cadastro precisam estar consistentes com o modelo escolhido.
+                Modalidades como autoconsumo remoto e geração compartilhada dependem de documentação e cadastro bem feitos.
+                Se o objetivo é viabilizar em conjunto, o ponto central é: a documentação e o cadastro precisam estar consistentes com o modelo escolhido.
               </p>
 
               <h2 id={slugifyId(toc[6])}>{toc[6]}</h2>
               <p>
-                O que mais acelera homologação no RJ e Região é organização. As reprovações mais comuns são: enquadramento errado, documentação incompleta e padrão
-                de entrada com ajuste pendente. Quando isso acontece, o cliente perde semanas e entra em “ciclo de retrabalho”.
+                No RJ, as reprovações mais comuns são: enquadramento errado, documentação incompleta e padrão de entrada com ajuste pendente.
+                Quando isso acontece, o cliente entra em “ciclo de retrabalho”. A saída é checklist + validação técnica antes de instalar.
               </p>
               <ul>
-                <li><strong>Visita/diagnóstico</strong> antes de dimensionar</li>
-                <li><strong>Checklist de documentos</strong> fechado</li>
-                <li><strong>Modalidade correta</strong> (local/remoto/condomínio/compartilhada)</li>
-                <li><strong>Instalação por equipe qualificada</strong></li>
+                <li>Visita/diagnóstico antes de dimensionar</li>
+                <li>Modalidade correta (local/remoto/condomínio/compartilhada)</li>
+                <li>Instalação por equipe qualificada</li>
               </ul>
 
               <h2 id={slugifyId(toc[7])}>{toc[7]}</h2>
               <ul>
                 <li>Consumo médio (kWh) e objetivo (economia/expansão/múltiplas unidades)</li>
-                <li>Modalidade definida antes da compra</li>
+                <li>Modalidade e finalidade antes da compra</li>
                 <li>Layout e sombreamento validados</li>
                 <li>Documentação técnica preparada</li>
-                <li>Plano de manutenção (principalmente comercial/industrial/rural)</li>
+                <li>Plano de manutenção (quando aplicável)</li>
               </ul>
 
               <h2 id={slugifyId(toc[8])}>{toc[8]}</h2>
-              <div className="not-prose space-y-3">
-                <details className="rounded-xl border border-border bg-background p-4">
-                  <summary className="cursor-pointer text-sm font-semibold">Ainda vale a pena instalar energia solar?</summary>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    Em grande parte dos casos, sim. O diferencial é fazer projeto correto e homologar sem pendência. Energia solar ruim não é “a lei” — é “projeto mal fechado”.
-                  </p>
-                </details>
-
-                <details className="rounded-xl border border-border bg-background p-4">
-                  <summary className="cursor-pointer text-sm font-semibold">O que mais impacta o resultado financeiro?</summary>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    Dimensionamento (consumo real), modalidade (local/remoto/condomínio/compartilhada) e execução/homologação sem retrabalho.
-                  </p>
-                </details>
-
-                <details className="rounded-xl border border-border bg-background p-4">
-                  <summary className="cursor-pointer text-sm font-semibold">Preciso entender tudo para contratar?</summary>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    Não. Você precisa de um integrador que explique em linguagem simples e entregue um projeto com premissas claras, checklist e expectativa realista de prazo.
-                  </p>
-                </details>
-              </div>
+              <details>
+                <summary>A Lei 14.300 impede instalar energia solar?</summary>
+                <p>Não. Ela organiza regras e transições. O foco é enquadrar e homologar corretamente.</p>
+              </details>
+              <details>
+                <summary>O que mais impacta o resultado financeiro?</summary>
+                <p>Dimensionamento, tarifa, perdas (sombreamento/temperatura) e qualidade do escopo (elétrica + homologação).</p>
+              </details>
+              <details>
+                <summary>Preciso entender tudo para contratar?</summary>
+                <p>Não. Mas você precisa de uma proposta transparente com escopo fechado e ART/responsabilidade técnica.</p>
+              </details>
 
               <h2 id={slugifyId(toc[9])}>{toc[9]}</h2>
-              <div className="not-prose rounded-2xl border border-border bg-primary/5 p-6">
-                <h3 className="text-base font-bold">Ilumina Sun — RJ, Niterói, São Gonçalo e Região</h3>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Projetamos e orientamos o caminho de homologação para reduzir risco de pendência e atraso — atendendo{" "}
-                  <strong>residencial, comercial, industrial e rural</strong>.
-                </p>
+              <div className="not-prose rounded-2xl border border-border bg-muted/30 p-6">
+                <div className="text-sm font-semibold">Atendemos RJ e Região com projeto + homologação orientada</div>
+                <div className="mt-1 text-sm text-muted-foreground">
+                  Se você está no Rio de Janeiro, Niterói, São Gonçalo, Itaboraí, Tanguá, Rio Bonito ou Maricá, a Ilumina Sun faz o diagnóstico e orienta o caminho técnico e regulatório.
+                </div>
                 <div className="mt-4 flex flex-col gap-3 sm:flex-row">
                   <Link href="/simulador">
-                    <a className="inline-flex items-center justify-center rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground hover:opacity-95">
-                      Simular economia
-                    </a>
+                    <a className="inline-flex items-center justify-center rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground">Simular economia</a>
                   </Link>
                   <Link href="/contato">
-                    <a className="inline-flex items-center justify-center rounded-xl border border-border bg-background px-5 py-3 text-sm font-semibold hover:bg-muted">
-                      Solicitar contato
-                    </a>
+                    <a className="inline-flex items-center justify-center rounded-xl border border-border bg-background px-4 py-2 text-sm font-semibold hover:bg-muted">Solicitar contato</a>
                   </Link>
-                </div>
-
-                <div className="mt-5">
                 </div>
               </div>
 
-              <p className="mt-8 text-sm text-muted-foreground">
-                Observação: regras operacionais podem variar conforme distribuidora e detalhes do seu enquadramento. Para decisões finais,
-                valide seu cenário com base em documentação técnica e no fluxo oficial aplicável.
+              <p className="mt-6 text-xs text-muted-foreground">
+                Observação: regras operacionais podem variar conforme distribuidora e detalhes do seu enquadramento. Para decisões finais, valide seu cenário com base em documentação técnica e no fluxo oficial aplicável.
               </p>
             </div>
           </div>
 
-          <aside className="lg:sticky lg:top-24 lg:h-[calc(100vh-120px)]">
+          <aside className="space-y-4">
             <div className="rounded-2xl border border-border bg-background p-5">
               <div className="text-sm font-semibold">Neste artigo</div>
-              <nav className="mt-3 space-y-2 text-sm text-muted-foreground">
-                {toc.map((h, index) => (
-                  <a key={`${h}-${index}`} href={`#${slugifyId(h)}`} className="block hover:text-primary">
-                    {h}
-                  </a>
+              <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
+                {toc.map((item) => (
+                  <li key={item}>
+                    <a className="hover:text-primary" href={`#${slugifyId(item)}`}>
+                      {item}
+                    </a>
+                  </li>
                 ))}
-              </nav>
+              </ul>
+            </div>
 
-              <div className="mt-6 border-t border-border pt-5">
-                <div className="text-sm font-semibold">Ações rápidas</div>
-                <div className="mt-3 flex flex-col gap-2 text-sm">
-                  <Link href="/simulador">
-                    <a className="text-muted-foreground hover:text-primary">Simular economia</a>
-                  </Link>
-                  <Link href="/kit-solar">
-                    <a className="text-muted-foreground hover:text-primary">Ver Kits</a>
-                  </Link>
-                  <Link href="/contato">
-                    <a className="text-muted-foreground hover:text-primary">Falar com especialista</a>
-                  </Link>
-                  <Link href="/blog/regulamentacao-aneel-energia-solar">
-                    <a className="text-muted-foreground hover:text-primary">Ler: Regulamentação ANEEL</a>
-                  </Link>
-                </div>
+            <div className="rounded-2xl border border-border bg-background p-5">
+              <div className="text-sm font-semibold">Ações rápidas</div>
+              <div className="mt-3 flex flex-col gap-2 text-sm">
+                <Link href="/simulador"><a className="hover:text-primary">Simular economia</a></Link>
+                <Link href="/kit-solar"><a className="hover:text-primary">Ver Kits</a></Link>
+                <Link href="/contato"><a className="hover:text-primary">Falar com especialista</a></Link>
+                <Link href="/blog/regulamentacao-aneel-energia-solar"><a className="hover:text-primary">Ler: Regulamentação ANEEL</a></Link>
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-border bg-background p-5">
+              <div className="text-sm font-semibold">Relacionados</div>
+              <div className="mt-3 flex flex-col gap-2 text-sm">
+                <Link href="/blog/regulamentacao-aneel-energia-solar"><a className="hover:text-primary">Regulamentação ANEEL</a></Link>
+                <Link href="/blog/financiamento-energia-solar-rj"><a className="hover:text-primary">Financiamento no RJ</a></Link>
+                <Link href="/blog/quanto-custa-energia-solar-brasil-2026"><a className="hover:text-primary">Quanto custa energia solar em 2026</a></Link>
               </div>
             </div>
           </aside>

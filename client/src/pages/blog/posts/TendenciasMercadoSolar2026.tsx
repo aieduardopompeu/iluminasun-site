@@ -3,12 +3,18 @@ import { Link } from "wouter";
 import ShareBar from "@/components/share/ShareBar";
 
 const SITE_URL = import.meta.env.VITE_SITE_URL || "https://iluminasun.com.br";
-const POST_PATH = "/blog/tendencias-mercado-solar-2026";
+
+const POST_SLUG = "tendencias-mercado-solar-2026";
+const POST_PATH = `/blog/${POST_SLUG}`;
 const CANONICAL = `${SITE_URL}${POST_PATH}`;
+
 const HERO_IMAGE = "/blog/tendencias-mercado-solar-2026.webp";
-const HERO_ALT = "Tendências do mercado solar em 2026: baterias, eficiência e regulação.";
-const HERO_CAPTION = "Eficiência, baterias, inversores, precificação e regulação: o que realmente importa em 2026.";
-const OG_IMAGE = `${SITE_URL}/blog/tendencias-mercado-solar-2026.webp`;
+const HERO_ALT = "Tendências do mercado solar em 2026: preços, eficiência, baterias e regulação.";
+const HERO_CAPTION =
+  "Tendências 2026: eficiência, baterias, inversores, regulação e oportunidades para residencial e empresas.";
+
+const OG_IMAGE = `${SITE_URL}${HERO_IMAGE}`;
+
 const DATE_PUBLISHED = "2025-11-15";
 const DATE_MODIFIED = "2025-11-15";
 
@@ -32,32 +38,31 @@ function upsertLink(rel: string, href: string) {
   el.setAttribute("href", href);
 }
 
-function slugifyId(s: string) {
-  return s
+function slugifyId(input: string) {
+  return input
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/[^a-z0-9\s-]/g, "")
     .trim()
-    .replace(/\s+/g, "-");
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
 }
 
 export default function TendenciasMercadoSolar2026() {
-  const title = "Tendências do mercado solar em 2026: o que realmente muda (e o que é só barulho)";
+  const pageTitle = "Tendências do Mercado Solar em 2026: O Que Esperar | Ilumina Sun";
+  const title = "Tendências do Mercado Solar em 2026: O Que Esperar";
   const description =
-    "Eficiência, baterias, inversores, regulação e preços: veja o que impacta sua decisão em 2026, como comparar propostas e onde estão os principais riscos — com foco no RJ e Região.";
+    "Principais tendências para 2026 no setor solar: preço de equipamentos, eficiência, armazenamento (baterias), inversores, regulação e oportunidades para residencial, comercial e industrial no RJ e região.";
 
   const toc = useMemo(
     () => [
-      "Resumo rápido: as 7 tendências que importam",
-      "Por que 2026 é diferente: maturidade do mercado e decisões mais técnicas",
-      "Tendência 1: eficiência e qualidade do sistema (não só potência)",
-      "Tendência 2: baterias e armazenamento (quando faz sentido)",
-      "Tendência 3: inversores, monitoramento e proteção",
-      "Tendência 4: preço e financiamento (o que mudou)",
-      "Tendência 5: regulação e regras de compensação",
-      "Erros comuns ao ‘seguir tendência’",
-      "Checklist: como comprar com segurança em 2026",
+      "Resumo rápido: o que realmente muda em 2026",
+      "Preços e equipamentos: onde caiu e onde ainda encarece",
+      "Eficiência, microinversores e inversores: o que está virando padrão",
+      "Baterias e armazenamento: quando faz sentido e quando não",
+      "Regulação e cenário no Brasil: o que observar",
+      "Checklist: como aproveitar as tendências sem cair em modismo",
       "Perguntas frequentes (FAQ)",
       "Atendimento Ilumina Sun: RJ e Região",
     ],
@@ -65,23 +70,22 @@ export default function TendenciasMercadoSolar2026() {
   );
 
   useEffect(() => {
-    document.title = `${title} | Ilumina Sun`;
+    document.title = pageTitle;
 
     upsertLink("canonical", CANONICAL);
     upsertMetaBy("name", "description", description);
 
     upsertMetaBy("property", "og:type", "article");
-    upsertMetaBy("property", "og:site_name", "Ilumina Sun");
-    upsertMetaBy("property", "og:title", title);
+    upsertMetaBy("property", "og:title", pageTitle);
     upsertMetaBy("property", "og:description", description);
     upsertMetaBy("property", "og:url", CANONICAL);
     upsertMetaBy("property", "og:image", OG_IMAGE);
 
     upsertMetaBy("name", "twitter:card", "summary_large_image");
-    upsertMetaBy("name", "twitter:title", title);
+    upsertMetaBy("name", "twitter:title", pageTitle);
     upsertMetaBy("name", "twitter:description", description);
     upsertMetaBy("name", "twitter:image", OG_IMAGE);
-  }, [title, description]);
+  }, [pageTitle, description]);
 
   const breadcrumbJsonLd = useMemo(
     () => ({
@@ -99,7 +103,7 @@ export default function TendenciasMercadoSolar2026() {
     () => ({
       "@context": "https://schema.org",
       "@type": "Article",
-      headline: title,
+      headline: pageTitle,
       description,
       datePublished: DATE_PUBLISHED,
       dateModified: DATE_MODIFIED,
@@ -111,62 +115,14 @@ export default function TendenciasMercadoSolar2026() {
         name: "Ilumina Sun Energia Solar",
         logo: { "@type": "ImageObject", url: `${SITE_URL}/logo.svg` },
       },
-      inLanguage: "pt-BR",
     }),
-    [title, description]
-  );
-
-  const faqJsonLd = useMemo(
-    () => ({
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      mainEntity: [
-        {
-          "@type": "Question",
-          name: "Bateria vale a pena em 2026?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text:
-              "Depende do seu perfil. Em geral, bateria faz mais sentido para quem precisa de backup, tem consumo noturno relevante ou quer estabilidade em casos de interrupção. Para muitos residenciais, a análise deve ser econômica e de necessidade real.",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "O que mais diferencia uma proposta boa de uma proposta ruim?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text:
-              "Escopo claro, premissas de geração transparentes, proteções e engenharia bem descritas, garantias, e um dimensionamento alinhado ao seu consumo real. ‘Preço baixo’ sem escopo costuma gerar custo depois.",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "Em 2026 os preços caem ou sobem?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text:
-              "O preço final pode variar por câmbio, logística, demanda e componentes. O importante é comparar propostas por qualidade, garantias e premissas — e não apenas por valor total.",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "Qual tendência impacta mais a economia na conta?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text:
-              "Dimensionamento correto e qualidade de execução continuam sendo os maiores determinantes. Tecnologias novas ajudam, mas não compensam projeto ruim.",
-          },
-        },
-      ],
-    }),
-    []
+    [pageTitle, description]
   );
 
   return (
     <main className="min-h-screen bg-background text-foreground">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 
       <div className="mx-auto w-full max-w-6xl px-4 pt-24 pb-16 md:px-6 lg:px-0">
         <div className="mb-6 flex items-center gap-2 text-sm text-muted-foreground">
@@ -178,204 +134,255 @@ export default function TendenciasMercadoSolar2026() {
         </div>
 
         <article className="grid gap-10 lg:grid-cols-[1fr_320px]">
+          {/* Coluna principal */}
           <div className="space-y-8">
             <header className="space-y-4">
               <div className="inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-                Mercado
+                Mercado · Tendências · 2026
               </div>
 
-              <h1 className="text-3xl font-bold leading-tight md:text-4xl">{title}</h1>
-              <p className="text-base text-muted-foreground md:text-lg">{description}</p>
+              <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">{title}</h1>
 
-              <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
+              <p className="text-base text-muted-foreground sm:text-lg">{description}</p>
+
+              <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
                 <span>Equipe Ilumina Sun</span>
                 <span>•</span>
-                <span>15 de Novembro, 2025</span>
+                <span>15/11/2025</span>
                 <span>•</span>
-                <span>10–13 min</span>
+                <span>10–13 min de leitura</span>
               </div>
 
-              <div className="pt-2">
-                <ShareBar
-                  title={title}
-                  url={CANONICAL}
-                  slug="tendencias-mercado-solar-2026"
-                  contentType="blog"
-                  heading=""
+              <figure className="mt-6 overflow-hidden rounded-2xl border border-border bg-muted">
+                <img
+                  src={HERO_IMAGE}
+                  alt={HERO_ALT}
+                  className="h-[340px] w-full object-cover sm:h-[420px]"
+                  loading="eager"
+                  decoding="async"
                 />
-              </div>
-            </header>
-
-            <figure className="overflow-hidden rounded-2xl border border-border bg-muted/30">
-              <img
-                src={HERO_IMAGE}
-                alt={HERO_ALT}
-                className="h-[340px] w-full object-cover sm:h-[420px]"
-                loading="lazy"
-              />
-              {HERO_CAPTION ? (
                 <figcaption className="px-4 py-3 text-xs text-muted-foreground">{HERO_CAPTION}</figcaption>
-              ) : null}
-            </figure>
+              </figure>
 
-            <section className="prose prose-slate max-w-none dark:prose-invert">
-              <h2 id={slugifyId("Resumo rápido: as 7 tendências que importam")}>Resumo rápido: as 7 tendências que importam</h2>
-              <ul>
-                <li>
-                  <strong>Qualidade do sistema ganhou peso.</strong> Em 2026, comparar proposta por escopo, proteção e engenharia é mais importante que “potência”.
-                </li>
-                <li>
-                  <strong>Baterias viraram conversa séria.</strong> Mas só fazem sentido econômico para perfis específicos (backup, consumo noturno, continuidade).
-                </li>
-                <li>
-                  <strong>Monitoramento e performance.</strong> Sistemas bem monitorados identificam perdas cedo e protegem o retorno.
-                </li>
-                <li>
-                  <strong>Financiamento e fluxo de caixa.</strong> Empresas e residenciais olham para parcela e previsibilidade, não apenas preço à vista.
-                </li>
-                <li>
-                  <strong>Regulação continua definindo comportamento.</strong> Regras de compensação orientam o dimensionamento e a expectativa de economia.
-                </li>
-                <li>
-                  <strong>Propostas “baratas” ficaram mais arriscadas.</strong> O risco migra para adequações, retrabalho e garantia.
-                </li>
-                <li>
-                  <strong>Decisão mais técnica, menos emocional.</strong> Em 2026, o mercado amadureceu: escopo, premissas e garantias são o coração.
-                </li>
-              </ul>
-
-              <h2 id={slugifyId("Por que 2026 é diferente: maturidade do mercado e decisões mais técnicas")}>Por que 2026 é diferente: maturidade do mercado e decisões mais técnicas</h2>
-              <p>
-                A energia solar deixou de ser “novidade”. Isso muda o comportamento do consumidor e das empresas: a discussão sai do entusiasmo e entra em
-                engenharia, qualidade do projeto e retorno financeiro. Em resumo: quem compra melhor em 2026 é quem compara com método.
-              </p>
-
-              <h2 id={slugifyId("Tendência 1: eficiência e qualidade do sistema (não só potência)")}>Tendência 1: eficiência e qualidade do sistema (não só potência)</h2>
-              <p>
-                Potência (kWp) é só um pedaço. Em 2026, quem entrega resultado é o conjunto: layout, sombreamento, orientações, cabos, proteções, inversor,
-                fixação e comissionamento. Dois sistemas com a mesma potência podem gerar diferente por causas bem práticas.
-              </p>
-
-              <h2 id={slugifyId("Tendência 2: baterias e armazenamento (quando faz sentido)")}>Tendência 2: baterias e armazenamento (quando faz sentido)</h2>
-              <p>
-                Bateria não é “obrigatória”. Ela vira interessante quando o objetivo não é só economia, mas <strong>continuidade</strong> (backup), consumo noturno
-                relevante ou situações em que o custo de ficar sem energia é alto. O segredo é separar desejo de necessidade e fazer conta com premissas realistas.
-              </p>
-
-              <h2 id={slugifyId("Tendência 3: inversores, monitoramento e proteção")}>Tendência 3: inversores, monitoramento e proteção</h2>
-              <p>
-                Inversor e proteções elétricas viraram o “cérebro e o cinto de segurança” do sistema. Monitoramento robusto ajuda a detectar falhas, sujeira,
-                degradação e comportamento fora do esperado. Em 2026, monitorar performance é parte do retorno.
-              </p>
-
-              <h2 id={slugifyId("Tendência 4: preço e financiamento (o que mudou)")}>Tendência 4: preço e financiamento (o que mudou)</h2>
-              <p>
-                O preço final pode variar por câmbio, logística e disponibilidade de componentes. O que mudou foi a maturidade: cada vez mais pessoas e empresas
-                comparam pelo custo total (equipamentos + engenharia + instalação + homologação + garantias), e não só pelo número final no orçamento.
-              </p>
-
-              <h2 id={slugifyId("Tendência 5: regulação e regras de compensação")}>Tendência 5: regulação e regras de compensação</h2>
-              <p>
-                Regulação define expectativa. A regra do jogo afeta como créditos são compensados e qual estratégia de dimensionamento faz sentido. A melhor prática
-                continua sendo alinhar proposta com seu perfil de consumo e com a regra vigente no seu enquadramento.
-              </p>
-
-              <h2 id={slugifyId("Erros comuns ao ‘seguir tendência’")}>Erros comuns ao ‘seguir tendência’</h2>
-              <ul>
-                <li>
-                  <strong>Comprar tecnologia antes de definir objetivo.</strong> Primeiro decide “para quê”, depois escolhe “com o quê”.
-                </li>
-                <li>
-                  <strong>Comparar só preço.</strong> Em 2026, o risco mora no escopo escondido.
-                </li>
-                <li>
-                  <strong>Ignorar premissas de geração.</strong> Sem premissas, payback vira chute.
-                </li>
-                <li>
-                  <strong>Subestimar manutenção e monitoramento.</strong> Performance é parte do retorno.
-                </li>
-              </ul>
-
-              <h2 id={slugifyId("Checklist: como comprar com segurança em 2026")}>Checklist: como comprar com segurança em 2026</h2>
-              <ul>
-                <li>
-                  <strong>Escopo completo</strong>: itens, proteções, estrutura, engenharia, homologação, comissionamento.
-                </li>
-                <li>
-                  <strong>Premissas claras</strong>: sombreamento, perdas, orientação, sazonalidade e consumo real.
-                </li>
-                <li>
-                  <strong>Garantias</strong>: equipamentos e serviço, suporte e SLA.
-                </li>
-                <li>
-                  <strong>Comparação por qualidade</strong>: inversor, proteções, monitoramento e instalação.
-                </li>
-                <li>
-                  <strong>Decisão financeira realista</strong>: retorno com margem de segurança, não “promessa”.
-                </li>
-              </ul>
-
-              <h2 id={slugifyId("Perguntas frequentes (FAQ)")}>Perguntas frequentes (FAQ)</h2>
-              <h3>Bateria é tendência, mas preciso mesmo?</h3>
-              <p>
-                Só se houver necessidade de backup, consumo noturno relevante ou custo alto de parada. Caso contrário, pode ser melhor investir em qualidade do
-                sistema e monitoramento.
-              </p>
-              <h3>O que eu devo olhar em um orçamento em 2026?</h3>
-              <p>
-                Escopo, premissas de geração, proteções, garantias e cronograma. Proposta sem detalhes costuma gerar custo depois.
-              </p>
-              <h3>Qual tendência mais impacta a economia?</h3>
-              <p>
-                Projeto bem dimensionado e bem executado. Tecnologia nova ajuda, mas não salva um projeto ruim.
-              </p>
-              <h3>O mercado está mais seguro em 2026?</h3>
-              <p>
-                Está mais maduro, mas isso não elimina risco. O consumidor precisa comparar com método e exigir escopo e premissas.
-              </p>
-
-              <h2 id={slugifyId("Atendimento Ilumina Sun: RJ e Região")}>Atendimento Ilumina Sun: RJ e Região</h2>
-              <p>
-                A Ilumina Sun atende <strong>Rio de Janeiro</strong>, <strong>Niterói</strong>, <strong>São Gonçalo</strong>, <strong>Itaboraí</strong>,
-                <strong> Maricá</strong>, <strong>Tanguá</strong> e <strong>Rio Bonito</strong>, com projetos residenciais e empresariais. Em 2026, o objetivo é
-                simples: um sistema com escopo fechado e performance previsível — sem surpresas.
-              </p>
-            </section>
-
-            <div className="rounded-2xl border border-border bg-muted/30 p-6">
-              <div className="text-sm font-semibold">Quer comparar propostas com um checklist técnico?</div>
-              <div className="mt-1 text-sm text-muted-foreground">
-                Faça a simulação e fale com um especialista para validar escopo, premissas e retorno com segurança.
-              </div>
               <div className="mt-4 flex flex-col gap-3 sm:flex-row">
                 <Link href="/simulador">
-                  <a className="inline-flex items-center justify-center rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground">
-                    Simular economia →
+                  <a className="inline-flex items-center justify-center rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground hover:opacity-95">
+                    Simular economia agora
                   </a>
                 </Link>
                 <Link href="/contato">
-                  <a className="inline-flex items-center justify-center rounded-xl border border-border bg-background px-4 py-2 text-sm font-semibold">
+                  <a className="inline-flex items-center justify-center rounded-xl border border-border bg-background px-5 py-3 text-sm font-semibold hover:bg-muted">
                     Falar com especialista
                   </a>
                 </Link>
               </div>
+
+              <div className="pt-2">
+                <ShareBar title={title} url={CANONICAL} slug={POST_SLUG} contentType="blog" heading="" />
+              </div>
+            </header>
+
+            <div className="prose prose-slate mt-10 max-w-none dark:prose-invert">
+              <h2 id={slugifyId(toc[0])}>{toc[0]}</h2>
+
+              <div className="not-prose rounded-2xl border border-border bg-muted/30 p-5">
+                <ul className="m-0 list-disc space-y-2 pl-5 text-sm text-muted-foreground">
+                  <li>
+                    Em 2026, o mercado está menos "achismo" e mais <strong>engenharia + dados</strong>: consumo, tarifa,
+                    perdas e projeto fechado.
+                  </li>
+                  <li>
+                    Equipamentos melhoraram, mas o que mais encarece ainda é <strong>escopo elétrico</strong>, estrutura e
+                    complexidade do telhado.
+                  </li>
+                  <li>
+                    Baterias ganharam espaço, porém continuam fazendo sentido só em cenários específicos (backup,
+                    autoconsumo elevado, tarifas e uso).
+                  </li>
+                  <li>
+                    O padrão de qualidade que separa um projeto bom de um ruim: <strong>monitoramento + garantia + pós-venda</strong>.
+                  </li>
+                </ul>
+
+                <div className="mt-4 flex flex-col gap-2 sm:flex-row">
+                  <Link href="/simulador">
+                    <a className="inline-flex items-center justify-center rounded-xl border border-border bg-background px-4 py-2 text-sm font-semibold hover:bg-muted">
+                      Simular com meu consumo
+                    </a>
+                  </Link>
+                  <Link href="/contato">
+                    <a className="inline-flex items-center justify-center rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:opacity-95">
+                      Pedir análise do meu caso
+                    </a>
+                  </Link>
+                </div>
+              </div>
+
+              <h2 id={slugifyId(toc[1])}>{toc[1]}</h2>
+              <p>
+                O componente "equipamento" tem ficado mais previsível, mas não significa que todo orçamento cai. Onde você
+                vê variação real:
+              </p>
+              <ul>
+                <li>
+                  <strong>Módulos</strong>: maior eficiência por m² ajuda telhados menores, mas marcas e garantias mudam o
+                  preço.
+                </li>
+                <li>
+                  <strong>Inversores</strong>: soluções mais robustas (monitoramento, proteções, maior faixa de MPPT)
+                  elevam o custo, porém reduzem dor de cabeça.
+                </li>
+                <li>
+                  <strong>Estrutura/instalação</strong>: telha frágil, altura, acesso, maresia e reforços estruturais ainda
+                  pesam bastante.
+                </li>
+              </ul>
+
+              <h2 id={slugifyId(toc[2])}>{toc[2]}</h2>
+              <p>
+                A tendência prática é aumentar a confiabilidade e reduzir gargalos de geração. Alguns pontos que você vai
+                ver mais em projetos bons:
+              </p>
+              <ul>
+                <li>
+                  <strong>Otimização por string</strong> e cuidado com sombreamento (layout e projeto elétrico bem fechados).
+                </li>
+                <li>
+                  <strong>Microinversores</strong> ou soluções híbridas quando o telhado é muito recortado/sombreado.
+                </li>
+                <li>
+                  <strong>Monitoramento melhor</strong>: alertas e visibilidade real de performance (não só “gerou”).
+                </li>
+              </ul>
+
+              <h2 id={slugifyId(toc[3])}>{toc[3]}</h2>
+              <p>
+                Armazenamento está crescendo, mas o cálculo é objetivo: você precisa comparar custo da bateria x economia
+                real (autoconsumo) + valor do backup.
+              </p>
+              <ul>
+                <li>
+                  Faz sentido quando há <strong>queda frequente de energia</strong>, carga crítica (home office, saúde,
+                  segurança) ou uso noturno alto.
+                </li>
+                <li>
+                  Pode não fazer sentido se sua economia já é alta só com compensação e você tem pouca necessidade de
+                  backup.
+                </li>
+              </ul>
+
+              <h2 id={slugifyId(toc[4])}>{toc[4]}</h2>
+              <p>
+                O cenário brasileiro segue orientado por regras de compensação e prazos de transição. Na prática, o que
+                muda é o comportamento do consumidor e a exigência de projeto "redondo": documentação, proteções e
+                homologação bem conduzida.
+              </p>
+              <p>
+                Se você está no RJ e Região, vale atenção extra com maresia (corrosão), padrão de entrada e exigências da
+                distribuidora no processo de acesso.
+              </p>
+
+              <h2 id={slugifyId(toc[5])}>{toc[5]}</h2>
+              <ul>
+                <li>
+                  Exija proposta com <strong>marca/modelo</strong> de equipamentos, escopo elétrico e homologação descritos.
+                </li>
+                <li>
+                  Compare propostas pela mesma métrica: potência (kWp), geração estimada (kWh) e perdas assumidas.
+                </li>
+                <li>
+                  Confirme garantias (módulos, inversor, instalação) e como funciona o suporte.
+                </li>
+                <li>
+                  Se prometer economia “perfeita”, desconfie: sazonalidade e sombras mudam o resultado.
+                </li>
+              </ul>
+
+              <h2 id={slugifyId(toc[6])}>{toc[6]}</h2>
+              <details>
+                <summary>Vale a pena esperar mais para comprar porque o preço vai cair?</summary>
+                <p>
+                  Em muitos casos, a economia começa quando o sistema entra em operação. O melhor critério é comparar o
+                  custo total do projeto com a economia anual esperada, e não tentar “acertar o fundo do preço”.
+                </p>
+              </details>
+              <details>
+                <summary>Microinversor é sempre melhor?</summary>
+                <p>
+                  Não. Em telhados simples e sem sombras, inversores string são excelentes. Microinversores brilham em
+                  telhados complexos/sombreados e quando você quer granularidade por módulo.
+                </p>
+              </details>
+              <details>
+                <summary>Bateria zera a conta?</summary>
+                <p>
+                  Bateria ajuda a aumentar autoconsumo e dá backup, mas "zerar" depende de consumo, tarifa, perfil de uso
+                  e dimensionamento. O cálculo deve ser feito com premissas conservadoras.
+                </p>
+              </details>
+
+              <h2 id={slugifyId(toc[7])}>{toc[7]}</h2>
+              <div className="not-prose rounded-2xl border border-border bg-primary/5 p-5">
+                <div className="text-sm font-semibold">Atendemos RJ e Região com projeto e homologação orientada</div>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Se você está em Rio de Janeiro, Niterói, São Gonçalo, Itaboraí, Tanguá, Rio Bonito ou Maricá, a Ilumina
+                  Sun faz o diagnóstico (residencial/comercial/industrial/rural), dimensiona e orienta o caminho técnico.
+                </p>
+                <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+                  <Link href="/simulador">
+                    <a className="inline-flex items-center justify-center rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:opacity-95">
+                      Simular economia
+                    </a>
+                  </Link>
+                  <Link href="/contato">
+                    <a className="inline-flex items-center justify-center rounded-xl border border-border bg-background px-4 py-2 text-sm font-semibold hover:bg-muted">
+                      Solicitar contato
+                    </a>
+                  </Link>
+                </div>
+              </div>
+
+              <p className="mt-4 text-xs text-muted-foreground">
+                Observação: este conteúdo é educativo e não substitui uma avaliação técnica do seu imóvel, consumo e
+                regras da sua distribuidora.
+              </p>
             </div>
           </div>
 
+          {/* Sidebar */}
           <aside className="space-y-4">
             <div className="rounded-2xl border border-border bg-background p-5">
               <div className="text-sm font-semibold">Neste artigo</div>
-              <nav className="mt-3 space-y-2 text-sm">
-                {toc.map((t) => (
-                  <a
-                    key={t}
-                    href={`#${slugifyId(t)}`}
-                    className="block text-muted-foreground hover:text-primary"
-                  >
-                    {t}
-                  </a>
+              <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
+                {toc.map((item) => (
+                  <li key={item}>
+                    <a className="hover:text-primary" href={`#${slugifyId(item)}`}>
+                      {item}
+                    </a>
+                  </li>
                 ))}
-              </nav>
+              </ul>
+            </div>
+
+            <div className="rounded-2xl border border-border bg-background p-5">
+              <div className="text-sm font-semibold">Ações rápidas</div>
+              <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
+                <li>
+                  <Link href="/simulador">
+                    <a className="hover:text-primary">Simular economia</a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/kit-solar">
+                    <a className="hover:text-primary">Ver Kits</a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/contato">
+                    <a className="hover:text-primary">Falar com especialista</a>
+                  </Link>
+                </li>
+              </ul>
             </div>
 
             <div className="rounded-2xl border border-border bg-background p-5">
@@ -384,14 +391,11 @@ export default function TendenciasMercadoSolar2026() {
                 <Link href="/blog/quanto-custa-energia-solar-brasil-2026">
                   <a className="hover:text-primary">Quanto custa energia solar em 2026</a>
                 </Link>
-                <Link href="/blog/financiamento-energia-solar-rj">
-                  <a className="hover:text-primary">Financiamento no RJ</a>
+                <Link href="/blog/payback-energia-solar-em-quanto-tempo-se-paga">
+                  <a className="hover:text-primary">Payback: em quanto tempo se paga</a>
                 </Link>
                 <Link href="/blog/marco-legal-lei-14300-energia-solar-rj">
                   <a className="hover:text-primary">Lei 14.300 (Marco Legal)</a>
-                </Link>
-                <Link href="/simulador">
-                  <a className="hover:text-primary">Simulador</a>
                 </Link>
               </div>
             </div>
