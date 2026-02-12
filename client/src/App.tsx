@@ -50,6 +50,10 @@ const TendenciasMercadoSolar2026 = lazy(
   () => import("./pages/blog/posts/TendenciasMercadoSolar2026")
 );
 
+const TecnologiasPaineisSolares2026 = lazy(
+  () => import("./pages/blog/posts/TecnologiasPaineisSolares2026")
+);
+
 // ✅ Blog posts (NOVOS — adicionados)
 const QuantoCustaEnergiaSolarBrasil2026 = lazy(
   () => import("./pages/blog/posts/QuantoCustaEnergiaSolarBrasil2026")
@@ -72,6 +76,11 @@ const ComoEscolherEmpresaEnergiaSolar = lazy(
 const EnergiaSolarTransformandoContasDeLuz2026 = lazy(
   () => import("./pages/blog/posts/EnergiaSolarTransformandoContasDeLuz2026")
 );
+
+// ✅ Blog posts (SEMANA 2–4)
+const IAEnergiaSolarRJ = lazy(() => import("./pages/blog/posts/IAEnergiaSolarRJ"));
+const BateriasSolares2026RJ = lazy(() => import("./pages/blog/posts/BateriasSolares2026RJ"));
+const MercadoSolarBrasil2026RJ = lazy(() => import("./pages/blog/posts/MercadoSolarBrasil2026RJ"));
 
 
 declare global {
@@ -162,6 +171,11 @@ export default function App() {
                     component={TendenciasMercadoSolar2026}
                   />
 
+                  <Route
+                    path="/blog/tecnologias-paineis-solares-2026-rj"
+                    component={TecnologiasPaineisSolares2026}
+                  />
+
                   {/* ✅ Blog posts (NOVOS) */}
                   <Route
                     path="/blog/quanto-custa-energia-solar-brasil-2026"
@@ -190,6 +204,20 @@ export default function App() {
                   <Route
                     path="/blog/energia-solar-transformando-contas-de-luz-2026"
                     component={EnergiaSolarTransformandoContasDeLuz2026}
+                  />
+
+                  {/* ✅ Blog posts (SEMANA 2–4) */}
+                  <Route
+                    path="/blog/inteligencia-artificial-energia-solar-rj"
+                    component={IAEnergiaSolarRJ}
+                  />
+                  <Route
+                    path="/blog/baterias-energia-solar-vale-a-pena-2026-rj"
+                    component={BateriasSolares2026RJ}
+                  />
+                  <Route
+                    path="/blog/mercado-energia-solar-brasil-2026-panorama-rj"
+                    component={MercadoSolarBrasil2026RJ}
                   />
 
                   <Route path="/termos-de-uso" component={TermosDeUso} />

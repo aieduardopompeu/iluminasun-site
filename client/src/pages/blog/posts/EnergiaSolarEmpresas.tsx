@@ -132,8 +132,8 @@ export default function EnergiaSolarEmpresas() {
         </div>
 
         <article className="grid gap-10 lg:grid-cols-[1fr_320px]">
-          {/* Coluna principal */}
-          <div className="space-y-8">
+          {/* Conteudo */}
+          <div>
             <header className="space-y-4">
               <div className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
                 Comercial · Empresas
@@ -317,45 +317,49 @@ export default function EnergiaSolarEmpresas() {
           </div>
 
           {/* Sidebar */}
-          <aside className="space-y-4">
+          <aside className="lg:sticky lg:top-24 lg:h-[calc(100vh-120px)]">
             <div className="rounded-2xl border border-border bg-background p-5">
               <div className="text-sm font-semibold">Neste artigo</div>
-              <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
-                {toc.map((item) => (
-                  <li key={item}>
-                    <a className="hover:text-primary" href={`#${slugifyId(item)}`}>
-                      {item}
-                    </a>
-                  </li>
+
+              <nav className="mt-3 space-y-2 text-sm text-muted-foreground">
+                {toc.map((item, index) => (
+                  <a
+                    key={`${item}-${index}`}
+                    href={`#${slugifyId(item)}`}
+                    className="block hover:text-primary"
+                  >
+                    {item}
+                  </a>
                 ))}
-              </ul>
-              <div className="mt-4 border-t border-border pt-4">
+              </nav>
+
+              <div className="mt-6 border-t border-border pt-5">
                 <div className="text-sm font-semibold">Ações rápidas</div>
                 <div className="mt-3 flex flex-col gap-2 text-sm">
                   <Link href="/simulador">
-                    <a className="hover:text-primary">Simular economia</a>
+                    <a className="text-muted-foreground hover:text-primary">Simular economia</a>
                   </Link>
                   <Link href="/kit-solar">
-                    <a className="hover:text-primary">Ver Kits</a>
+                    <a className="text-muted-foreground hover:text-primary">Ver Kits</a>
                   </Link>
                   <Link href="/contato">
-                    <a className="hover:text-primary">Falar com especialista</a>
+                    <a className="text-muted-foreground hover:text-primary">Falar com especialista</a>
                   </Link>
                 </div>
               </div>
             </div>
 
-            <div className="rounded-2xl border border-border bg-background p-5">
+            <div className="mt-4 rounded-2xl border border-border bg-background p-5">
               <div className="text-sm font-semibold">Relacionados</div>
               <div className="mt-3 flex flex-col gap-2 text-sm">
                 <Link href="/blog/financiamento-energia-solar-rj">
-                  <a className="hover:text-primary">Financiamento no RJ</a>
+                  <a className="text-muted-foreground hover:text-primary">Financiamento no RJ</a>
                 </Link>
                 <Link href="/blog/marco-legal-lei-14300-energia-solar-rj">
-                  <a className="hover:text-primary">Lei 14.300 (Marco Legal)</a>
+                  <a className="text-muted-foreground hover:text-primary">Lei 14.300 (Marco Legal)</a>
                 </Link>
                 <Link href="/blog/como-escolher-empresa-energia-solar">
-                  <a className="hover:text-primary">Como escolher uma empresa</a>
+                  <a className="text-muted-foreground hover:text-primary">Como escolher uma empresa</a>
                 </Link>
               </div>
             </div>

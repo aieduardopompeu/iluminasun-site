@@ -42,16 +42,15 @@ export const blogPosts: BlogPost[] = [
     id: "2",
     title:
       "Lei 14.300 (Marco Legal da Geração Distribuída): o que muda na prática no RJ e como evitar erros na homologação",
-    excerpt:
-      "Guia direto sobre a Lei 14.300, compensação de créditos e regras de transição — com foco no RJ e Região.",
+    excerpt: "Guia direto sobre a Lei 14.300, compensação de créditos e regras de transição — com foco no RJ e Região.",
     category: "Legislação",
     author: "Equipe Ilumina Sun",
     dateISO: "2025-12-18",
     dateLabel: "18 de Dezembro, 2025",
     readTime: "10–13 min",
     slug: "marco-legal-lei-14300-energia-solar-rj",
-    image: "/blog/marco-legal-14300.webp",
-    imageAlt: "Lei 14.300 (Marco Legal) e energia solar no RJ",
+    image: "/blog/marco-legal-lei-14300.webp",
+    imageAlt: "Lei 14.300 (Marco Legal) e o que muda na geração distribuída no RJ.",
     published: true,
     featuredRank: 2,
   },
@@ -248,5 +247,75 @@ export const blogPosts: BlogPost[] = [
     image: "/blog/como-escolher-empresa-energia-solar.webp",
     imageAlt: "Checklist para escolher empresa de energia solar.",
     published: true,
+  },
+
+  // ======= Semana 2 a Semana 4 (novos artigos) =======
+
+  {
+    id: "15",
+    title:
+      "Como a inteligência artificial está otimizando a energia solar: mais geração, menos falhas e decisões melhores no RJ",
+    excerpt:
+      "Entenda como IA e análise de dados aumentam a performance de sistemas fotovoltaicos: previsão de geração, manutenção preditiva, detecção de falhas e monitoramento inteligente. Guia prático para RJ e região.",
+    category: "Tecnologia",
+    author: "Equipe Ilumina Sun",
+    dateISO: "2026-02-12",
+    dateLabel: "12 de Fevereiro, 2026",
+    readTime: "10–14 min",
+    slug: "inteligencia-artificial-energia-solar-rj",
+    image: "/blog/inteligencia-artificial-energia-solar.webp",
+    imageAlt: "IA aplicada à energia solar: monitoramento, previsão e manutenção preditiva no RJ.",
+    published: true,
+    featuredRank: 3,
+  },
+
+  {
+    id: "16",
+    title: "Baterias para energia solar em 2026: quando vale a pena, como dimensionar e evitar compra errada no RJ",
+    excerpt:
+      "Guia prático sobre baterias solares em 2026: para quem faz sentido, tipos (LFP e outras), cálculo de autonomia, inversor híbrido e checklist de segurança. Foco no RJ e região.",
+    category: "Tecnologia",
+    author: "Equipe Ilumina Sun",
+    dateISO: "2026-02-19",
+    dateLabel: "19 de Fevereiro, 2026",
+    readTime: "10–14 min",
+    slug: "baterias-energia-solar-vale-a-pena-2026-rj",
+    image: "/blog/baterias-energia-solar-2026.webp",
+    imageAlt: "Baterias para energia solar em 2026: quando vale a pena e como dimensionar no RJ.",
+    published: true,
+  },
+
+  {
+    id: "17",
+    title:
+      "Panorama do mercado de energia solar no Brasil em 2026: tendências, oportunidades e como decidir com segurança no RJ",
+    excerpt:
+      "Visão prática do mercado solar em 2026 no Brasil: crescimento da geração distribuída, tendências por setor, o que afeta o retorno e como comparar propostas. Foco no RJ e região.",
+    category: "Mercado",
+    author: "Equipe Ilumina Sun",
+    dateISO: "2026-02-26",
+    dateLabel: "26 de Fevereiro, 2026",
+    readTime: "9–12 min",
+    slug: "mercado-energia-solar-brasil-2026-panorama-rj",
+    image: "/blog/mercado-energia-solar-brasil-2026.webp",
+    imageAlt: "Panorama do mercado de energia solar no Brasil em 2026: crescimento, tendências e oportunidades no RJ.",
+    published: true,
+  },
+
+  {
+    id: "18",
+    title: "Tecnologias de painéis solares em 2026: o que mudou (TOPCon, HJT, bifacial) e como escolher no RJ",
+    excerpt:
+      "Guia prático das tecnologias de módulos em 2026 (TOPCon, HJT, bifacial, half-cell), diferenças reais de performance e como escolher sem cair em marketing — com foco no RJ e Região.",
+    category: "Tecnologia",
+    author: "Equipe Ilumina Sun",
+    dateISO: "2026-02-05",
+    dateLabel: "05 de Fevereiro, 2026",
+    readTime: "10–14 min",
+    slug: "tecnologias-paineis-solares-2026-rj",
+    image: "/blog/tecnologias-paineis-solares-2026.webp",
+    imageAlt: "Tecnologias de painéis solares em 2026: TOPCon, HJT e bifacial no RJ.",
+    published: true,
+    featuredRank: 4,
   },
 ];
