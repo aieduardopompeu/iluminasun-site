@@ -44,6 +44,12 @@ export default function Footer() {
                   <a className="hover:text-primary">Blog</a>
                </Link>
               </li>
+
+              <li>
+                <Link href="/sugestoes">
+                  <a className="hover:text-primary">Sugestões & Avaliação</a>
+                </Link>
+              </li>
               
               <li>
                 <Link href="/cidades">

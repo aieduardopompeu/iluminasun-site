@@ -21,6 +21,7 @@ const Simulador = lazy(() => import("./pages/Simulador"));
 const Portfolio = lazy(() => import("./pages/Portfolio"));
 const Vantagens = lazy(() => import("./pages/Vantagens"));
 const Contato = lazy(() => import("./pages/Contato"));
+const Sugestoes = lazy(() => import("./pages/Sugestoes"));
 const Blog = lazy(() => import("./pages/blog/Blog"));
 const RegulamentacaoAneel = lazy(() => import("./pages/blog/posts/RegulamentacaoAneel"));
 const KitSolar = lazy(() => import("./pages/KitSolar"));
@@ -132,6 +133,7 @@ export default function App() {
                   <Route path="/vantagens" component={Vantagens} />
                   <Route path="/simulador" component={Simulador} />
                   <Route path="/contato" component={Contato} />
+                  <Route path="/sugestoes" component={Sugestoes} />
 
                   <Route path="/_internal/adsense-checklist" component={AdsenseChecklistPage} />
 

@@ -6,6 +6,8 @@ import { Link } from "wouter";
 import ShareBar from "@/components/share/ShareBar";
 import AdSenseAd from "@/components/ads/AdSenseAd";
 import { ADSENSE_CLIENT, ADSENSE_SLOTS } from "@/config/adsense";
+import { Button } from "@/components/ui/button";
+import { MessageSquareText, PencilLine, Star } from "lucide-react";
 
 const SITE_URL = import.meta.env.VITE_SITE_URL || "https://iluminasun.com.br";
 
@@ -29,6 +31,16 @@ const CANONICAL = `${SITE_URL}${POST_PATH}`;
 // Se você quiser, pode usar a mesma imagem do HERO como OG
 const OG_IMAGE = `${SITE_URL}${HERO_IMAGE}`;
 
+function buildSugestoesHref(params: Record<string, string>) {
+  const qs = new URLSearchParams({
+    utm_source: "blog",
+    utm_medium: "cta",
+    utm_campaign: "sugestoes_avaliacao",
+    ...params,
+  });
+  return `/sugestoes?${qs.toString()}`;
+}
+
 function upsertMetaBy(attr: "name" | "property", key: string, content: string) {
   let el = document.querySelector(`meta[${attr}="${key}"]`) as HTMLMetaElement | null;
   if (!el) {
@@ -51,6 +63,26 @@ function upsertLink(rel: string, href: string) {
 
 export default function PostTemplate() {
   const pageTitle = `${POST_TITLE} | Ilumina Sun`;
+  const sugestoesHref = buildSugestoesHref({
+    tipo: "pagina",
+    url: CANONICAL,
+    titulo: POST_TITLE,
+  });
+  const temaHref = buildSugestoesHref({
+    tipo: "artigo",
+    url: CANONICAL,
+    titulo: POST_TITLE,
+  });
+  const correcaoHref = buildSugestoesHref({
+    tipo: "correcao",
+    url: CANONICAL,
+    titulo: POST_TITLE,
+  });
+  const avaliacaoHref = buildSugestoesHref({
+    tipo: "experiencia",
+    url: CANONICAL,
+    titulo: POST_TITLE,
+  });
 
   useEffect(() => {
     document.title = pageTitle;
@@ -141,6 +173,63 @@ export default function PostTemplate() {
                 <ShareBar title={POST_TITLE} url={CANONICAL} slug={POST_SLUG} contentType="blog" compact heading="" />
               </div>
 
+              {/* CTA editorial (rápido e contextual) */}
+              <div className="mt-3 flex flex-col gap-3 rounded-2xl border border-border bg-muted/30 p-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex items-center gap-2 text-sm font-semibold">
+                  <MessageSquareText className="h-4 w-4 text-primary" />
+                  Melhorar este artigo
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  <Link href={correcaoHref}>
+                    <Button size="sm" className="font-semibold">
+                      <PencilLine className="mr-2 h-4 w-4" />
+                      Sugerir correção
+                    </Button>
+                  </Link>
+                  <Link href={avaliacaoHref}>
+                    <Button size="sm" variant="outline" className="font-semibold">
+                      <Star className="mr-2 h-4 w-4" />
+                      Avaliar artigo
+                    </Button>
+                  </Link>
+                  <Link href={temaHref}>
+                    <Button size="sm" variant="ghost" className="font-semibold">
+                      Sugerir tema
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+
+              {/* CTA editorial (não genérico): dentro do artigo */}
+              <div className="mt-3 flex flex-col gap-3 rounded-2xl border border-border bg-muted/30 p-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex items-start gap-3">
+                  <div className="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                    <MessageSquareText className="h-4 w-4" />
+                  </div>
+                  <div className="space-y-0.5">
+                    <div className="text-sm font-semibold">Sugestões & Avaliação</div>
+                    <p className="text-xs text-muted-foreground">
+                      Achou algo desatualizado ou faltando? Ajude a melhorar este artigo.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                  <Link href={correcaoHref}>
+                    <Button size="sm" className="font-semibold">
+                      <PencilLine className="mr-2 h-4 w-4" />
+                      Corrigir este artigo
+                    </Button>
+                  </Link>
+                  <Link href={avaliacaoHref}>
+                    <Button size="sm" variant="outline" className="font-semibold">
+                      <Star className="mr-2 h-4 w-4" />
+                      Avaliar
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+
               <AdSenseAd
                 client={ADSENSE_CLIENT}
                 slot={ADSENSE_SLOTS.BLOG_TOP}
@@ -164,6 +253,68 @@ export default function PostTemplate() {
               <h2>Seção</h2>
               <p>Conteúdo…</p>
             </section>
+
+            {/* CTA final (conversão alta, sem poluir) */}
+            <div className="rounded-2xl border border-border bg-background p-5">
+              <div className="text-sm font-semibold">Encontrou algo desatualizado?</div>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Em 30 segundos você consegue sugerir correção, tema ou melhorias. Isso cai direto no canal editorial.
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <Link href={correcaoHref}>
+                  <Button className="font-semibold">
+                    <PencilLine className="mr-2 h-4 w-4" />
+                    Sugerir correção
+                  </Button>
+                </Link>
+                <Link href={avaliacaoHref}>
+                  <Button variant="outline" className="font-semibold">
+                    <Star className="mr-2 h-4 w-4" />
+                    Avaliar artigo
+                  </Button>
+                </Link>
+                <Link href={temaHref}>
+                  <Button variant="ghost" className="font-semibold">
+                    Sugestão de tema
+                  </Button>
+                </Link>
+              </div>
+            </div>
+
+            {/* CTA final (reforço) */}
+            <div className="rounded-2xl border border-border bg-background p-5">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <div className="text-sm font-semibold">Encontrou algo para melhorar?</div>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    Você pode sugerir um tema novo, apontar correções e avaliar a utilidade do post.
+                  </p>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  <Link href={correcaoHref}>
+                    <Button size="sm" variant="outline" className="font-semibold">
+                      Sugerir correção
+                    </Button>
+                  </Link>
+                  <Link
+                    href={buildSugestoesHref({
+                      tipo: "artigo",
+                      url: CANONICAL,
+                      titulo: POST_TITLE,
+                    })}
+                  >
+                    <Button size="sm" variant="outline" className="font-semibold">
+                      Sugerir tema
+                    </Button>
+                  </Link>
+                  <Link href={avaliacaoHref}>
+                    <Button size="sm" className="font-semibold">
+                      Avaliar artigo
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </div>
 
             {/* AdSense Rodapé */}
             <AdSenseAd

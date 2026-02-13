@@ -161,6 +161,26 @@ export default function Blog() {
                   </Link>
                 </div>
 
+                {/* Sugestões & Avaliação */}
+                <div className="rounded-xl border border-border bg-background/60 p-4">
+                  <div className="text-sm font-semibold">Ajude a melhorar o blog</div>
+                  <div className="mt-1 text-sm text-muted-foreground">
+                    Sugira temas de artigos, aponte correções ou avalie sua experiência no site.
+                  </div>
+                  <div className="mt-3 flex flex-col gap-3 sm:flex-row">
+                    <Link href="/sugestoes?tipo=artigo">
+                      <Button size="sm" variant="outline" className="w-full sm:w-auto">
+                        Sugerir artigo
+                      </Button>
+                    </Link>
+                    <Link href="/sugestoes?tipo=experiencia">
+                      <Button size="sm" variant="ghost" className="w-full sm:w-auto">
+                        Avaliar experiência
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+
                 {/* Busca rápida */}
                 <div className="mt-2">
                   <label className="text-sm font-medium text-foreground/80">Buscar no blog</label>
